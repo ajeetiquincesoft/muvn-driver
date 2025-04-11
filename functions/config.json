@@ -1,0 +1,19 @@
+{
+	"app_name": "muvnghana",
+	"app_description": "Taxi riding App",
+	"app_identifier": "com.muvnghana.app",
+	"ios_app_version": "1.0.0",
+	"android_app_version": "100",
+	"firebaseProjectId": "muvnghanaproject",
+	"googleApiKeys": {
+		"ios": "AIzaSyCOQvjHOXgCiNYrOHZawZbr0Z31Tu-yaIU",
+		"android": "AIzaSyCOQvjHOXgCiNYrOHZawZbr0Z31Tu-yaIU",
+		"web": "AIzaSyCOQvjHOXgCiNYrOHZawZbr0Z31Tu-yaIU",
+		"server": "AIzaSyCOQvjHOXgCiNYrOHZawZbr0Z31Tu-yaIU"
+	},
+	"expo_owner": "muvnghana",
+	"expo_slug": "muvn",
+	"expo_project_id": "827d8735-bb38-40bf-88a8-d2c5c4db5583",
+	"admin_email": "ops@muvnghana.com",
+	"purchase_code": "0336bafa-f5c5-44a2-830d-010474a431c1"
+}
