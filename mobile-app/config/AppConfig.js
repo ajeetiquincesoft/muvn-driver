@@ -1,5 +1,5 @@
 module.exports.AppConfig = {
-    app_name: 'muvnghana', 
+    app_name: 'muvn', 
     app_description: 'Taxi riding App', 
     app_identifier: 'com.muvnghana.app', 
     ios_app_version: '1.0.0', 
