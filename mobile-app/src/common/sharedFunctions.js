@@ -1,5 +1,5 @@
 import { React } from 'react';
-import { View, Text, TouchableOpacity, Image, Dimensions  } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Dimensions } from 'react-native';
 import { colors } from './theme';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import i18n from 'i18n-js';
@@ -8,7 +8,7 @@ import TaxiModal from '../components/TaxiModal';
 var { height, width } = Dimensions.get('window');
 import { fonts } from './font';
 import { useState } from 'react';
-import {Tooltip,Icon } from 'react-native-elements';
+import { Tooltip, Icon } from 'react-native-elements';
 import { getLangKey } from 'common/src/other/getLangKey';
 
 export const MAIN_COLOR = colors.TAXIPRIMARY;
@@ -31,8 +31,8 @@ export const checkSearchPhrase = (str) => {
     return ""
 }
 
-export const FormIcon = (props)=>{
-    return <View style={{width: '15%',alignItems: 'center'}}>
+export const FormIcon = (props) => {
+    return <View style={{ width: '15%', alignItems: 'center' }}>
         <MaterialCommunityIcons name="car-info" size={24} color={colors.HEADER} />
     </View>
 }
@@ -40,17 +40,17 @@ export const FormIcon = (props)=>{
 export const CarHorizontal = (props) => {
     const { t } = i18n;
     const isRTL = i18n.locale.indexOf('he') === 0 || i18n.locale.indexOf('ar') === 0;
-    const {onPress, carData, settings, styles} = props;
+    const { onPress, carData, settings, styles } = props;
     const [open, setOpen] = useState(false);
 
     const truncateText = (text, maxLength) => {
         if (text.length > maxLength) {
-          return text.substring(0, maxLength) + '...';
+            return text.substring(0, maxLength) + '...';
         }
         return text;
-      };
+    };
     return (
-        <TouchableOpacity onPress={onPress} style={{height:'100%'}}>
+        <TouchableOpacity onPress={onPress} style={{ height: '100%' }}>
             <View style={styles.imageStyle}>
                 <Image resizeMode="contain" source={carData.image ? { uri: carData.image } : require('../../assets/images/microBlackCar.png')} style={styles.imageStyle1} />
             </View>
@@ -58,61 +58,61 @@ export const CarHorizontal = (props) => {
                 <Text style={styles.text1}>{t(getLangKey(carData.name.toUpperCase()))}</Text>
                 {
                     carData.extra_info && carData.extra_info != '' ?
-                    <View style={{flexDirection:"row", justifyContent:'center',alignItems:'center'}}> 
-                        <View style={{ justifyContent: 'space-around', flexDirection: 'column', alignItems: 'center',marginTop:5 }}>
-                        {
-                            carData.extra_info.split(',').map((ln) => <Text style={styles.text2} key={ln} >{truncateText(ln, 12)}</Text>)
-                        }
-                        </View>
-                        <Tooltip style={{ marginLeft: 3, marginRight: 3 }}
-                            backgroundColor={"#ffff"}
-                            visible={open}
-                            overlayColor={'rgba(50, 50, 50, 0.70)'}
-                            height={100 + 30 * (carData.extra_info.split(',').length)}
-                            width={100 + 30 * (carData.extra_info.split(',').length)}
-                            skipAndroidStatusBar={true}
-                            containerStyle={{height:"auto",maxWidth:width-20}}
-                            onOpen={() => {
-                                setOpen(true);
-                              }}
-                              onClose={() => {
-                                setOpen(false);
-                              }}
-                            popover={
-                                <View style={{ flexDirection: 'column' , gap:20,width:"100%",height:"100%" }}>
-                                    {
-                                        carData.extra_info.split(',').map((ln) => <Text style={{fontFamily:fonts.Regular}} key={ln} >{ln}</Text>)
-                                    }
-                                </View>
-                            }>
-                            <Icon
-                                name='information-circle-outline'
-                                type='ionicon'
-                                color='#517fa4'
-                                size={20}
+                        <View style={{ flexDirection: "row", justifyContent: 'center', alignItems: 'center' }}>
+                            <View style={{ justifyContent: 'space-around', flexDirection: 'column', alignItems: 'center', marginTop: 5 }}>
+                                {
+                                    carData.extra_info.split(',').map((ln) => <Text style={styles.text2} key={ln} >{truncateText(ln, 12)}</Text>)
+                                }
+                            </View>
+                            <Tooltip style={{ marginLeft: 3, marginRight: 3 }}
+                                backgroundColor={"#ffff"}
+                                visible={open}
+                                overlayColor={'rgba(50, 50, 50, 0.70)'}
+                                height={100 + 30 * (carData.extra_info.split(',').length)}
+                                width={100 + 30 * (carData.extra_info.split(',').length)}
+                                skipAndroidStatusBar={true}
+                                containerStyle={{ height: "auto", maxWidth: width - 20 }}
+                                onOpen={() => {
+                                    setOpen(true);
+                                }}
+                                onClose={() => {
+                                    setOpen(false);
+                                }}
+                                popover={
+                                    <View style={{ flexDirection: 'column', gap: 20, width: "100%", height: "100%" }}>
+                                        {
+                                            carData.extra_info.split(',').map((ln) => <Text style={{ fontFamily: fonts.Regular }} key={ln} >{ln}</Text>)
+                                        }
+                                    </View>
+                                }>
+                                <Icon
+                                    name='information-circle-outline'
+                                    type='ionicon'
+                                    color='#517fa4'
+                                    size={20}
                                 />
-                        </Tooltip>
-                    </View>
+                            </Tooltip>
+                        </View>
 
-                            : null
+                        : null
                 }
-                
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 10, marginTop:5 }}>
-                        {isRTL ?
-                            null :
-                            settings.swipe_symbol === false ?
-                                <Text style={[styles.text2, { fontFamily:fonts.Bold, color: colors.MAP_TEXT }]}>{settings.symbol}{carData.rate_per_unit_distance} / {settings.convert_to_mile ? t('mile') : t('km')} </Text>
-                                :
-                                <Text style={[styles.text2, { fontFamily:fonts.Bold, color: colors.MAP_TEXT }]}>{carData.rate_per_unit_distance}{settings.symbol} / {settings.convert_to_mile ? t('mile') : t('km')} </Text>
 
-                        }
-                        {isRTL ?
-                            settings.swipe_symbol === false ?
-                                <Text style={[styles.text2, { fontFamily:fonts.Bold, color: colors.MAP_TEXT }]}>{settings.symbol}{carData.rate_per_unit_distance} / {settings.convert_to_mile ? t('mile') : t('km')} </Text>
-                                :
-                                <Text style={[styles.text2, { fontFamily:fonts.Bold, color: colors.MAP_TEXT }]}>{carData.rate_per_unit_distance}{settings.symbol} / {settings.convert_to_mile ? t('mile') : t('km')} </Text>
-                            : null}
-                    </View>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 10, marginTop: 5 }}>
+                    {isRTL ?
+                        null :
+                        settings.swipe_symbol === false ?
+                            <Text style={[styles.text2, { fontFamily: fonts.Bold, color: colors.MAP_TEXT }]}>{settings.symbol}{carData.rate_per_unit_distance} / {settings.convert_to_mile ? t('mile') : t('km')} </Text>
+                            :
+                            <Text style={[styles.text2, { fontFamily: fonts.Bold, color: colors.MAP_TEXT }]}>{carData.rate_per_unit_distance}{settings.symbol} / {settings.convert_to_mile ? t('mile') : t('km')} </Text>
+
+                    }
+                    {isRTL ?
+                        settings.swipe_symbol === false ?
+                            <Text style={[styles.text2, { fontFamily: fonts.Bold, color: colors.MAP_TEXT }]}>{settings.symbol}{carData.rate_per_unit_distance} / {settings.convert_to_mile ? t('mile') : t('km')} </Text>
+                            :
+                            <Text style={[styles.text2, { fontFamily: fonts.Bold, color: colors.MAP_TEXT }]}>{carData.rate_per_unit_distance}{settings.symbol} / {settings.convert_to_mile ? t('mile') : t('km')} </Text>
+                        : null}
+                </View>
                 <View>
                     <Text style={styles.text2}>({carData.minTime != '' ? carData.minTime : t('not_available')})</Text>
                 </View>
@@ -121,13 +121,13 @@ export const CarHorizontal = (props) => {
     )
 }
 
-export const CarVertical = (props) =>{
+export const CarVertical = (props) => {
     const { t } = i18n;
     const isRTL = i18n.locale.indexOf('he') === 0 || i18n.locale.indexOf('ar') === 0;
-    const {onPress, carData, settings, styles} = props;
+    const { onPress, carData, settings, styles } = props;
     return (
         <TouchableOpacity
-            style={[styles.carContainer, { borderWidth: 1, borderColor: carData.active == true ? colors.TAXIPRIMARY : colors.WHITE,flexDirection: isRTL?'row-reverse':'row',}]}
+            style={[styles.carContainer, { borderWidth: 1, borderColor: carData.active == true ? colors.TAXIPRIMARY : colors.WHITE, flexDirection: isRTL ? 'row-reverse' : 'row', }]}
             onPress={onPress}
         >
             <Image
@@ -135,23 +135,23 @@ export const CarVertical = (props) =>{
                 resizeMode="contain"
                 style={styles.cardItemImagePlace}
             ></Image>
-            <View style={[styles.bodyContent, {flexDirection: 'column',}]}>
-                <Text style={[styles.titleStyles,{textAlign:isRTL?'right':'left'}]}>{t(getLangKey(carData.name.toUpperCase()))}</Text>
-                <View style={{ flexDirection: isRTL?'row-reverse':'column',}}>
+            <View style={[styles.bodyContent, { flexDirection: 'column', }]}>
+                <Text style={[styles.titleStyles, { textAlign: isRTL ? 'right' : 'left' }]}>{t(getLangKey(carData.name.toUpperCase()))}</Text>
+                <View style={{ flexDirection: isRTL ? 'row-reverse' : 'column', }}>
                     {settings.swipe_symbol === false ?
-                        <Text style={[styles.text2, { fontFamily:fonts.Bold, color: colors.MAP_TEXT }]}>{settings.symbol}{carData.rate_per_unit_distance} / {settings.convert_to_mile ? t('mile') : t('km')} </Text>
+                        <Text style={[styles.text2, { fontFamily: fonts.Bold, color: colors.MAP_TEXT }]}>{settings.symbol}{carData.rate_per_unit_distance} / {settings.convert_to_mile ? t('mile') : t('km')} </Text>
                         :
-                        <Text style={[styles.text2, { fontFamily:fonts.Bold, color: colors.MAP_TEXT }]}>{carData.rate_per_unit_distance}{settings.symbol} / {settings.convert_to_mile ? t('mile') : t('km')} </Text>
+                        <Text style={[styles.text2, { fontFamily: fonts.Bold, color: colors.MAP_TEXT }]}>{carData.rate_per_unit_distance}{settings.symbol} / {settings.convert_to_mile ? t('mile') : t('km')} </Text>
                     }
                     {carData.extra_info && carData.extra_info != '' ?
-                        <View style={{ justifyContent: 'space-around', marginLeft: 3, width: width-180 }}>
+                        <View style={{ justifyContent: 'space-around', marginLeft: 3, width: width - 180 }}>
                             {
-                                carData.extra_info.split().map((ln) => <Text key={ln} style={[styles.text2, { fontFamily:fonts.Bold, color: colors.MAP_TEXT, textAlign: isRTL ? 'right': 'left' }]} >{ln}</Text>)
+                                carData.extra_info.split().map((ln) => <Text key={ln} style={[styles.text2, { fontFamily: fonts.Bold, color: colors.MAP_TEXT, textAlign: isRTL ? 'right' : 'left' }]} >{ln}</Text>)
                             }
                         </View>
-                    : null}
+                        : null}
                 </View>
-                <Text style={[styles.text2,{textAlign:isRTL?'right':'left'}]}>({carData.minTime != '' ? carData.minTime : t('not_available')})</Text>
+                <Text style={[styles.text2, { textAlign: isRTL ? 'right' : 'left' }]}>({carData.minTime != '' ? carData.minTime : t('not_available')})</Text>
             </View>
         </TouchableOpacity>
     )
@@ -163,14 +163,14 @@ export const validateBookingObj = async (t, addBookingObj, instructionData, sett
         GetDistance,
     } = api;
     if (settings.autoDispatch && bookingType == false) {
-        if(otherPerson)addBookingObj['instructionData'] = instructionData;
+        if (otherPerson) addBookingObj['instructionData'] = instructionData;
         let preRequestedDrivers = {};
         let requestedDrivers = {};
         let driverEstimates = {};
         let startLoc = tripdata.pickup.lat + ',' + tripdata.pickup.lng;
         let distArr = [];
         let allDrivers = [];
-        if(drivers && drivers.length > 0){
+        if (drivers && drivers.length > 0) {
             for (let i = 0; i < drivers.length; i++) {
                 let driver = { ...drivers[i] };
                 let distance = GetDistance(tripdata.pickup.lat, tripdata.pickup.lng, driver.location.lat, driver.location.lng);
@@ -205,30 +205,30 @@ export const validateBookingObj = async (t, addBookingObj, instructionData, sett
                         driver.id = sortedDrivers[i].id;
                         driver.distance = sortedDrivers[i].distance;
                         driver.timein_text = distArr[i].timein_text;
-                        if(!settings.prepaid){
+                        if (!settings.prepaid) {
                             requestedDrivers[driver.id] = true;
-                        }else{
+                        } else {
                             preRequestedDrivers[driver.id] = true;
                         }
-                        driverEstimates[driver.id] = {distance: driver.distance, timein_text :  driver.timein_text};
+                        driverEstimates[driver.id] = { distance: driver.distance, timein_text: driver.timein_text };
                     }
                 }
                 addBookingObj['preRequestedDrivers'] = preRequestedDrivers;
                 addBookingObj['requestedDrivers'] = requestedDrivers;
                 addBookingObj['driverEstimates'] = driverEstimates;
             }
-        } else{
-            return { error: true, msg : t('no_driver_found_alert_messege')}
+        } else {
+            return { error: true, msg: t('no_driver_found_alert_messege') }
         }
     }
     return { addBookingObj };
 }
 
-export default function BookingModal(props){
+export default function BookingModal(props) {
     return <TaxiModal {...props} />
 }
 
-export const prepareEstimateObject =  async (tripdata, instructionData) => {
+export const prepareEstimateObject = async (tripdata, instructionData) => {
     const { t } = i18n;
     const {
         getDirectionsApi
@@ -260,20 +260,20 @@ export const prepareEstimateObject =  async (tripdata, instructionData) => {
         };
         return { estimateObject };
     } catch (err) {
-        return { error: true, msg : t('not_available')}
+        return { error: true, msg: t('not_available') }
     }
 }
 
 export const ExtraInfo = (props) => {
     const { t } = i18n;
     const isRTL = i18n.locale.indexOf('he') === 0 || i18n.locale.indexOf('ar') === 0;
-    const { item, uid, amount, setAmount, styles} = props;
+    const { item, uid, amount, setAmount, styles } = props;
     return (
         <>
-            <View style={[styles.textContainerStyle, {flexDirection: isRTL? 'row-reverse' : 'row'}]}>
+            <View style={[styles.textContainerStyle, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
                 <Text style={styles.textHeading}>{t('payment_mode')} - </Text>
                 <Text style={styles.textContent}>
-                {t(item.payment_mode)}
+                    {t(item.payment_mode)}
                 </Text>
             </View>
         </>
@@ -281,7 +281,7 @@ export const ExtraInfo = (props) => {
 }
 
 export const RateView = (props) => {
-    const {settings, item, styles} = props;
+    const { settings, item, styles } = props;
     return (
         <View style={styles.rateViewStyle}>
             {settings.swipe_symbol === false ?

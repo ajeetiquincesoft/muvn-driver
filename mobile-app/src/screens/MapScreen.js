@@ -134,30 +134,30 @@ export default function MapScreen(props) {
             setDeliveryWithBid(settings.bookingFlow == "2" ? true : false)
         }
     }, [settings])
-    
+
     const profileInitData = {
         firstName: auth && auth.profile && auth.profile.firstName ? auth.profile.firstName : "",
-        lastName:  auth && auth.profile && auth.profile.lastName ? auth.profile.lastName : "",
+        lastName: auth && auth.profile && auth.profile.lastName ? auth.profile.lastName : "",
         email: auth && auth.profile && auth.profile.email ? auth.profile.email : "",
     };
     const [profileData, setProfileData] = useState(profileInitData);
-    const[bookingOnWait,setBookingOnWait] = useState();
+    const [bookingOnWait, setBookingOnWait] = useState();
 
     const addresses = useSelector(state => state.locationdata.addresses);
-    
+
     useEffect(() => {
         if (auth.profile) {
-            setTimeout(()=>{
+            setTimeout(() => {
                 setTerm(true)
-            },2000);
+            }, 2000);
             setCheckTerm(auth.profile.term ? true : false)
-            if(bookingOnWait){
+            if (bookingOnWait) {
                 finaliseBooking(bookingOnWait);
                 setBookingOnWait(null);
                 setBookModelLoading(false);
             }
         }
-    }, [auth.profile,bookingOnWait])
+    }, [auth.profile, bookingOnWait])
 
     useEffect(() => {
         if (settings) {
@@ -174,26 +174,26 @@ export default function MapScreen(props) {
             setRadioProps(arr);
         }
     }, [settings, providers]);
-    
+
     useEffect(() => {
         if (usersdata.drivers) {
             const freeDrivers = usersdata.drivers.filter(d => !d.queue)
-          let arr = [];
-          for (let i = 0; i < freeDrivers.length; i++) {
-            let driver = freeDrivers[i];
-            if (!driver.carType) {
-              let carTypes = allCarTypes;
-              for (let i = 0; i < carTypes.length; i++) {
-                let temp = { ...driver, carType: carTypes[i].name };
-                arr.push(temp);
-              }
-            } else {
-              arr.push(driver);
+            let arr = [];
+            for (let i = 0; i < freeDrivers.length; i++) {
+                let driver = freeDrivers[i];
+                if (!driver.carType) {
+                    let carTypes = allCarTypes;
+                    for (let i = 0; i < carTypes.length; i++) {
+                        let temp = { ...driver, carType: carTypes[i].name };
+                        arr.push(temp);
+                    }
+                } else {
+                    arr.push(driver);
+                }
             }
-          }
-          setDrivers(arr);
+            setDrivers(arr);
         }
-      }, [usersdata.drivers]);
+    }, [usersdata.drivers]);
 
     useEffect(() => {
         if (auth.profile && auth.profile.uid) {
@@ -243,9 +243,9 @@ export default function MapScreen(props) {
             setBookLaterLoading(false);
         }
         if (estimatedata.estimate && settings && !settings.coustomerBidPrice) {
-            let  price = estimatedata.estimate.estimateFare;
-            let ammount =  settings.coustomerBidPriceType === 'flat' ? parseFloat(price- settings.bidprice).toFixed(settings.decimal) : parseFloat(price - parseFloat(price*(settings.bidprice/100))).toFixed(settings.decimal);
-            if(ammount && ammount > 0){setMinimumPrice(ammount)}
+            let price = estimatedata.estimate.estimateFare;
+            let ammount = settings.coustomerBidPriceType === 'flat' ? parseFloat(price - settings.bidprice).toFixed(settings.decimal) : parseFloat(price - parseFloat(price * (settings.bidprice / 100))).toFixed(settings.decimal);
+            if (ammount && ammount > 0) { setMinimumPrice(ammount) }
         }
         if (estimatedata.error && estimatedata.error.flag) {
             setBookLoading(false);
@@ -429,83 +429,83 @@ export default function MapScreen(props) {
     }
 
 
-  const setAddresses = async (pos, res, source) => {
-    if (res) {
-      if (tripdata.selected == "pickup") {
-        dispatch(
-          updateTripPickup({
-            lat: pos.latitude,
-            lng: pos.longitude,
-            add: res,
-            source: source,
-          })
-        );
-        if (source == "init") {
-          dispatch(
-            updateTripDrop({
-              lat: pos.latitude,
-              lng: pos.longitude,
-              add: null,
-              source: source,
-            })
-          );
+    const setAddresses = async (pos, res, source) => {
+        if (res) {
+            if (tripdata.selected == "pickup") {
+                dispatch(
+                    updateTripPickup({
+                        lat: pos.latitude,
+                        lng: pos.longitude,
+                        add: res,
+                        source: source,
+                    })
+                );
+                if (source == "init") {
+                    dispatch(
+                        updateTripDrop({
+                            lat: pos.latitude,
+                            lng: pos.longitude,
+                            add: null,
+                            source: source,
+                        })
+                    );
+                }
+            } else {
+                dispatch(
+                    updateTripDrop({
+                        lat: pos.latitude,
+                        lng: pos.longitude,
+                        add: res,
+                        source: source,
+                    })
+                );
+            }
         }
-      } else {
-        dispatch(
-          updateTripDrop({
-            lat: pos.latitude,
-            lng: pos.longitude,
-            add: res,
-            source: source,
-          })
-        );
-      }
-    }
-  };
+    };
 
-  const updateAddresses = async (pos, source) => {
-    let latlng = pos.latitude + "," + pos.longitude;
-    if (!pos.latitude) return;
-    let res='';
-    let  found = false;
-    let savedAddresses = [];
+    const updateAddresses = async (pos, source) => {
+        let latlng = pos.latitude + "," + pos.longitude;
+        if (!pos.latitude) return;
+        let res = '';
+        let found = false;
+        let savedAddresses = [];
 
-    try {
-      const value = addresses;
-      if (value !== null) {
-        savedAddresses = JSON.parse(value);
-        for(let i =0; i<savedAddresses.length; i++){
-          let distance = GetDistance(pos.latitude, pos.longitude, savedAddresses[i].lat, savedAddresses[i].lng);
-          if(distance<0.25){
-            res=savedAddresses[i].description;
-            found = true;
-            break;
-          }
+        try {
+            const value = addresses;
+            if (value !== null) {
+                savedAddresses = JSON.parse(value);
+                for (let i = 0; i < savedAddresses.length; i++) {
+                    let distance = GetDistance(pos.latitude, pos.longitude, savedAddresses[i].lat, savedAddresses[i].lng);
+                    if (distance < 0.25) {
+                        res = savedAddresses[i].description;
+                        found = true;
+                        break;
+                    }
+                }
+            }
+        } catch (error) {
+            found = false;
         }
-      }
-    } catch (error) {
-      found = false;
-    }
 
-    if(found){
-      setAddresses(pos, res, source);
-    } else{
-      fetchAddressfromCoords(latlng).then((add) => {  
-        if (add) {
-          savedAddresses.push({
-            lat: pos.latitude,
-            lng: pos.longitude,
-            description: add
-          });
-          storeAddresses(savedAddresses);
-          setAddresses(pos, add, source);
+        if (found) {
+            setAddresses(pos, res, source);
+        } else {
+            fetchAddressfromCoords(latlng).then((add) => {
+                if (add) {
+                    savedAddresses.push({
+                        lat: pos.latitude,
+                        lng: pos.longitude,
+                        description: add
+                    });
+                    storeAddresses(savedAddresses);
+                    setAddresses(pos, add, source);
+                }
+            });
         }
-      });
-    }
-  };
+    };
 
     const onRegionChangeComplete = (newregion, gesture) => {
-        if((tripdata.pickup && tripdata.pickup.source =='mapSelect') || (tripdata.drop && tripdata.drop.source =='mapSelect')){
+        if ((tripdata.pickup && tripdata.pickup.source == 'mapSelect') || (tripdata.drop && tripdata.drop.source == 'mapSelect')) {
             if (gesture && gesture.isGesture) {
                 updateAddresses({
                     latitude: newregion.latitude,
@@ -589,7 +589,7 @@ export default function MapScreen(props) {
                             }
                         }
                         let carType = driver.carType;
-                        if(carType && carType.length>0){
+                        if (carType && carType.length > 0) {
                             if (arr[carType] && arr[carType].sortedDrivers) {
                                 arr[carType].sortedDrivers.push(driver);
                                 if (arr[carType].minDistance > driver.distance) {
@@ -603,11 +603,11 @@ export default function MapScreen(props) {
                                 arr[carType].minDistance = driver.distance;
                                 arr[carType].minTime = driver.arriveTime.timein_text;
                             }
-                        } else{
+                        } else {
                             let carTypes = allCarTypes;
-                            for(let i=0;i<carTypes.length; i++){
-                                let carType =carTypes[i];
-                                if (arr[carType]  ) {
+                            for (let i = 0; i < carTypes.length; i++) {
+                                let carType = carTypes[i];
+                                if (arr[carType]) {
                                     arr[carType].sortedDrivers.push(driver);
                                     if (arr[carType].minDistance > driver.distance) {
                                         arr[carType].minDistance = driver.distance;
@@ -648,9 +648,9 @@ export default function MapScreen(props) {
             setAllCarTypes(carWiseArr);
         }
     }
-    
+
     const tapAddress = (selection) => {
-        if(selection==='drop' &&  tripdata.drop.add=== null)  props.navigation.navigate('Search', { locationType: "drop"})
+        if (selection === 'drop' && tripdata.drop.add === null) props.navigation.navigate('Search', { locationType: "drop" })
         if (selection === tripdata.selected) {
             let savedAddresses = [];
             let allAddresses = profile.savedAddresses;
@@ -691,61 +691,62 @@ export default function MapScreen(props) {
             setBookLoading(true);
             if (!(profile.mobile && profile.mobile.length > 6)) {
                 Alert.alert(t('alert'), t('mobile_need_update'));
-                props.navigation.dispatch(CommonActions.reset({ index: 0, routes: [{ name: 'Profile', params: { fromPage: 'Map'} }] }));
+                props.navigation.dispatch(CommonActions.reset({ index: 0, routes: [{ name: 'Profile', params: { fromPage: 'Map' } }] }));
                 setBookLoading(false);
             } else {
                 if ((settings && settings.imageIdApproval && auth.profile.verifyId && auth.profile.verifyIdImage) || (settings && !settings.imageIdApproval)) {
-                 if(auth.profile.approved){
-                    if (tripdata.pickup && tripdata.drop && tripdata.drop.add) {
-                        if (!tripdata.carType) {
-                            setBookLoading(false);
-                            Alert.alert(t('alert'), t('car_type_blank_error'))
-                        } else {
-                            let driver_available = false;
-                            for (let i = 0; i < allCarTypes.length; i++) {
-                                let car = allCarTypes[i];
-                                if (car.name == tripdata.carType.name && car.minTime) {
-                                    driver_available = true;
-                                    break;
-                                }
-                            }
-                            if (driver_available) {
-                                setBookingDate(null);
-                                setBookingType(false);
-                                if (appConsts.hasOptions  &&
-                                    (tripdata?.carType?.options?.length > 0 || tripdata?.carType?.parcelTypes?.length > 0)) {
-                                    setOptionModalStatus(true);
-                                    setBookLaterLoading(false);
-                                } else {
-                                    let result = await prepareEstimateObject(tripdata, instructionData);
-                                    if (result.error) {
-                                        setBookLoading(false);
-                                        Alert.alert(t('alert'), result.msg);
-                                    } else {
-                                        dispatch(getEstimate((await result).estimateObject));
+                    if (auth.profile.approved) {
+                        if (tripdata.pickup && tripdata.drop && tripdata.drop.add) {
+                            if (!tripdata.carType) {
+                                setBookLoading(false);
+                                Alert.alert(t('alert'), t('car_type_blank_error'))
+                            } else {
+                                let driver_available = false;
+                                for (let i = 0; i < allCarTypes.length; i++) {
+                                    let car = allCarTypes[i];
+                                    if (car.name == tripdata.carType.name && car.minTime) {
+                                        driver_available = true;
+                                        break;
                                     }
                                 }
-                            } else {
-                                Alert.alert(t('alert'), t('no_driver_found_alert_messege'));
-                                setBookLoading(false);
+                                if (driver_available) {
+                                    setBookingDate(null);
+                                    setBookingType(false);
+                                    if (appConsts.hasOptions &&
+                                        (tripdata?.carType?.options?.length > 0 || tripdata?.carType?.parcelTypes?.length > 0)) {
+                                        setOptionModalStatus(true);
+                                        setBookLaterLoading(false);
+                                    } else {
+                                        let result = await prepareEstimateObject(tripdata, instructionData);
+                                        if (result.error) {
+                                            setBookLoading(false);
+                                            Alert.alert(t('alert'), result.msg);
+                                        } else {
+                                            dispatch(getEstimate((await result).estimateObject));
+                                        }
+                                    }
+                                } else {
+                                    Alert.alert(t('alert'), t('no_driver_found_alert_messege'));
+                                    setBookLoading(false);
+                                }
                             }
+                        } else {
+                            Alert.alert(t('alert'), t('drop_location_blank_error'));
+                            setBookLoading(false);
                         }
                     } else {
-                        Alert.alert(t('alert'), t('drop_location_blank_error'));
+                        Alert.alert(t('alert'), t('admin_contact'));
                         setBookLoading(false);
                     }
-                 }else{
-                    Alert.alert(t('alert'), t('admin_contact'));
-                    setBookLoading(false);
-                 }
                 } else {
                     Alert.alert(
                         t('alert'),
                         t('verifyid_error'),
                         [
                             { text: t('cancel'), onPress: () => { setBookLoading(true) }, style: 'cancel' },
-                            { text: t('ok'), onPress: () =>   
-                                props.navigation.dispatch(CommonActions.reset({index: 0, routes:[{ name: 'editUser', params: { fromPage: 'Map'} }]})) 
+                            {
+                                text: t('ok'), onPress: () =>
+                                    props.navigation.dispatch(CommonActions.reset({ index: 0, routes: [{ name: 'editUser', params: { fromPage: 'Map' } }] }))
                             }
                         ],
                         { cancelable: false }
@@ -766,31 +767,32 @@ export default function MapScreen(props) {
         if (parseFloat(profile.walletBalance) >= 0) {
             if (!(profile.mobile && profile.mobile.length > 6)) {
                 Alert.alert(t('alert'), t('mobile_need_update'));
-                props.navigation.dispatch(CommonActions.reset({ index: 0, routes: [{ name: 'Profile', params: { fromPage: 'Map'} }] }));
+                props.navigation.dispatch(CommonActions.reset({ index: 0, routes: [{ name: 'Profile', params: { fromPage: 'Map' } }] }));
             } else {
                 if ((settings && settings.imageIdApproval && auth.profile.verifyId && auth.profile.verifyIdImage) || (settings && !settings.imageIdApproval)) {
-                  if(auth.profile.approved){
-                    if (tripdata.pickup && tripdata.drop && tripdata.drop.add) {
-                        if (tripdata.carType) {
-                            setInitDate(new Date());
-                            setDatePickerOpen(true);
+                    if (auth.profile.approved) {
+                        if (tripdata.pickup && tripdata.drop && tripdata.drop.add) {
+                            if (tripdata.carType) {
+                                setInitDate(new Date());
+                                setDatePickerOpen(true);
+                            } else {
+                                Alert.alert(t('alert'), t('car_type_blank_error'))
+                            }
                         } else {
-                            Alert.alert(t('alert'), t('car_type_blank_error'))
+                            Alert.alert(t('alert'), t('drop_location_blank_error'))
                         }
                     } else {
-                        Alert.alert(t('alert'), t('drop_location_blank_error'))
+                        Alert.alert(t('alert'), t('admin_contact'))
                     }
-                  }else{
-                    Alert.alert(t('alert'), t('admin_contact'))
-                  }
                 } else {
                     Alert.alert(
                         t('alert'),
                         t('verifyid_error'),
                         [
                             { text: t('cancel'), onPress: () => { }, style: 'cancel' },
-                            { text: t('ok'), onPress: () =>   
-                                props.navigation.dispatch(CommonActions.reset({index: 0, routes:[{ name: 'editUser', params: { fromPage: 'Map'} }]})) 
+                            {
+                                text: t('ok'), onPress: () =>
+                                    props.navigation.dispatch(CommonActions.reset({ index: 0, routes: [{ name: 'editUser', params: { fromPage: 'Map' } }] }))
                             }
                         ],
                         { cancelable: false }
@@ -807,58 +809,58 @@ export default function MapScreen(props) {
 
     const hideDatePicker = () => {
         setDatePickerOpen(false);
-      };
+    };
 
-      const handleDateConfirm = (date) => {
+    const handleDateConfirm = (date) => {
         setInitDate(date);
         setDatePickerOpen(false);
-            setBookLaterLoading(true);
-            setTimeout(async () => {
-                let date1;
-                try{
-                    let res =  await fetch(`https://${config.projectId}.web.app/getservertime`, { method: 'GET', headers: {'Content-Type': 'application/json'}});
-                    const json = await res.json();
-                    if(json.time){
-                        date1 = json.time;
-                    } else{
-                        date1 = new Date().getTime();
-                    }
-                }catch (err){
+        setBookLaterLoading(true);
+        setTimeout(async () => {
+            let date1;
+            try {
+                let res = await fetch(`https://${config.projectId}.web.app/getservertime`, { method: 'GET', headers: { 'Content-Type': 'application/json' } });
+                const json = await res.json();
+                if (json.time) {
+                    date1 = json.time;
+                } else {
                     date1 = new Date().getTime();
                 }
-                
-                const date2 = new Date(date);
-                const diffTime = date2 - date1;
-                const diffMins =  diffTime / (1000 * 60);
+            } catch (err) {
+                date1 = new Date().getTime();
+            }
 
-                if (diffMins < 15) {
+            const date2 = new Date(date);
+            const diffTime = date2 - date1;
+            const diffMins = diffTime / (1000 * 60);
+
+            if (diffMins < 15) {
+                setBookLaterLoading(false);
+                Alert.alert(
+                    t('alert'),
+                    t('past_booking_error'),
+                    [
+                        { text: t('ok'), onPress: () => { } }
+                    ],
+                    { cancelable: true }
+                );
+            } else {
+                setBookingDate(date);
+                setBookingType(true);
+                if (appConsts.hasOptions) {
+                    setOptionModalStatus(true);
                     setBookLaterLoading(false);
-                    Alert.alert(
-                        t('alert'),
-                        t('past_booking_error'),
-                        [
-                            { text: t('ok'), onPress: () => { } }
-                        ],
-                        { cancelable: true }
-                    );
                 } else {
-                    setBookingDate(date);
-                    setBookingType(true);
-                    if (appConsts.hasOptions) {
-                        setOptionModalStatus(true);
-                        setBookLaterLoading(false);
+                    let result = await prepareEstimateObject(tripdata, instructionData);
+                    if (result.error) {
+                        setBookLoading(false);
+                        Alert.alert(t('alert'), result.msg);
                     } else {
-                        let result = await prepareEstimateObject(tripdata, instructionData);
-                        if (result.error) {
-                            setBookLoading(false);
-                            Alert.alert(t('alert'), result.msg);
-                        } else {
-                            dispatch(getEstimate((await result).estimateObject));
-                        }
+                        dispatch(getEstimate((await result).estimateObject));
                     }
                 }
-            }, 1000);
-        
+            }
+        }, 1000);
+
     };
 
 
@@ -935,7 +937,7 @@ export default function MapScreen(props) {
         }
         const regx1 = /([0-9\s-]{7,})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$/;
         if ((otherPerson && /\S/.test(instructionData.otherPerson) && regx1.test(instructionData.otherPersonPhone) && instructionData.otherPersonPhone && instructionData.otherPersonPhone.length > 6) || !otherPerson) {
-            if((offerFare > 0 && offerFare >= parseFloat(minimumPrice)) || offerFare == 0){
+            if ((offerFare > 0 && offerFare >= parseFloat(minimumPrice)) || offerFare == 0) {
                 if ((radioProps[payment_mode].cat === 'wallet' && notfound) || radioProps[payment_mode].cat !== 'wallet') {
                     if ((radioProps[payment_mode].cat === 'wallet' && (parseFloat(wallet_balance) >= parseFloat(estimatedata.estimate.estimateFare)) && appConsts.checkWallet) || radioProps[payment_mode].cat !== 'wallet' || (radioProps[payment_mode].cat === 'wallet' && !appConsts.checkWallet)) {
                         const addBookingObj = {
@@ -948,59 +950,59 @@ export default function MapScreen(props) {
                             bookLater: bookingType,
                             settings: settings,
                             booking_type_admin: false,
-                            booking_type_fleetadmin:false,
+                            booking_type_fleetadmin: false,
                             deliveryWithBid: deliveryWithBid ? deliveryWithBid : false,
                             payment_mode: radioProps[payment_mode].cat,
                             customer_offer: offerFare
                         };
-                        if(auth && auth.profile && auth.profile.firstName && auth.profile.firstName.length > 0 && auth.profile.lastName && auth.profile.lastName.length > 0 && auth.profile.email && auth.profile.email.length > 0){
+                        if (auth && auth.profile && auth.profile.firstName && auth.profile.firstName.length > 0 && auth.profile.lastName && auth.profile.lastName.length > 0 && auth.profile.email && auth.profile.email.length > 0) {
                             const result = await validateBookingObj(t, addBookingObj, instructionData, settings, bookingType, roundTrip, tripInstructions, tripdata, drivers, otherPerson, offerFare);
                             if (result.error) {
                                 Alert.alert(
                                     t('alert'),
                                     result.msg,
                                     [
-                                        { text: t('ok'), onPress: () => {setBookModelLoading(false) } }
+                                        { text: t('ok'), onPress: () => { setBookModelLoading(false) } }
                                     ],
                                     { cancelable: true }
                                 );
                             } else {
                                 finaliseBooking(result.addBookingObj);
                             }
-                        }else{
+                        } else {
                             setBookModelLoading(true);
                             const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-                            if(/\S/.test( profileData.firstName) && /\S/.test(profileData.lastName) && auth){
+                            if (/\S/.test(profileData.firstName) && /\S/.test(profileData.lastName) && auth) {
                                 const userData = {
                                     firstName: profileData.firstName,
                                     lastName: profileData.lastName
                                 }
-                                if(auth.profile.email){
+                                if (auth.profile.email) {
                                     const result = await validateBookingObj(t, addBookingObj, instructionData, settings, bookingType, roundTrip, tripInstructions, tripdata, drivers, otherPerson, offerFare);
                                     let bookingData = result.addBookingObj;
                                     bookingData.userDetails.firstName = profileData.firstName;
                                     bookingData.userDetails.lastName = profileData.lastName;
                                     setBookingOnWait(bookingData);
-                                    setTimeout(()=>{
+                                    setTimeout(() => {
                                         dispatch(updateProfile(userData));
-                                    },200) 
-                                } else{
-                                    if(re.test(profileData.email)){
-                                        checkUserExists({email: profileData.email}).then(async(res) => {
+                                    }, 200)
+                                } else {
+                                    if (re.test(profileData.email)) {
+                                        checkUserExists({ email: profileData.email }).then(async (res) => {
                                             if (res.users && res.users.length > 0) {
                                                 Alert.alert(t('alert'), t('user_exists'));
                                                 setBookModelLoading(false);
-                                            } else if(res.error){
+                                            } else if (res.error) {
                                                 Alert.alert(t('alert'), t('email_or_mobile_issue'));
                                                 setBookModelLoading(false);
-                                            } else{
+                                            } else {
                                                 const result = await validateBookingObj(t, addBookingObj, instructionData, settings, bookingType, roundTrip, tripInstructions, tripdata, drivers, otherPerson, offerFare);
                                                 if (result.error) {
                                                     Alert.alert(
                                                         t('alert'),
                                                         result.msg,
                                                         [
-                                                            { text: t('ok'), onPress: () => {setBookModelLoading(false) } }
+                                                            { text: t('ok'), onPress: () => { setBookModelLoading(false) } }
                                                         ],
                                                         { cancelable: true }
                                                     );
@@ -1011,18 +1013,18 @@ export default function MapScreen(props) {
                                                     bookingData.userDetails.lastName = profileData.lastName;
                                                     bookingData.userDetails.email = profileData.email;
                                                     setBookingOnWait(bookingData);
-                                                    setTimeout(()=>{
+                                                    setTimeout(() => {
                                                         dispatch(updateProfileWithEmail(profileData));
-                                                    },200) 
+                                                    }, 200)
                                                 }
-                                            }    
+                                            }
                                         });
-                                    }else{
+                                    } else {
                                         Alert.alert(t('alert'), t('proper_email'));
                                         setBookModelLoading(false);
                                     }
                                 }
-                            }else{
+                            } else {
                                 Alert.alert(t('alert'), t('proper_input_name'));
                                 setBookModelLoading(false);
                             }
@@ -1048,7 +1050,7 @@ export default function MapScreen(props) {
                 );
                 setBookModelLoading(false);
             }
-        }else{
+        } else {
             Alert.alert(t('alert'), t('otherPersonDetailMissing'));
             setBookModelLoading(false);
         }
@@ -1091,31 +1093,31 @@ export default function MapScreen(props) {
     const changePermission = async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status != 'granted') {
-     if(Platform.OS == 'ios'){
+            if (Platform.OS == 'ios') {
                 Linking.openSettings()
-            } else{
+            } else {
                 startActivityAsync(ActivityAction.LOCATION_SOURCE_SETTINGS);
             }
-         } 
+        }
     }
-    const onTermAccept =  () => {        
-        if(checkTerm == false){
-           dispatch(updateProfile({term: true}));
-       }
-   }
-    const  onTermLink  = async () => {
+    const onTermAccept = () => {
+        if (checkTerm == false) {
+            dispatch(updateProfile({ term: true }));
+        }
+    }
+    const onTermLink = async () => {
         Linking.openURL(settings.CompanyTermCondition).catch(err => console.error("Couldn't load page", err));
-   }
-
-const onMapSelectComplete = () => {
-    if((tripdata.pickup && tripdata.pickup.source =='mapSelect') || (tripdata.drop && tripdata.drop.source =='mapSelect')){
-       if(tripdata.selected === 'pickup'){
-           dispatch(updateTripPickup({...tripdata.pickup, source:"region-change"}))
-       } else{
-           dispatch(updateTripDrop({...tripdata.drop, source:"region-change"}))
-       }
     }
-  }
+
+    const onMapSelectComplete = () => {
+        if ((tripdata.pickup && tripdata.pickup.source == 'mapSelect') || (tripdata.drop && tripdata.drop.source == 'mapSelect')) {
+            if (tripdata.selected === 'pickup') {
+                dispatch(updateTripPickup({ ...tripdata.pickup, source: "region-change" }))
+            } else {
+                dispatch(updateTripDrop({ ...tripdata.drop, source: "region-change" }))
+            }
+        }
+    }
 
     return (
         <View style={styles.container}>
@@ -1142,7 +1144,7 @@ const onMapSelectComplete = () => {
                                 >
                                     <Image
                                         key={index}
-                                        source={ settings && settings.carType_required && item.carImage ? {uri: item.carImage} : require('../../assets/images/microBlackCar.png')}
+                                        source={settings && settings.carType_required && item.carImage ? { uri: item.carImage } : require('../../assets/images/microBlackCar.png')}
                                         style={{ height: 48, width: 48, resizeMode: 'contain' }}
                                     />
                                 </Marker.Animated>
@@ -1162,7 +1164,7 @@ const onMapSelectComplete = () => {
                             <Image pointerEvents="none" style={[styles.mapFloatingPin, { marginBottom: Platform.OS == 'ios' ? (hasNotch ? (-10 + dragging) : 33) : 40 }]} resizeMode="contain" source={require('../../assets/images/rsz_2red_pin.png')} />
                         </View>
                     : null}
-                {(!(tripdata.pickup && tripdata.pickup.source =='mapSelect')) ? tripdata.selected == 'pickup' ?
+                {(!(tripdata.pickup && tripdata.pickup.source == 'mapSelect')) ? tripdata.selected == 'pickup' ?
                     <View style={[styles.locationButtonView, {
                         bottom: settings && settings.horizontal_view ? 180 : isEditing ?
                             allCarTypes && allCarTypes.length > 0 ?
@@ -1185,114 +1187,114 @@ const onMapSelectComplete = () => {
                             />
                         </TouchableOpacity>
                     </View>
-                : null : null}
+                    : null : null}
                 {locationRejected ?
                     <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center' }}>
-                        <Text style={{fontFamily:fonts.Regular}} >{t('location_permission_error')}</Text>
+                        <Text style={{ fontFamily: fonts.Regular }} >{t('location_permission_error')}</Text>
                     </View>
                     : null}
             </View>
-            <View style={[styles.buttonBar, { flexDirection: isRTL ? 'row-reverse' : 'row'}]}>
+            <View style={[styles.buttonBar, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
                 {bookLoading || bookLaterLoading ?
-                <View style={{flex: 1, borderRadius: 10, height: 55, margin: 3, justifyContent:'center', borderWidth: 1, borderColor: MAIN_COLOR}}>
-                    <ActivityIndicator color={MAIN_COLOR} size='large' />
-                </View>
-                : 
-                <View style={[styles.buttonBar, { flexDirection: isRTL ? 'row-reverse' : 'row'}]}>
-                    <View style={{flex: 1, margin: 2, borderRadius: 10, height: 55}}>
-                    <Button
-                            title={((tripdata.pickup && tripdata.pickup.source =='mapSelect') || (tripdata.drop && tripdata.drop.source =='mapSelect')) ? t('cancel'): t('book_later_button')}
-                            loading={bookLaterLoading}
-                            loadingColor={{ color: colors.BLACK }}
-                            buttonStyle={styles.buttonTitleStyle}
-                            btnClick={((tripdata.pickup && tripdata.pickup.source =='mapSelect') || (tripdata.drop && tripdata.drop.source =='mapSelect')) ? onMapSelectComplete: onPressBookLater}
-                            style={{ backgroundColor: SECONDORY_COLOR, height: '100%',padding:2 }}
-                        />
+                    <View style={{ flex: 1, borderRadius: 10, height: 55, margin: 3, justifyContent: 'center', borderWidth: 1, borderColor: MAIN_COLOR }}>
+                        <ActivityIndicator color={MAIN_COLOR} size='large' />
                     </View>
+                    :
+                    <View style={[styles.buttonBar, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                        <View style={{ flex: 1, margin: 2, borderRadius: 10, height: 55 }}>
+                            <Button
+                                title={((tripdata.pickup && tripdata.pickup.source == 'mapSelect') || (tripdata.drop && tripdata.drop.source == 'mapSelect')) ? t('cancel') : t('book_later_button')}
+                                loading={bookLaterLoading}
+                                loadingColor={{ color: colors.BLACK }}
+                                buttonStyle={[styles.buttonTitleStyle, { color: colors.WHITE, }]}
+                                btnClick={((tripdata.pickup && tripdata.pickup.source == 'mapSelect') || (tripdata.drop && tripdata.drop.source == 'mapSelect')) ? onMapSelectComplete : onPressBookLater}
+                                style={{ backgroundColor: SECONDORY_COLOR, height: '100%', padding: 2 }}
+                            />
+                        </View>
 
-                    <View style={{flex: 1, margin: 3, borderRadius: 10, height: 55, }}>
-                        <Button
-                            title={((tripdata.pickup && tripdata.pickup.source =='mapSelect') || (tripdata.drop && tripdata.drop.source =='mapSelect')) ? t('ok'): t('book_now_button')}
-                            loading={bookLoading}
-                            loadingColor={{ color: colors.WHITE }}
-                            buttonStyle={[styles.buttonTitleStyle,{ color: colors.WHITE,  }]}
-                            btnClick={((tripdata.pickup && tripdata.pickup.source =='mapSelect') || (tripdata.drop && tripdata.drop.source =='mapSelect')) ? onMapSelectComplete: onPressBook}
-                            style={{ backgroundColor: MAIN_COLOR, height: '100%',padding:2 }}
-                        />
+                        <View style={{ flex: 1, margin: 3, borderRadius: 10, height: 55, }}>
+                            <Button
+                                title={((tripdata.pickup && tripdata.pickup.source == 'mapSelect') || (tripdata.drop && tripdata.drop.source == 'mapSelect')) ? t('ok') : t('book_now_button')}
+                                loading={bookLoading}
+                                loadingColor={{ color: colors.WHITE }}
+                                buttonStyle={[styles.buttonTitleStyle, { color: colors.BLACK, }]}
+                                btnClick={((tripdata.pickup && tripdata.pickup.source == 'mapSelect') || (tripdata.drop && tripdata.drop.source == 'mapSelect')) ? onMapSelectComplete : onPressBook}
+                                style={{ backgroundColor: MAIN_COLOR, height: '100%', padding: 2 }}
+                            />
+                        </View>
                     </View>
-                </View>
                 }
             </View>
             <View style={styles.menuIcon}>
                 <ImageBackground source={require('../../assets/images/white-grad6.png')} style={{ height: '100%', width: '100%' }}>
-                    <Text style={{ color: colors.HEADER, fontFamily:fonts.Bold, fontSize: 20, alignSelf: 'center', marginTop: Platform.OS == 'android' ? (__DEV__ ? 20 : 40) : (hasNotch ? 48 : 20) }}>{((tripdata.pickup && tripdata.pickup.source =='mapSelect') || (tripdata.drop && tripdata.drop.source =='mapSelect')) ? t("drag_map") : t("book_ride") }</Text>
+                    <Text style={{ color: colors.WHITE, fontFamily: fonts.Bold, fontSize: 20, alignSelf: 'center', marginTop: Platform.OS == 'android' ? (__DEV__ ? 20 : 40) : (hasNotch ? 48 : 20) }}>{((tripdata.pickup && tripdata.pickup.source == 'mapSelect') || (tripdata.drop && tripdata.drop.source == 'mapSelect')) ? t("drag_map") : t("book_ride")}</Text>
                 </ImageBackground>
             </View>
 
             {gps.error || (!checkTerm && settings.term_required) || (!auth.profile.approved) ?
                 <View style={{
                     position: 'absolute', width: width - 20, margin: 10, borderRadius: 8, flexDirection: 'column', alignItems: 'center', backgroundColor: colors.new,
-                    shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.75, shadowRadius: 4, elevation: 5,justifyContent:'space-evenly',
-                    top: Platform.OS == 'android' ? (__DEV__ ? 65 : 65) : (hasNotch ? 85 : 80), height: 10 +(gps.error ? 70 : 0) +(!checkTerm && settings.term_required ? 70 : 0) +(!auth.profile.approved ? 70 : 0)
+                    shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.75, shadowRadius: 4, elevation: 5, justifyContent: 'space-evenly',
+                    top: Platform.OS == 'android' ? (__DEV__ ? 65 : 65) : (hasNotch ? 85 : 80), height: 10 + (gps.error ? 70 : 0) + (!checkTerm && settings.term_required ? 70 : 0) + (!auth.profile.approved ? 70 : 0)
                 }}>
-                {gps.error ?
-                    <View style={[styles.alrt,{flexDirection:isRTL?'row-reverse':'row'}]}>
-                        <View style={[styles.alrt1,{flexDirection:isRTL? 'row-reverse':'row'}]}>
-                            <Icon name="alert-circle" type="ionicon" color={colors.RED} size={18} />
-                            <Text style={{ fontSize: 14, fontFamily:fonts.Bold, color: colors.BLACK, marginLeft: 3 }}>{t('allow_only')}</Text>
+                    {gps.error ?
+                        <View style={[styles.alrt, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                            <View style={[styles.alrt1, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                                <Icon name="alert-circle" type="ionicon" color={colors.RED} size={18} />
+                                <Text style={{ fontSize: 14, fontFamily: fonts.Bold, color: colors.BLACK, marginLeft: 3 }}>{t('allow_only')}</Text>
+                            </View>
+                            <Button btnClick={changePermission}
+                                title={t('fix')}
+                                loading={false}
+                                loadingColor={{ color: colors.WHITE }}
+                                buttonStyle={styles.checkButtonTitle}
+                                style={styles.checkButtonStyle}
+                            />
                         </View>
-                        <Button btnClick={changePermission}
-                            title={t('fix')} 
-                            loading={false}
-                            loadingColor={{ color: colors.WHITE }}
-                            buttonStyle={styles.checkButtonTitle} 
-                            style={styles.checkButtonStyle} 
-                        />
-                    </View>
-                :null}
-                  {!checkTerm && settings.term_required && term?
-                    <View style={[styles.alrt,{flexDirection:isRTL?'row-reverse':'row'}]}>
-                        <TouchableOpacity onPress={onTermLink} style={[styles.alrt1,{flexDirection:isRTL? 'row-reverse':'row',width:width-180,height:50}]}>
-                            <Icon name="document-text" type="ionicon" color={colors.RED} size={18} />
-                            <Text style={{ fontSize: 14, fontFamily:fonts.Bold, color: colors.SKY, marginLeft: 3,textDecorationLine:'underline' }}>{t('term_condition')}</Text>
-                        </TouchableOpacity>
-                        <Button btnClick={onTermAccept}
-                            loading={false}
-                            loadingColor={{ color: colors.WHITE }}
-                            title={t('accept')}
-                            style={styles.checkButtonStyle}
-                            buttonStyle={styles.checkButtonTitle} 
-                        />
-                    </View>
-                : null}
-                 {!auth.profile.approved ?
-                    <View style={[styles.alrt,{flexDirection:isRTL?'row-reverse':'row'}]}>
-                        <View style={[styles.alrt1,{flexDirection:isRTL? 'row-reverse':'row'}]}>
-                            <Icon name="alert-circle" type="ionicon" color={colors.RED} size={18} />
-                            <Text style={{ fontSize: 14, fontFamily:fonts.Bold, color: colors.BLACK, marginLeft: 3 }}>{t('admin_contact')}</Text>
+                        : null}
+                    {!checkTerm && settings.term_required && term ?
+                        <View style={[styles.alrt, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                            <TouchableOpacity onPress={onTermLink} style={[styles.alrt1, { flexDirection: isRTL ? 'row-reverse' : 'row', width: width - 180, height: 50 }]}>
+                                <Icon name="document-text" type="ionicon" color={colors.RED} size={18} />
+                                <Text style={{ fontSize: 14, fontFamily: fonts.Bold, color: colors.SKY, marginLeft: 3, textDecorationLine: 'underline' }}>{t('term_condition')}</Text>
+                            </TouchableOpacity>
+                            <Button btnClick={onTermAccept}
+                                loading={false}
+                                loadingColor={{ color: colors.WHITE }}
+                                title={t('accept')}
+                                style={styles.checkButtonStyle}
+                                buttonStyle={styles.checkButtonTitle}
+                            />
                         </View>
-                    </View>
-                :null}
+                        : null}
+                    {!auth.profile.approved ?
+                        <View style={[styles.alrt, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                            <View style={[styles.alrt1, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                                <Icon name="alert-circle" type="ionicon" color={colors.RED} size={18} />
+                                <Text style={{ fontSize: 14, fontFamily: fonts.Bold, color: colors.BLACK, marginLeft: 3 }}>{t('admin_contact')}</Text>
+                            </View>
+                        </View>
+                        : null}
                 </View>
-            :
+                :
                 <View style={[styles.addressBar, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
                     <View style={styles.ballandsquare}>
-                    {((tripdata.pickup && tripdata.pickup.source =='mapSelect') || (tripdata.drop && tripdata.drop.source =='mapSelect') )?
-                        (tripdata.pickup && tripdata.pickup.source =='mapSelect') ? <View style={styles.hbox1} /> : <View style={styles.hbox3} /> :
-                        <><View style={styles.hbox1} /><View style={styles.hbox2} /><View style={styles.hbox3} /></>
-                    }
+                        {((tripdata.pickup && tripdata.pickup.source == 'mapSelect') || (tripdata.drop && tripdata.drop.source == 'mapSelect')) ?
+                            (tripdata.pickup && tripdata.pickup.source == 'mapSelect') ? <View style={styles.hbox1} /> : <View style={styles.hbox3} /> :
+                            <><View style={styles.hbox1} /><View style={styles.hbox2} /><View style={styles.hbox3} /></>
+                        }
                     </View>
 
-                    {((tripdata.pickup && tripdata.pickup.source =='mapSelect') || (tripdata.drop && tripdata.drop.source =='mapSelect') )?
-                        <View style={[styles.addressStyle1,isRTL ? { paddingRight: 10 } : { paddingLeft: 10 }, { borderBottomWidth: 0}]}>
-                            {(tripdata.pickup && tripdata.pickup.source =='mapSelect') ?
+                    {((tripdata.pickup && tripdata.pickup.source == 'mapSelect') || (tripdata.drop && tripdata.drop.source == 'mapSelect')) ?
+                        <View style={[styles.addressStyle1, isRTL ? { paddingRight: 10 } : { paddingLeft: 10 }, { borderBottomWidth: 0 }]}>
+                            {(tripdata.pickup && tripdata.pickup.source == 'mapSelect') ?
                                 <Text numberOfLines={1} style={[styles.textStyle, tripdata.selected == 'pickup' ? { fontSize: 18 } : { fontSize: 14 }, { textAlign: isRTL ? "right" : "left" }]}>{tripdata.pickup && tripdata.pickup.add ? tripdata.pickup.add : t('map_screen_where_input_text')}</Text>
                                 :
                                 <Text numberOfLines={1} style={[styles.textStyle, tripdata.selected == 'drop' ? { fontSize: 18 } : { fontSize: 14 }, { textAlign: isRTL ? "right" : "left" }]}>{tripdata.drop && tripdata.drop.add ? tripdata.drop.add : t('map_screen_drop_input_text')}</Text>
                             }
                         </View>
-                    :
-                        <View style={[styles.contentStyle, isRTL ? { paddingRight: 10 } : { paddingLeft: 10 }, {height: 100}]}>
+                        :
+                        <View style={[styles.contentStyle, isRTL ? { paddingRight: 10 } : { paddingLeft: 10 }, { height: 100 }]}>
                             <TouchableOpacity onPress={() => tapAddress('pickup')} style={styles.addressStyle1}>
                                 <Text numberOfLines={1} style={[styles.textStyle, tripdata.selected == 'pickup' ? { fontSize: 18 } : { fontSize: 14 }, { textAlign: isRTL ? "right" : "left" }]}>{tripdata.pickup && tripdata.pickup.add ? tripdata.pickup.add : t('map_screen_where_input_text')}</Text>
                             </TouchableOpacity>
@@ -1304,74 +1306,74 @@ const onMapSelectComplete = () => {
                 </View>
             }
 
-            {(tripdata.pickup && tripdata.pickup.source =='mapSelect') || (tripdata.drop && tripdata.drop.source =='mapSelect') ? null: 
-            <>
-            {settings && settings.horizontal_view ?
+            {(tripdata.pickup && tripdata.pickup.source == 'mapSelect') || (tripdata.drop && tripdata.drop.source == 'mapSelect') ? null :
+                <>
+                    {settings && settings.horizontal_view ?
 
-                <View style={styles.fullCarView}>
-                    <ScrollView horizontal={true} style={styles.fullCarScroller} showsHorizontalScrollIndicator={false}>
-                        {allCarTypes.map((prop, key) => {
-                            return (
-                                <View key={key} style={[styles.cabDivStyle, {borderWidth: 1, borderColor: prop.active == true ? MAIN_COLOR : colors.WHITE}]}>
-                                    <CarHorizontal
-                                        onPress={() => { selectCarType(prop, key) }}
-                                        carData={prop}
-                                        settings={settings}
-                                        styles={styles}
-                                    />
-                                </View>
-                            );
-                        })}
-                    </ScrollView>
-                </View>
-                :
-                <View style={[styles.carShow, { height: 25 }]}
-                    onTouchStart={e => setTouchY(e.nativeEvent.pageY)}
-                    onTouchEnd={e => {
-                        if ((touchY - e.nativeEvent.pageY > 10) && !isEditing)
-                            setIsEditing(!isEditing);
-                        if ((e.nativeEvent.pageY - touchY > 10) && isEditing)
-                            setIsEditing(!isEditing);
-                    }}
-                >
-                    <View style={[styles.bar, { backgroundColor: MAIN_COLOR }]} ></View>
-                </View>
-            }
-
-            {isEditing == true && settings && !settings.horizontal_view ?
-                <View style={[styles.carShow, { paddingTop: 10, height: allCarTypes.length === 1 ? 110 : allCarTypes.length === 2 ? 182 : 250,  minHeight: 80, alignItems: 'center', flexDirection: 'column', backgroundColor: isEditing == true ? colors.BACKGROUND_PRIMARY : colors.WHITE }]}
-                    onTouchStart={e => setTouchY(e.nativeEvent.pageY)}
-                    onTouchEnd={e => {
-                        if ((touchY - e.nativeEvent.pageY > 10) && !isEditing)
-                            setIsEditing(!isEditing);
-                        if ((e.nativeEvent.pageY - touchY > 10) && isEditing)
-                            setIsEditing(!isEditing);
-                    }}
-                >
-                    <View style={[styles.bar, { backgroundColor: MAIN_COLOR }]} ></View>
-
-                    <Animated.View style={{ alignItems: 'center', backgroundColor: colors.BACKGROUND_PRIMARY, flex: animation, paddingTop: 6 }}>
-                        {allCarTypes && allCarTypes.length > 0 ?
-                            <ScrollView vertical={true} showsVerticalScrollIndicator={false}>
-                                {allCarTypes.map((prop, index) => {
+                        <View style={styles.fullCarView}>
+                            <ScrollView horizontal={true} style={styles.fullCarScroller} showsHorizontalScrollIndicator={false}>
+                                {allCarTypes.map((prop, key) => {
                                     return (
-                                        <CarVertical
-                                            onPress={() => { selectCarType(prop, index) }}
-                                            carData={prop}
-                                            settings={settings}
-                                            styles={styles}
-                                            key={index}
-                                        />
+                                        <View key={key} style={[styles.cabDivStyle, { borderWidth: 1, borderColor: prop.active == true ? MAIN_COLOR : colors.WHITE }]}>
+                                            <CarHorizontal
+                                                onPress={() => { selectCarType(prop, key) }}
+                                                carData={prop}
+                                                settings={settings}
+                                                styles={styles}
+                                            />
+                                        </View>
                                     );
                                 })}
                             </ScrollView>
-                            :
-                            <Text style={{ color: colors.HEADER,fontFamily:fonts.Bold, fontSize: 20, justifyContent: 'center' }}>{t("service_start_soon")}</Text>
-                        }
-                    </Animated.View>
-                </View>
-                : null}
-            </>
+                        </View>
+                        :
+                        <View style={[styles.carShow, { height: 25 }]}
+                            onTouchStart={e => setTouchY(e.nativeEvent.pageY)}
+                            onTouchEnd={e => {
+                                if ((touchY - e.nativeEvent.pageY > 10) && !isEditing)
+                                    setIsEditing(!isEditing);
+                                if ((e.nativeEvent.pageY - touchY > 10) && isEditing)
+                                    setIsEditing(!isEditing);
+                            }}
+                        >
+                            <View style={[styles.bar, { backgroundColor: MAIN_COLOR }]} ></View>
+                        </View>
+                    }
+
+                    {isEditing == true && settings && !settings.horizontal_view ?
+                        <View style={[styles.carShow, { paddingTop: 10, height: allCarTypes.length === 1 ? 110 : allCarTypes.length === 2 ? 182 : 250, minHeight: 80, alignItems: 'center', flexDirection: 'column', backgroundColor: isEditing == true ? colors.BACKGROUND_PRIMARY : colors.WHITE }]}
+                            onTouchStart={e => setTouchY(e.nativeEvent.pageY)}
+                            onTouchEnd={e => {
+                                if ((touchY - e.nativeEvent.pageY > 10) && !isEditing)
+                                    setIsEditing(!isEditing);
+                                if ((e.nativeEvent.pageY - touchY > 10) && isEditing)
+                                    setIsEditing(!isEditing);
+                            }}
+                        >
+                            <View style={[styles.bar, { backgroundColor: MAIN_COLOR }]} ></View>
+
+                            <Animated.View style={{ alignItems: 'center', backgroundColor: colors.BACKGROUND_PRIMARY, flex: animation, paddingTop: 6 }}>
+                                {allCarTypes && allCarTypes.length > 0 ?
+                                    <ScrollView vertical={true} showsVerticalScrollIndicator={false}>
+                                        {allCarTypes.map((prop, index) => {
+                                            return (
+                                                <CarVertical
+                                                    onPress={() => { selectCarType(prop, index) }}
+                                                    carData={prop}
+                                                    settings={settings}
+                                                    styles={styles}
+                                                    key={index}
+                                                />
+                                            );
+                                        })}
+                                    </ScrollView>
+                                    :
+                                    <Text style={{ color: colors.HEADER, fontFamily: fonts.Bold, fontSize: 20, justifyContent: 'center' }}>{t("service_start_soon")}</Text>
+                                }
+                            </Animated.View>
+                        </View>
+                        : null}
+                </>
             }
 
             <OptionModal
@@ -1509,7 +1511,7 @@ const styles = StyleSheet.create({
         height: 70,
         width: width,
         flexDirection: 'row',
-        justifyContent:'center',
+        justifyContent: 'center',
         alignItems: 'center'
     },
     buttonContainer: {
@@ -1614,7 +1616,7 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         marginRight: 5,
         alignItems: 'center',
-        marginBottom:10
+        marginBottom: 10
     },
     fullCarScroller: {
         width: width - 10,
@@ -1655,12 +1657,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     text1: {
-        fontFamily:fonts.Bold,
+        fontFamily: fonts.Bold,
         fontSize: 14,
         color: colors.BLACK
     },
     text2: {
-        fontFamily:fonts.Bold,
+        fontFamily: fonts.Bold,
         fontSize: 11,
         color: colors.BORDER_TEXT
     },
@@ -1690,7 +1692,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: colors.BORDER_BACKGROUND,
         alignItems: 'center',
-        shadowColor:  colors.BLACK,
+        shadowColor: colors.BLACK,
         shadowOffset: {
             width: 0,
             height: 3,
@@ -1706,7 +1708,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: colors.HEADER,
         paddingBottom: 2,
-        fontFamily:fonts.Bold
+        fontFamily: fonts.Bold
     },
     subtitleStyle: {
         fontSize: 12,
@@ -1716,7 +1718,7 @@ const styles = StyleSheet.create({
     },
     priceStyle: {
         color: colors.BALANCE_ADD,
-       fontFamily:fonts.Bold,
+        fontFamily: fonts.Bold,
         fontSize: 12,
         lineHeight: 14,
     },
@@ -1732,20 +1734,20 @@ const styles = StyleSheet.create({
         margin: 10,
         resizeMode: 'center'
     },
-    alrt1:{
-        justifyContent: 'center', 
+    alrt1: {
+        justifyContent: 'center',
         alignItems: 'center',
-        height:'100%',
-        width:"70%",
+        height: '100%',
+        width: "70%",
     },
-    alrt:{
-        width: width - 40, 
+    alrt: {
+        width: width - 40,
         height: 60,
-        padding: 10, 
-        borderWidth: 1, 
-        borderColor: colors.BORDER_BACKGROUND, 
-        borderRadius: 5, 
-        justifyContent: 'space-between', 
+        padding: 10,
+        borderWidth: 1,
+        borderColor: colors.BORDER_BACKGROUND,
+        borderRadius: 5,
+        justifyContent: 'space-between',
         alignItems: 'center',
     },
     checkButtonStyle: {
@@ -1755,12 +1757,12 @@ const styles = StyleSheet.create({
         borderColor: colors.TRANSPARENT,
         borderWidth: 0,
         borderRadius: 5,
-        justifyContent:'center',
-        alignItems:'center'
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     checkButtonTitle: {
         fontSize: 12,
-        fontFamily:fonts.Medium,
+        fontFamily: fonts.Medium,
         color: colors.WHITE
     }
 });

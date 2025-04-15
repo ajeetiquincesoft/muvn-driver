@@ -58,55 +58,55 @@ export default function AppContainer() {
     const activeBookings = useSelector(state => state.bookinglistdata.active);
 
     useEffect(() => {
-      responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-          if (response && response.notification && response.notification.request && response.notification.request.content && response.notification.request.content.data){
-            const nData = response.notification.request.content.data;
-            if (nData.screen) {
-              if (nData.params) {
-                navigationRef.navigate(nData.screen, nData.params);
-              } else {
-                navigationRef.navigate(nData.screen);
-              }
-            } else {
-              navigationRef.navigate("TabRoot");
+        responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+            if (response && response.notification && response.notification.request && response.notification.request.content && response.notification.request.content.data) {
+                const nData = response.notification.request.content.data;
+                if (nData.screen) {
+                    if (nData.params) {
+                        navigationRef.navigate(nData.screen, nData.params);
+                    } else {
+                        navigationRef.navigate(nData.screen);
+                    }
+                } else {
+                    navigationRef.navigate("TabRoot");
+                }
             }
-          }
         });
     }, []);
-    
+
     const screenOptions = {
         headerStyle: {
-          backgroundColor: MAIN_COLOR,
-          transform: [{ scaleX: isRTL ? -1 : 1 }]
+            backgroundColor: MAIN_COLOR,
+            transform: [{ scaleX: isRTL ? -1 : 1 }]
         },
         headerTintColor: colors.TRANSPARENT,
         headerTitleAlign: 'center',
         headerTitleStyle: {
-            fontFamily:fonts.Bold,
-          color:'white',
-          transform: [{ scaleX: isRTL ? -1 : 1 }]
+            fontFamily: fonts.Bold,
+            color: 'black',
+            transform: [{ scaleX: isRTL ? -1 : 1 }]
         },
-        headerBackImage: () => 
-        <Icon
-            name={isRTL?'arrow-right':'arrow-left'}
-            type='font-awesome'
-            color={colors.WHITE}
-            size={25}
-            style={{margin:10, transform: [{ scaleX: isRTL ? -1 : 1 }]}}
-        /> 
+        headerBackImage: () =>
+            <Icon
+                name={isRTL ? 'arrow-right' : 'arrow-left'}
+                type='font-awesome'
+                color={colors.WHITE}
+                size={25}
+                style={{ margin: 10, transform: [{ scaleX: isRTL ? -1 : 1 }] }}
+            />
     };
-    
+
     const TabRoot = () => {
         return (
             <Tab.Navigator
                 screenOptions={({ route }) => ({
-                    animationEnabled: Platform.OS == 'android'? false : true,
+                    animationEnabled: Platform.OS == 'android' ? false : true,
                     tabBarIcon: ({ focused, color, size }) => {
                         let iconName;
                         if (route.name === 'Map' || route.name === 'DriverTrips') {
                             iconName = focused
-                              ? 'home'
-                              : 'home-outline';
+                                ? 'home'
+                                : 'home-outline';
                         } else if (route.name === 'RideList') {
                             iconName = focused ? 'list-circle' : 'list-circle-outline';
                         } else if (route.name === 'Wallet') {
@@ -118,91 +118,91 @@ export default function AppContainer() {
                     },
                     tabBarActiveTintColor: MAIN_COLOR,
                     tabBarInactiveTintColor: colors.HEADER,
-                    tabBarBadge: route.name == 'RideList' && activeBookings && activeBookings.length > 0 ? activeBookings.length :null,
-                    tabBarBadgeStyle:{transform: [{ scaleX: isRTL ? -1 : 1 }]},
+                    tabBarBadge: route.name == 'RideList' && activeBookings && activeBookings.length > 0 ? activeBookings.length : null,
+                    tabBarBadgeStyle: { transform: [{ scaleX: isRTL ? -1 : 1 }] },
                     tabBarIndicatorStyle: {
                         borderBottomColor: '#C2D5A8',
                         borderBottomWidth: 2,
-                      },
+                    },
                     // tabBarStyle: { height: hasNotch ? 80:55,transform:isRTL? [{scaleX: -1}] :[{scaleX: 1}]},
-                    tabBarLabelStyle:{ fontSize: 14,fontFamily:fonts.Light,transform:isRTL? [{scaleX: -1}] :[{scaleX: 1}]},
+                    tabBarLabelStyle: { fontSize: 14, color: '#000', fontFamily: fonts.Light, transform: isRTL ? [{ scaleX: -1 }] : [{ scaleX: 1 }] },
                 })}
             >
                 {auth.profile && auth.profile.usertype && auth.profile.usertype == 'customer' ?
-                    <Tab.Screen name="Map" 
-                        component={MapScreen} 
-                        options={{title: t('home'),headerShown: false}}
-                        listeners={({navigation,route})=>({
+                    <Tab.Screen name="Map"
+                        component={MapScreen}
+                        options={{ title: t('home'), headerShown: false }}
+                        listeners={({ navigation, route }) => ({
                             tabPress: e => {
                                 e.preventDefault()
                                 navigation.dispatch(
                                     CommonActions.reset({
                                         index: 0,
-                                        routes: [{name: route.name}]
+                                        routes: [{ name: route.name }]
                                     })
                                 )
                             },
                         })}
                     />
-                : null}
+                    : null}
                 {auth.profile && auth.profile.usertype && auth.profile.usertype == 'driver' ?
-                    <Tab.Screen 
-                        name="DriverTrips" 
-                        component={DriverTrips} 
-                        options={{ title: t('task_list'),...screenOptions }}
-                        listeners={({navigation,route})=>({
+                    <Tab.Screen
+                        name="DriverTrips"
+                        component={DriverTrips}
+                        options={{ title: t('task_list'), ...screenOptions }}
+                        listeners={({ navigation, route }) => ({
                             tabPress: e => {
                                 e.preventDefault()
                                 navigation.dispatch(
                                     CommonActions.reset({
                                         index: 0,
-                                        routes: [{name: route.name}]
+                                        routes: [{ name: route.name }]
                                     })
                                 )
                             },
                         })}
                     />
-                : null}
+                    : null}
                 <Tab.Screen name="RideList"
-                    component={RideListPage} 
-                    options={{ title: t('ride_list_title'),...screenOptions }}
-                    listeners={({navigation,route})=>({
+                    component={RideListPage}
+                    options={{ title: t('ride_list_title'), ...screenOptions }}
+                    listeners={({ navigation, route }) => ({
                         tabPress: e => {
                             e.preventDefault()
                             navigation.dispatch(
                                 CommonActions.reset({
                                     index: 0,
-                                    routes: [{name: route.name}]
+                                    routes: [{ name: route.name }]
                                 })
                             )
                         },
                     })}
                 />
-                <Tab.Screen name="Wallet" 
-                    component={WalletDetails} 
-                    options={{ title: t('my_wallet_tile'),...screenOptions }}
-                    listeners={({navigation,route})=>({
+                <Tab.Screen name="Wallet"
+                    component={WalletDetails}
+                    options={{ title: t('my_wallet_tile'), ...screenOptions }}
+                    listeners={({ navigation, route }) => ({
                         tabPress: e => {
                             e.preventDefault()
                             navigation.dispatch(
                                 CommonActions.reset({
                                     index: 0,
-                                    routes: [{name: route.name}]
+                                    routes: [{ name: route.name }]
                                 })
                             )
                         },
                     })}
                 />
-                <Tab.Screen name="Settings" 
-                    component={SettingsScreen} 
-                    options={{ title: t('settings_title') ,...screenOptions}}
-                    listeners={({navigation,route})=>({
+                <Tab.Screen name="Settings"
+                    component={SettingsScreen}
+                    options={{ title: t('settings_title'), ...screenOptions }}
+                    listeners={({ navigation, route }) => ({
                         tabPress: e => {
                             e.preventDefault()
                             navigation.dispatch(
                                 CommonActions.reset({
                                     index: 0,
-                                    routes: [{name: route.name}]
+                                    routes: [{ name: route.name }]
                                 })
                             )
                         },
@@ -217,34 +217,34 @@ export default function AppContainer() {
             <Stack.Navigator
                 screenOptions={{
                     animationTypeForReplace: 'pop',
-                    animationEnabled:   Platform.OS == 'android'? false: true,
+                    animationEnabled: Platform.OS == 'android' ? false : true,
                 }}
             >
                 {auth.profile && auth.profile.uid ?
                     <Stack.Group>
-                        <Stack.Screen name="TabRoot" component={TabRoot}  options={{headerShown: false,}}/>
-                        <Stack.Screen name="Profile" component={ProfileScreen} options={{ title: t('profile_setting_menu'),...screenOptions}}/>
-                        <Stack.Screen name="editUser" component={EditProfilePage} options={{ title: t('update_profile_title'),...screenOptions }}/>
-                        <Stack.Screen name="Search" component={SearchScreen} options={{ title: t('search'),...screenOptions }}/>
-                        <Stack.Screen name="DriverRating" component={DriverRating} options={{ title: t('rate_ride'),headerLeft: ()=> null,...screenOptions }}/>
-                        <Stack.Screen name="PaymentDetails" component={PaymentDetails} options={{ title: t('payment'),...screenOptions }}/>
-                        <Stack.Screen name="BookedCab" component={BookedCabScreen} options={{headerShown: false }}/>
-                        <Stack.Screen name="RideDetails" component={RideDetails} options={{ title: t('ride_details_page_title'),...screenOptions }}/>
-                        <Stack.Screen name="onlineChat" component={OnlineChat} options={{ title: t('chat_title'),...screenOptions }}/>
-                        <Stack.Screen name="addMoney" component={AddMoneyScreen} options={{ title: t('add_money'),...screenOptions }}/>
-                        <Stack.Screen name="paymentMethod" component={SelectGatewayPage} options={{ title: t('payment'),...screenOptions }}/>
-                        <Stack.Screen name="withdrawMoney" component={WithdrawMoneyScreen} options={{ title: t('withdraw_money'),...screenOptions }}/>
-                        <Stack.Screen name="About" component={AboutPage} options={{ title: t('about_us_menu'),...screenOptions }}/>
-                        <Stack.Screen name="Complain" component={Complain} options={{ title: t('complain'),...screenOptions }}/>
-                        <Stack.Screen name="MyEarning" component={DriverIncomeScreen} options={{ title: t('incomeText'),...screenOptions }}/>
-                        <Stack.Screen name="Notifications" component={NotificationsPage} options={{ title: t('push_notification_title'),...screenOptions }}/>
-                        <Stack.Screen name="Cars" component={CarsScreen} options={{ title: t('cars'),...screenOptions  }}/>
-                        <Stack.Screen name="CarEdit" component={CarEditScreen} options={{ title: t('editcar'),...screenOptions  }}/>
+                        <Stack.Screen name="TabRoot" component={TabRoot} options={{ headerShown: false, }} />
+                        <Stack.Screen name="Profile" component={ProfileScreen} options={{ title: t('profile_setting_menu'), ...screenOptions }} />
+                        <Stack.Screen name="editUser" component={EditProfilePage} options={{ title: t('update_profile_title'), ...screenOptions }} />
+                        <Stack.Screen name="Search" component={SearchScreen} options={{ title: t('search'), ...screenOptions }} />
+                        <Stack.Screen name="DriverRating" component={DriverRating} options={{ title: t('rate_ride'), headerLeft: () => null, ...screenOptions }} />
+                        <Stack.Screen name="PaymentDetails" component={PaymentDetails} options={{ title: t('payment'), ...screenOptions }} />
+                        <Stack.Screen name="BookedCab" component={BookedCabScreen} options={{ headerShown: false }} />
+                        <Stack.Screen name="RideDetails" component={RideDetails} options={{ title: t('ride_details_page_title'), ...screenOptions }} />
+                        <Stack.Screen name="onlineChat" component={OnlineChat} options={{ title: t('chat_title'), ...screenOptions }} />
+                        <Stack.Screen name="addMoney" component={AddMoneyScreen} options={{ title: t('add_money'), ...screenOptions }} />
+                        <Stack.Screen name="paymentMethod" component={SelectGatewayPage} options={{ title: t('payment'), ...screenOptions }} />
+                        <Stack.Screen name="withdrawMoney" component={WithdrawMoneyScreen} options={{ title: t('withdraw_money'), ...screenOptions }} />
+                        <Stack.Screen name="About" component={AboutPage} options={{ title: t('about_us_menu'), ...screenOptions }} />
+                        <Stack.Screen name="Complain" component={Complain} options={{ title: t('complain'), ...screenOptions }} />
+                        <Stack.Screen name="MyEarning" component={DriverIncomeScreen} options={{ title: t('incomeText'), ...screenOptions }} />
+                        <Stack.Screen name="Notifications" component={NotificationsPage} options={{ title: t('push_notification_title'), ...screenOptions }} />
+                        <Stack.Screen name="Cars" component={CarsScreen} options={{ title: t('cars'), ...screenOptions }} />
+                        <Stack.Screen name="CarEdit" component={CarEditScreen} options={{ title: t('editcar'), ...screenOptions }} />
                     </Stack.Group>
                     :
                     <Stack.Group screenOptions={{ headerShown: false }}>
-                        <Stack.Screen name="Login" component={LoginScreen}/>
-                        <Stack.Screen name="Register" component={RegistrationPage}/>
+                        <Stack.Screen name="Login" component={LoginScreen} />
+                        <Stack.Screen name="Register" component={RegistrationPage} />
                     </Stack.Group>
                 }
             </Stack.Navigator>

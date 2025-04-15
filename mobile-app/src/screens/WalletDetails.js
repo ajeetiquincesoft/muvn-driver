@@ -13,7 +13,7 @@ import i18n from 'i18n-js';
 import { useSelector } from 'react-redux';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { CommonActions } from '@react-navigation/native';
-import { MAIN_COLOR,SECONDORY_COLOR } from '../common/sharedFunctions';
+import { MAIN_COLOR, SECONDORY_COLOR } from '../common/sharedFunctions';
 import { fonts } from '../common/font';
 
 
@@ -38,7 +38,7 @@ export default function WalletDetails(props) {
   const doReacharge = () => {
     if (!(profile.mobile && profile.mobile.length > 6 && profile.email && profile.firstName)) {
       Alert.alert(t('alert'), t('profile_incomplete'));
-      props.navigation.dispatch(CommonActions.reset({ index: 0, routes:[{ name: 'Profile', params: { fromPage: 'Wallet'}}]}));
+      props.navigation.dispatch(CommonActions.reset({ index: 0, routes: [{ name: 'Profile', params: { fromPage: 'Wallet' } }] }));
     } else {
       if (providers) {
         props.navigation.push('addMoney', { userdata: profile, providers: providers });
@@ -51,7 +51,7 @@ export default function WalletDetails(props) {
   const doWithdraw = () => {
     if (!(profile.mobile && profile.mobile.length > 6) && profile.email && profile.firstName) {
       Alert.alert(t('alert'), t('profile_incomplete'));
-      props.navigation.dispatch(CommonActions.reset({ index: 0, routes:[{ name: 'Profile', params: { fromPage: 'Wallet'}}]}));
+      props.navigation.dispatch(CommonActions.reset({ index: 0, routes: [{ name: 'Profile', params: { fromPage: 'Wallet' } }] }));
     } else {
       if (parseFloat(profile.walletBalance) > 0) {
         props.navigation.push('withdrawMoney', { userdata: profile });
@@ -66,40 +66,40 @@ export default function WalletDetails(props) {
     <View style={styles.mainView}>
       <View style={styles.Vew}>
 
-        <View style={[styles.View6, {backgroundColor: MAIN_COLOR }]}>
+        <View style={[styles.View6, { backgroundColor: MAIN_COLOR }]}>
           {settings.swipe_symbol === false ?
-            <Text style={{ textAlign: 'center', fontSize: 30, fontFamily:fonts.Medium, color: colors.WHITE }}>{settings.symbol}{profile && profile.hasOwnProperty('walletBalance') ? parseFloat(profile.walletBalance).toFixed(settings.decimal) : ''}</Text>
+            <Text style={{ textAlign: 'center', fontSize: 30, fontFamily: fonts.Medium, color: colors.WHITE }}>{settings.symbol}{profile && profile.hasOwnProperty('walletBalance') ? parseFloat(profile.walletBalance).toFixed(settings.decimal) : ''}</Text>
             :
-            <Text style={{ textAlign: 'center', fontSize: 30, fontFamily:fonts.Medium, color: colors.WHITE }}>{profile && profile.hasOwnProperty('walletBalance') ? parseFloat(profile.walletBalance).toFixed(settings.decimal) : ''}{settings.symbol}</Text>
+            <Text style={{ textAlign: 'center', fontSize: 30, fontFamily: fonts.Medium, color: colors.WHITE }}>{profile && profile.hasOwnProperty('walletBalance') ? parseFloat(profile.walletBalance).toFixed(settings.decimal) : ''}{settings.symbol}</Text>
           }
           {profile && (profile.usertype == 'driver' || (profile.usertype == 'customer' && settings && settings.RiderWithDraw)) ?
-          <View style={{flexDirection:isRTL?'row-reverse':'row',justifyContent:'space-around',marginVertical:15,width:'100%',height:50}}>
-            <View style={[styles.Vew1,{backgroundColor:colors.GREEN}]}>
-              <TouchableOpacity onPress={doReacharge} style={styles.vew7}>
-                <Text style={[styles.txt,{color:colors.WHITE}]}>{t('add_money').toUpperCase()}</Text>
-              </TouchableOpacity>
+            <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', justifyContent: 'space-around', marginVertical: 15, width: '100%', height: 50 }}>
+              <View style={[styles.Vew1, { backgroundColor: colors.GREEN }]}>
+                <TouchableOpacity onPress={doReacharge} style={styles.vew7}>
+                  <Text style={[styles.txt, { color: colors.WHITE }]}>{t('add_money').toUpperCase()}</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={[styles.Vew1, { backgroundColor: colors.RED }]}>
+                <TouchableOpacity onPress={doWithdraw} style={styles.vew7}>
+                  <Text style={[styles.txt, { color: colors.WHITE }]}>{t('withdraw')}</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-            <View style={[styles.Vew1,{backgroundColor:colors.RED}]}>
-              <TouchableOpacity onPress={doWithdraw} style={styles.vew7}>
-                <Text style={[styles.txt,{color:colors.WHITE}]}>{t('withdraw')}</Text>
-              </TouchableOpacity>
+            :
+            <View style={{ flexDirection: 'row', justifyContent: 'center', marginVertical: 15, width: '100%', height: 50 }}>
+              <View style={[styles.Vew1, { backgroundColor: colors.GREEN }]}>
+                <TouchableOpacity onPress={doReacharge} style={styles.vew7}>
+                  <Text style={[styles.txt, { color: colors.WHITE }]}>{t('add_money')}</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-           :
-          <View style={{flexDirection:'row',justifyContent:'center',marginVertical:15,width:'100%',height:50}}>
-            <View style={[styles.Vew1,{backgroundColor:colors.GREEN}]}>
-              <TouchableOpacity onPress={doReacharge} style={styles.vew7}>
-                <Text style={[styles.txt,{color:colors.WHITE}]}>{t('add_money')}</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        } 
+          }
         </View>
       </View>
-    
+
       <View style={styles.Vew4}>
         <Text style={[styles.View5, { textAlign: isRTL ? "right" : "left" }]}>{t('transaction_history_title')}</Text>
-        <WTransactionHistory walletHistory={walletHistory ? walletHistory : []} role={auth.profile && auth.profile.usertype? auth.profile.usertype:null}/>
+        <WTransactionHistory walletHistory={walletHistory ? walletHistory : []} role={auth.profile && auth.profile.usertype ? auth.profile.usertype : null} />
       </View>
 
     </View>
@@ -122,9 +122,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.WHITE
   },
   Vew1: {
-    height:50,
-    minWidth:150,
-    borderRadius:10,
+    height: 50,
+    minWidth: 150,
+    borderRadius: 10,
     backgroundColor: colors.WHITE,
     shadowColor: "#000",
     shadowOffset: {
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
   View5: {
     paddingHorizontal: 10,
     fontSize: 18,
-    fontFamily:fonts.Medium,
+    fontFamily: fonts.Medium,
     marginTop: 10
   },
   View6: {
@@ -161,16 +161,16 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 20,
     borderBottomLeftRadius: 20
   },
-  txt: { 
+  txt: {
     textAlign: 'center',
     fontSize: 18,
     color: colors.HEADER,
-    fontFamily:fonts.Bold
+    fontFamily: fonts.Bold
   },
-  vew7:{
-    height:'100%',
-    width:'100%',
-    justifyContent:'center',
-    paddingHorizontal:5
+  vew7: {
+    height: '100%',
+    width: '100%',
+    justifyContent: 'center',
+    paddingHorizontal: 5
   }
 });

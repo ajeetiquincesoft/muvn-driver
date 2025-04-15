@@ -40,18 +40,18 @@ export default function Notifications(props) {
     const newData = ({ item }) => {
         return (
             <View style={styles.container}>
-                <View style={[styles.divCompView,{flexDirection: isRTL ? 'row-reverse' : 'row'}]}>
+                <View style={[styles.divCompView, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
 
                     <View style={styles.vew2}>
-                        <MaterialCommunityIcons name="car-parking-lights" size={33} color={colors.HEADER} />
+                        <MaterialCommunityIcons name="car-parking-lights" size={33} color={colors.WHITE} />
                     </View>
 
                     <TouchableOpacity onPress={() => show(item)} style={styles.statusView}>
                         <View style={styles.textContainer}>
-                            <Text numberOfLines={1} style={[styles.textStyle, { textAlign: isRTL ? 'right' : 'left'}]}>{item.title}</Text>
-                            <Text style={[styles.textStyleBold, { textAlign: isRTL ? 'right' : 'left'}]}>{item.msg}</Text>
+                            <Text numberOfLines={1} style={[styles.textStyle, { textAlign: isRTL ? 'right' : 'left' }]}>{item.title}</Text>
+                            <Text style={[styles.textStyleBold, { textAlign: isRTL ? 'right' : 'left' }]}>{item.msg}</Text>
                         </View>
-                        <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row'}}>
+                        <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row' }}>
                             <Icon
                                 iconStyle={styles.iconPositionStyle}
                                 name='clock'
@@ -59,7 +59,7 @@ export default function Notifications(props) {
                                 size={15}
                                 color={colors.RIDELIST_TEXT}
                             />
-                            <Text style={[styles.textStyle, [isRTL ? { paddingRight: 5,color: colors.FOOTERTOP, fontSize: 12 } : { paddingLeft: 5,color: colors.FOOTERTOP, fontSize: 12 }]]}>{moment(item.dated).format('lll')}</Text>
+                            <Text style={[styles.textStyle, [isRTL ? { paddingRight: 5, color: colors.FOOTERTOP, fontSize: 12 } : { paddingLeft: 5, color: colors.FOOTERTOP, fontSize: 12 }]]}>{moment(item.dated).format('lll')}</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -101,14 +101,14 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         height: "100%",
         borderRadius: 10,
-        padding:8
+        padding: 8
     },
-    textContainer:{
+    textContainer: {
         flex: 1,
         flexDirection: 'column',
         height: "100%",
         borderRadius: 10,
-        marginBottom:8
+        marginBottom: 8
     },
     textStyle: {
         fontSize: 13,
@@ -121,11 +121,11 @@ const styles = StyleSheet.create({
     iconPositionStyle: {
         alignSelf: 'flex-start'
     },
-    vew2:{
-        padding:6,
-        marginHorizontal:5,
+    vew2: {
+        padding: 6,
+        marginHorizontal: 5,
         backgroundColor: SECONDORY_COLOR,
-        borderRadius:10,
+        borderRadius: 10,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,

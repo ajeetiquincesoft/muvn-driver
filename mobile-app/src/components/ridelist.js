@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, Image, Dimensions, Modal, Linking, Alert, Animated, TouchableWithoutFeedback,Platform } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, Image, Dimensions, Modal, Linking, Alert, Animated, TouchableWithoutFeedback, Platform } from 'react-native';
 import { colors } from '../common/theme';
 import i18n from 'i18n-js';
 import { useSelector } from 'react-redux';
@@ -68,15 +68,15 @@ export default function RideList(props) {
     }
 
     const onAlert = (item) => {
-        if(item.status==="COMPLETE") Alert.alert(t('alert'), t('booking_is') + t('COMPLETE') + "." + t('not_call'));
-        if(item.status==="CANCELLED") Alert.alert(t('alert'), t('booking_is') + t('CANCELLED') + "." + t('not_call'));
-        if(item.status==="PAID") Alert.alert(t('alert'), t('booking_is') + t('PAID') + "." + t('not_call'));
+        if (item.status === "COMPLETE") Alert.alert(t('alert'), t('booking_is') + t('COMPLETE') + "." + t('not_call'));
+        if (item.status === "CANCELLED") Alert.alert(t('alert'), t('booking_is') + t('CANCELLED') + "." + t('not_call'));
+        if (item.status === "PAID") Alert.alert(t('alert'), t('booking_is') + t('PAID') + "." + t('not_call'));
     }
-    
+
     const onChatAlert = (item) => {
-       if(item.status==="COMPLETE") Alert.alert(t('alert'), t('booking_is') + t('COMPLETE') + "." + t('not_chat'));
-       if(item.status==="CANCELLED") Alert.alert(t('alert'), t('booking_is') + t('CANCELLED') + "." + t('not_chat'));
-       if(item.status==="PAID") Alert.alert(t('alert'), t('booking_is') + t('PAID') + "." + t('not_chat'));
+        if (item.status === "COMPLETE") Alert.alert(t('alert'), t('booking_is') + t('COMPLETE') + "." + t('not_chat'));
+        if (item.status === "CANCELLED") Alert.alert(t('alert'), t('booking_is') + t('CANCELLED') + "." + t('not_chat'));
+        if (item.status === "PAID") Alert.alert(t('alert'), t('booking_is') + t('PAID') + "." + t('not_chat'));
     }
 
     const goHome = () => {
@@ -127,8 +127,8 @@ export default function RideList(props) {
                     <View style={{ flexDirection: 'column', flex: 1, minHeight: 60 }}>
                         <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', flex: 1, minHeight: 60 }}>
                             <View style={[styles.details, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
-                                <Text style={{ fontFamily:fonts.Bold, fontSize: 24, color: MAIN_COLOR, opacity: 0.8 }}>{settings.symbol}</Text>
-                                <Text style={styles.textStyleBold}>{item.deliveryWithBid && (['NEW','PAYMENT_PENDING'].indexOf(item.status) != -1) ?  t('bid') : item && item.trip_cost > 0  ? parseFloat(item.trip_cost).toFixed(settings.decimal) : item && item.estimate ? parseFloat(item.estimate).toFixed(settings.decimal) : 0}</Text>
+                                <Text style={{ fontFamily: fonts.Bold, fontSize: 24, color: MAIN_COLOR, opacity: 0.8 }}>{settings.symbol}</Text>
+                                <Text style={styles.textStyleBold}>{item.deliveryWithBid && (['NEW', 'PAYMENT_PENDING'].indexOf(item.status) != -1) ? t('bid') : item && item.trip_cost > 0 ? parseFloat(item.trip_cost).toFixed(settings.decimal) : item && item.estimate ? parseFloat(item.estimate).toFixed(settings.decimal) : 0}</Text>
                             </View>
                             <View style={[styles.hbox2, { minHeight: 5, width: 1, margin: 2 }]} />
                             <View style={[styles.details, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
@@ -231,7 +231,7 @@ export default function RideList(props) {
 
                                     {item && item.customer_name != '' && auth.profile.usertype == 'driver' ? <Text style={[styles.textStyleBold, { textAlign: isRTL ? 'right' : 'left' }]}>{item.customer_name ? item.customer_name : t('no_name')}</Text> : null}
 
-                                    {item && item.rating > 0 && item.driver_name && auth.profile.usertype == 'customer'?
+                                    {item && item.rating > 0 && item.driver_name && auth.profile.usertype == 'customer' ?
                                         <View>
                                             <StarRating
                                                 maxStars={5}
@@ -251,9 +251,9 @@ export default function RideList(props) {
                             </View>
                             {item && ((item.driver_contact || item.customer_contact)) ?
                                 <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', alignItems: 'center' }}>
-                                    <TouchableOpacity onPress={() => (['ACCEPTED', 'ARRIVED', 'STARTED', 'REACHED', 'PENDING'].indexOf(item.status) != -1) ? role == 'customer' ? 
-                                            onPressCall(item.driver_contact) : (item.otherPersonPhone && item.otherPersonPhone.length > 0 ? onPressCall(item.otherPersonPhone) : onPressCall(item.customer_contact)) : onAlert(item)} 
-                                            style={{ backgroundColor: MAIN_COLOR, height: 40, width: 40, borderRadius: 20, justifyContent: 'center', alignItems: 'center', margin: 3 }}>
+                                    <TouchableOpacity onPress={() => (['ACCEPTED', 'ARRIVED', 'STARTED', 'REACHED', 'PENDING'].indexOf(item.status) != -1) ? role == 'customer' ?
+                                        onPressCall(item.driver_contact) : (item.otherPersonPhone && item.otherPersonPhone.length > 0 ? onPressCall(item.otherPersonPhone) : onPressCall(item.customer_contact)) : onAlert(item)}
+                                        style={{ backgroundColor: MAIN_COLOR, height: 40, width: 40, borderRadius: 20, justifyContent: 'center', alignItems: 'center', margin: 3 }}>
                                         <Ionicons name="call" size={24} color={colors.WHITE} />
                                     </TouchableOpacity>
                                     <TouchableOpacity onPress={() => (['ACCEPTED', 'ARRIVED', 'STARTED', 'REACHED', 'PENDING', 'COMPLETE'].indexOf(item.status) != -1) ? onChatAction(item, index) : onChatAlert(item)} style={{ backgroundColor: MAIN_COLOR, height: 40, width: 40, borderRadius: 20, justifyContent: 'center', alignItems: 'center', margin: 3 }}>
@@ -267,14 +267,14 @@ export default function RideList(props) {
                     {(item && item.status && auth.profile && auth.profile.uid &&
                         (((['PAYMENT_PENDING', 'NEW', 'ACCEPTED', 'ARRIVED', 'STARTED', 'REACHED', 'PENDING', 'PAID'].indexOf(item.status) != -1) && auth.profile.usertype == 'customer') ||
                             ((['ACCEPTED', 'ARRIVED', 'STARTED', 'REACHED'].indexOf(item.status) != -1) && auth.profile.usertype == 'driver'))) ?
-                            <Button
-                                title={item.status == 'PAID' ? t('add_to_review') : item.status == 'PAYMENT_PENDING' ? t('paynow_button') : t('go_to_booking')}
-                                loading={false}
-                                loadingColor={{ color: colors.GREEN }}
-                                buttonStyle={[styles.textStyleBold, { color: colors.WHITE }]}
-                                style={{ backgroundColor: MAIN_COLOR, marginVertical: 10 }}
-                                btnClick={() => { onPressAction(item, index) }}
-                            />
+                        <Button
+                            title={item.status == 'PAID' ? t('add_to_review') : item.status == 'PAYMENT_PENDING' ? t('paynow_button') : t('go_to_booking')}
+                            loading={false}
+                            loadingColor={{ color: colors.GREEN }}
+                            buttonStyle={[styles.textStyleBold, { color: colors.WHITE }]}
+                            style={{ backgroundColor: MAIN_COLOR, marginVertical: 10 }}
+                            btnClick={() => { onPressAction(item, index) }}
+                        />
                         : null}
 
                     <Modal
@@ -335,10 +335,10 @@ export default function RideList(props) {
                     tabStyle={{
                         borderWidth: 0,
                         backgroundColor: 'transparent',
-                        borderColor:colors.WHITE
+                        borderColor: colors.WHITE
                     }}
                     activeTabStyle={{ borderBottomColor: colors.WHITE, backgroundColor: 'transparent', borderBottomWidth: 1.5 }}
-                    tabTextStyle={{ color: appConsts.canCall ? colors.BORDER_TEXT : colors.PROFILE_PLACEHOLDER_CONTENT, fontFamily:fonts.Bold }}
+                    tabTextStyle={{ color: appConsts.canCall ? colors.BORDER_TEXT : colors.PROFILE_PLACEHOLDER_CONTENT, fontFamily: fonts.Bold }}
                     activeTabTextStyle={{ color: colors.WHITE }}
                 />
                 <View style={{ height: '100%' }}>
@@ -390,7 +390,7 @@ const styles = StyleSheet.create({
         elevation: 5
     },
     dateStyle: {
-        fontFamily:fonts.Bold,
+        fontFamily: fonts.Bold,
         color: colors.HEADER,
         fontSize: 18
     },
@@ -401,7 +401,7 @@ const styles = StyleSheet.create({
     segmentcontrol: {
         color: colors.WHITE,
         fontSize: 18,
-        fontFamily:fonts.Regular,
+        fontFamily: fonts.Regular,
         marginTop: 0,
         alignSelf: "center",
         height: 50
@@ -418,7 +418,7 @@ const styles = StyleSheet.create({
     },
     textStyle: {
         fontSize: 16,
-        fontFamily:fonts.Regular
+        fontFamily: fonts.Regular
     },
     textStyleBold: {
         fontSize: 16,
@@ -503,7 +503,7 @@ const styles = StyleSheet.create({
         padding: 15,
         fontSize: 18
     },
-    textContent1:{
-        fontFamily:fonts.Regular
+    textContent1: {
+        fontFamily: fonts.Regular
     }
 });

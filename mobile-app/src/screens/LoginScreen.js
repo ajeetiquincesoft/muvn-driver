@@ -670,7 +670,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     materialButtonDark: {
-        backgroundColor: '#ccc',
+        backgroundColor: colors.BLACK,
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 10,

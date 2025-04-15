@@ -13,11 +13,11 @@ import {
     SafeAreaView
 } from 'react-native';
 import { colors } from '../common/theme';
-var { height,width } = Dimensions.get('window');
+var { height, width } = Dimensions.get('window');
 import i18n from 'i18n-js';
 import RadioForm from 'react-native-simple-radio-button';
 import RNPickerSelect from './RNPickerSelect';
-import { useSelector,useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { api } from 'common';
 import { Feather, AntDesign } from '@expo/vector-icons';
 import { MAIN_COLOR } from '../common/sharedFunctions';
@@ -75,7 +75,7 @@ export default function Registration(props) {
             arr.push({ label: txt, value: txt, key: txt });
         }
         return arr;
-    }, [countries]); 
+    }, [countries]);
 
     useEffect(() => {
         if (settings) {
@@ -85,7 +85,7 @@ export default function Registration(props) {
                 }
             }
         }
-        
+
     }, [settings]);
 
 
@@ -121,7 +121,7 @@ export default function Registration(props) {
 
         return null;
     }
-   
+
 
 
     const onPressRegister = () => {
@@ -134,9 +134,9 @@ export default function Registration(props) {
                     if (mobileWithoutCountry && mobileWithoutCountry.length > 6) {
                         const userData = { ...state };
                         if (userData.usertype == 'customer') delete userData.carType;
-                        
-                            onPressRegister(userData);
-                        
+
+                        onPressRegister(userData);
+
                     } else {
                         Alert.alert(t('alert'), t('mobile_no_blank_error'));
                     }
@@ -167,11 +167,11 @@ export default function Registration(props) {
         <View style={{ flex: 1, }}>
             <SafeAreaView style={{ flex: 1, position: 'absolute', backgroundColor: colors.WHITE, height: '100%', width: '100%' }}>
                 <View style={[{ backgroundColor: colors.WHITE }]}>
-                <TouchableOpacity style={isRTL ? { marginRight: 10, alignSelf: 'flex-end', width: 70, padding: 8, marginTop: 12 } : { marginLeft: 10, width: 70, padding: 8, marginTop: Platform.OS == 'android' ? (__DEV__ ? 15 :40) : (hasNotch ? 35 : 30) }} onPress={props.onPressBack} >
+                    <TouchableOpacity style={isRTL ? { marginRight: 10, alignSelf: 'flex-end', width: 70, padding: 8, marginTop: 12 } : { marginLeft: 10, width: 70, padding: 8, marginTop: Platform.OS == 'android' ? (__DEV__ ? 15 : 40) : (hasNotch ? 35 : 30) }} onPress={props.onPressBack} >
                         <AntDesign name={isRTL ? 'right' : "left"} size={30} color="black" />
                     </TouchableOpacity>
                 </View>
-                <Text style={[styles.headerStyle, [isRTL ? { marginRight: 25, textAlign: 'right', padding: 8,marginTop:-12} : { marginLeft: 8, padding: 8,marginTop:-12}]]}>{t('registration_title')}</Text>
+                <Text style={[styles.headerStyle, [isRTL ? { marginRight: 25, textAlign: 'right', padding: 8, marginTop: -12 } : { marginLeft: 8, padding: 8, marginTop: -12 }]]}>{t('registration_title')}</Text>
                 <View style={{ height: '85%' }}>
                     <KeyboardAvoidingView style={styles.form} behavior={Platform.OS === 'ios' ? 'padding' : (__DEV__ ? null : "padding")} keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0} >
                         <ScrollView style={styles.scrollViewStyle} showsVerticalScrollIndicator={false}>
@@ -185,7 +185,7 @@ export default function Registration(props) {
                                         labelHorizontal={true}
                                         buttonColor={MAIN_COLOR}
                                         labelColor={colors.HEADER}
-                                        labelStyle={[isRTL ? { marginRight: 10 } : { marginRight: 10 },{fontFamily:fonts.Regular}]}
+                                        labelStyle={[isRTL ? { marginRight: 10 } : { marginRight: 10 }, { fontFamily: fonts.Regular }]}
                                         selectedButtonColor={MAIN_COLOR}
                                         selectedLabelColor={colors.HEADER}
                                         buttonSize={25}
@@ -240,8 +240,8 @@ export default function Registration(props) {
                                     />
                                 </View>
                                 <View style={[styles.textInputBoxStyle, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
-                                    <TouchableOpacity activeOpacity={0.5} style={[styles.RnpickerBox, { flexDirection: isRTL ? 'row-reverse' : "row", justifyContent:'space-between' }]} >
-                                        <View style={{ overflow: "hidden", height: '100%', width: "80%",}} >
+                                    <TouchableOpacity activeOpacity={0.5} style={[styles.RnpickerBox, { flexDirection: isRTL ? 'row-reverse' : "row", justifyContent: 'space-between' }]} >
+                                        <View style={{ overflow: "hidden", height: '100%', width: "80%", }} >
                                             <RNPickerSelect
                                                 numberOfLines={1}
                                                 pickerRef={pickerRef1}
@@ -269,14 +269,14 @@ export default function Registration(props) {
                                                         : styles.pickerStyle]
                                                 }}
                                                 onTap={() => {
-                                                        if(settings){
-                                                            if(settings.AllowCountrySelection){
+                                                    if (settings) {
+                                                        if (settings.AllowCountrySelection) {
 
-                                                                pickerRef1.current.focus() 
-                                                            }
-                                                        }    
-                                                     
-                                                     
+                                                            pickerRef1.current.focus()
+                                                        }
+                                                    }
+
+
                                                 }}
                                                 onValueChange={(text) => { upDateCountry(text); }}
                                                 items={formatCountries}
@@ -284,7 +284,7 @@ export default function Registration(props) {
                                             />
 
                                         </View>
-                                        <AntDesign name="arrowdown" size={24} color={colors.BLACK} style={{ width: 'auto', alignContent: 'flex-end'}} />
+                                        <AntDesign name="arrowdown" size={24} color={colors.BLACK} style={{ width: 'auto', alignContent: 'flex-end' }} />
                                     </TouchableOpacity>
                                     <TextInput
                                         placeholder={t('mobile')}
@@ -305,7 +305,7 @@ export default function Registration(props) {
                                         keyboardType={'number-pad'}
                                     />
                                 </View>
-                                <View style={[styles.passWordBox, { flexDirection: isRTL ? 'row-reverse' : 'row' },(passwordFocus === true || state.password.length > 0) ? styles.passwordBoxFocused : styles.passWordBox]}>
+                                <View style={[styles.passWordBox, { flexDirection: isRTL ? 'row-reverse' : 'row' }, (passwordFocus === true || state.password.length > 0) ? styles.passwordBoxFocused : styles.passWordBox]}>
                                     <TextInput
                                         placeholder={t('password')}
                                         onFocus={() => setpasswordFocus(!passwordFocus)}
@@ -313,7 +313,7 @@ export default function Registration(props) {
                                         placeholderTextColor={colors.PLACEHOLDER_COLOR}
                                         value={state.password}
                                         textAlign={isRTL ? 'right' : 'left'}
-                                        style={[ styles.passwordInput,{paddingRight:isRTL?10:0,}]}
+                                        style={[styles.passwordInput, { paddingRight: isRTL ? 10 : 0, }]}
                                         onChangeText={(text) => setState({ ...state, password: text })}
                                         keyboardType="default"
                                         secureTextEntry={eyePass}
@@ -322,7 +322,7 @@ export default function Registration(props) {
                                         <Feather name={eyePass === true ? "eye-off" : "eye"} size={24} color={(passwordFocus === true || state.password.length > 0) ? MAIN_COLOR : colors.PLACEHOLDER_COLOR} />
                                     </TouchableOpacity>
                                 </View>
-                                <View style={[styles.passWordBox,  { flexDirection: isRTL ? 'row-reverse' : 'row',},(confirmPasswordFocus === true || confirmpassword.length > 0) ? styles.passwordBoxFocused : styles.passWordBox]}>
+                                <View style={[styles.passWordBox, { flexDirection: isRTL ? 'row-reverse' : 'row', }, (confirmPasswordFocus === true || confirmpassword.length > 0) ? styles.passwordBoxFocused : styles.passWordBox]}>
                                     <TextInput
                                         placeholder={t('confirm_password')}
                                         secureTextEntry={eyeConfirmPass}
@@ -331,7 +331,7 @@ export default function Registration(props) {
                                         placeholderTextColor={colors.PLACEHOLDER_COLOR}
                                         value={confirmpassword}
                                         textAlign={isRTL ? 'right' : 'left'}
-                                        style={[ styles.passwordInput,{paddingRight:isRTL?10:0,}]}
+                                        style={[styles.passwordInput, { paddingRight: isRTL ? 10 : 0, }]}
                                         onChangeText={(text) => setConfirmPassword(text)}
                                         keyboardType="default"
                                     />
@@ -361,10 +361,10 @@ export default function Registration(props) {
                                         buttonStyle={[styles.buttonStyle]}
                                         btnClick={onPressRegister}
                                         activeOpacity={0.8}
-                                        loading= {loading=== true ? true : false}
+                                        loading={loading === true ? true : false}
                                         loadingColor={{ color: MAIN_COLOR }}
                                     />
-                                   
+
                                 </View>
                             </View>
                         </ScrollView>
@@ -396,16 +396,16 @@ const styles = StyleSheet.create({
         marginRight: 10
     },
     textInputContainerStyle: {
-        width: width-25,
+        width: width - 25,
         alignItems: 'center',
         justifyContent: "center",
-        marginBottom:10
+        marginBottom: 10
     },
     form: {
         alignItems: 'center',
         width: '100%',
         gap: 25,
-        marginBottom:25,
+        marginBottom: 25,
         flex: 1
 
     },
@@ -414,35 +414,35 @@ const styles = StyleSheet.create({
         marginTop: 10,
         width: '100%',
         backgroundColor: colors.WHITE,
-        gap:10
+        gap: 10
     },
     textInputBoxStyle: {
-        width: width-25,
+        width: width - 25,
         justifyContent: 'space-between',
-        alignItems:'center',
+        alignItems: 'center',
         position: 'relative',
         overflow: 'hidden',
     },
     passwordIcon: {
-        width:"10%"
+        width: "10%"
     },
-    passWordBox:{
+    passWordBox: {
         borderWidth: 1,
         borderRadius: 10,
         paddingLeft: 10,
-        width: width-25,
+        width: width - 25,
         borderColor: colors.PLACEHOLDER_COLOR,
-        justifyContent:"space-around",
-        paddingVertical:15,
+        justifyContent: "space-around",
+        paddingVertical: 15,
     },
-    passwordBoxFocused:{
+    passwordBoxFocused: {
         borderColor: MAIN_COLOR,
-        paddingVertical:15,
+        paddingVertical: 15,
     },
-    passwordInput:{
+    passwordInput: {
         width: "90%",
-        height:"100%",
-        fontFamily:fonts.Bold 
+        height: "100%",
+        fontFamily: fonts.Bold
     },
     textInputStyle: {
         borderWidth: 1,
@@ -451,7 +451,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         paddingLeft: 10,
         paddingRight: 10,
-        fontFamily:fonts.Bold
+        fontFamily: fonts.Bold
     },
     inputFocused: {
         borderColor: MAIN_COLOR,
@@ -467,10 +467,10 @@ const styles = StyleSheet.create({
     buttonContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
-        width: width-25,
+        width: width - 25,
         position: 'relative',
         marginBottom: 30,
-        marginTop:10
+        marginTop: 10
     },
     registerButton: {
         width: '100%',
@@ -496,7 +496,7 @@ const styles = StyleSheet.create({
         paddingVertical: 3,
         fontSize: 22,
         fontFamily: fonts.Bold,
-        color: colors.WHITE,
+        color: colors.BLACK,
     },
     pickerStyle: {
         color: colors.BLACK,
@@ -506,13 +506,13 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         paddingRight: 10,
         color: colors.BLACK,
-        fontFamily:fonts.Bold,
-        flexWrap: 'wrap', 
-        width:"100%",
+        fontFamily: fonts.Bold,
+        flexWrap: 'wrap',
+        width: "100%",
     },
     RnpickerBox: {
         width: "35%",
-        height:"100%",
+        height: "100%",
         overflow: 'hidden',
         flexDirection: 'row',
         borderWidth: 1,
@@ -532,7 +532,7 @@ const styles = StyleSheet.create({
     },
     errorMessageStyle: {
         fontSize: 12,
-        fontFamily:fonts.Bold,
+        fontFamily: fonts.Bold,
         marginLeft: 0
     },
     scrollViewStyle: {
@@ -542,7 +542,7 @@ const styles = StyleSheet.create({
         fontSize: 35,
         color: colors.BLACK,
         flexDirection: 'row',
-        fontFamily:fonts.Bold
+        fontFamily: fonts.Bold
     },
     capturePhoto: {
         width: '60%',
@@ -645,7 +645,7 @@ const styles = StyleSheet.create({
     },
     textStyle: {
         color: colors.ProfileDetails_Text,
-        fontFamily:fonts.Bold,
+        fontFamily: fonts.Bold,
         fontSize: 13
     }
 });

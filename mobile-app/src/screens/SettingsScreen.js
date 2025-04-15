@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, FlatList, View, Text, TouchableOpacity, Alert, Share, Switch, Linking, ActivityIndicator, Dimensions,Platform } from "react-native";
+import { StyleSheet, FlatList, View, Text, TouchableOpacity, Alert, Share, Switch, Linking, ActivityIndicator, Dimensions, Platform } from "react-native";
 import { Icon } from "react-native-elements";
 import i18n from 'i18n-js';
 import { colors } from '../common/theme';
@@ -15,7 +15,7 @@ import { fonts } from "../common/font";
 
 export default function SettingsScreen(props) {
     const { t } = i18n;
-    const { signOff, updateProfile,editSos } = api;
+    const { signOff, updateProfile, editSos } = api;
     const dispatch = useDispatch();
     const auth = useSelector(state => state.auth);
     const settings = useSelector(state => state.settingsdata.settings);
@@ -185,14 +185,14 @@ export default function SettingsScreen(props) {
                                         <Icon
                                             name={item.icon}
                                             type={item.type}
-                                            color={colors.BLACK}
+                                            color={colors.WHITE}
                                             size={26}
                                         />
                                     </View>
                                     <View style={{ flex: 1, height: '100%', justifyContent: 'center' }}>
                                         {loading && item.navigationName === 'Logout' ?
                                             <ActivityIndicator color={colors.BLACK} size='large' style={{ marginLeft: isRTL ? 0 : 50, marginRight: isRTL ? 50 : 0 }} />
-                                            : <Text style={{ color: colors.BLACK, fontFamily:fonts.Regular }}>{item.name}</Text>
+                                            : <Text style={{ color: colors.BLACK, fontFamily: fonts.Regular }}>{item.name}</Text>
                                         }
                                     </View>
                                     <View style={{ height: '100%', width: 50, alignItems: 'center', justifyContent: 'center' }}>

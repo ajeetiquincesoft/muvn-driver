@@ -24,7 +24,7 @@ import PaymentIcon from "@mui/icons-material/Payment";
 import PlaylistAddCheckIcon from "@mui/icons-material/PlaylistAddCheck";
 import AlertDialog from "../components/AlertDialog";
 import { colors } from "../components/Theme/WebTheme";
-import { useNavigate,useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   bookingHistoryColumns,
   BidModal,
@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: "10px",
     paddingRight: "10px",
     width: "10rem",
-    minHeight:"40px"
+    minHeight: "40px"
   },
 }));
 
@@ -81,9 +81,9 @@ const icons = {
   wipay: require("../assets/payment-icons/wipay-logo.png").default,
   test: require("../assets/payment-icons/test-logo.png").default,
   razorpay: require("../assets/payment-icons/razorpay-logo.png").default,
-  paymongo:require("../assets/payment-icons/paymongo-logo.png").default,
-  iyzico:require("../assets/payment-icons/iyzico-logo.png").default,
-  tap:require("../assets/payment-icons/tap-logo.png").default
+  paymongo: require("../assets/payment-icons/paymongo-logo.png").default,
+  iyzico: require("../assets/payment-icons/iyzico-logo.png").default,
+  tap: require("../assets/payment-icons/tap-logo.png").default
 };
 
 const BookingHistory = (props) => {
@@ -115,12 +115,12 @@ const BookingHistory = (props) => {
   const classes = useStyles();
   const columns = bookingHistoryColumns(role, settings, t, isRTL);
   const [walletModalStatus, setWalletModalStatus] = useState(false);
-  const {state} = useLocation();
+  const { state } = useLocation();
   const [currentPage, setCurrentPage] = useState(0);
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     setCurrentPage(state?.pageNo)
-  },[state])
+  }, [state])
 
   const handlePaginationChange = (page) => {
     setCurrentPage(page)
@@ -289,8 +289,8 @@ const BookingHistory = (props) => {
       curBooking.payableAmount =
         curBooking.status === "ACCEPTED"
           ? parseFloat(curBooking.selectedBid.trip_cost).toFixed(
-              settings.decimal
-            )
+            settings.decimal
+          )
           : parseFloat(curBooking.trip_cost).toFixed(settings.decimal);
 
       if (curBooking.status === "ACCEPTED") {
@@ -307,7 +307,7 @@ const BookingHistory = (props) => {
         curBooking.convenience_fees = curBooking.selectedBid.convenience_fees;
         curBooking.driver_share = curBooking.selectedBid.driver_share;
         curBooking.fleetadmin = curBooking.selectedBid.fleetadmin ? curBooking.selectedBid.fleetadmin : null;
-        curBooking.fleetCommission= curBooking.selectedBid.fleetadmin ? ((parseFloat( curBooking.selectedBid.trip_cost) - parseFloat(curBooking.selectedBid.convenience_fees)) * (parseFloat(curBooking.fleet_admin_comission) / 100)).toFixed(2) : null;
+        curBooking.fleetCommission = curBooking.selectedBid.fleetadmin ? ((parseFloat(curBooking.selectedBid.trip_cost) - parseFloat(curBooking.selectedBid.convenience_fees)) * (parseFloat(curBooking.fleet_admin_comission) / 100)).toFixed(2) : null;
         curBooking.driverOffers = {};
         curBooking.requestedDrivers = {};
         curBooking.driverEstimates = {};
@@ -341,8 +341,8 @@ const BookingHistory = (props) => {
       curBooking.payableAmount =
         curBooking.status === "ACCEPTED"
           ? parseFloat(curBooking.selectedBid.trip_cost).toFixed(
-              settings.decimal
-            )
+            settings.decimal
+          )
           : parseFloat(curBooking.trip_cost).toFixed(settings.decimal);
 
       if (curBooking.status === "ACCEPTED") {
@@ -359,7 +359,7 @@ const BookingHistory = (props) => {
         curBooking.convenience_fees = curBooking.selectedBid.convenience_fees;
         curBooking.driver_share = curBooking.selectedBid.driver_share;
         curBooking.fleetadmin = curBooking.selectedBid.fleetadmin ? curBooking.selectedBid.fleetadmin : null;
-        curBooking.fleetCommission= curBooking.selectedBid.fleetadmin ? ((parseFloat( curBooking.selectedBid.trip_cost) - parseFloat(curBooking.selectedBid.convenience_fees)) * parseFloat(curBooking.fleet_admin_comission) / 100).toFixed(2):null;
+        curBooking.fleetCommission = curBooking.selectedBid.fleetadmin ? ((parseFloat(curBooking.selectedBid.trip_cost) - parseFloat(curBooking.selectedBid.convenience_fees)) * parseFloat(curBooking.fleet_admin_comission) / 100).toFixed(2) : null;
         curBooking.driverOffers = {};
         curBooking.requestedDrivers = {};
         curBooking.driverEstimates = {};
@@ -462,126 +462,126 @@ const BookingHistory = (props) => {
     <CircularLoading />
   ) : (
     <div>
-      { data?.length >0 ? 
-      <ThemeProvider theme={theme}>
-        <MaterialTable
-          title={t("booking_title")}
-          style={{
-            direction: isRTL === "rtl" ? "rtl" : "ltr",
-            borderRadius: "8px",
-            boxShadow: `0px 2px 5px ${SECONDORY_COLOR}`,
-          }}
-          onChangePage={(page) => handlePaginationChange(page)}
-          columns={columns}
-          data={data}
-          onRowClick={(evt, selectedRow) =>
-            setSelectedRow(selectedRow.tableData.id)
-          }
-          options={{
-            initialPage:state?.pageNo,
-            toolbarbuttonalignment: "right",
-            exportCsv: (columns, data) => {
-              let hArray = [];
-              const headerRow = columns.map((col) => {
-                if (typeof col.title === "object") {
-                  return col.title.props.text;
-                }
-                hArray.push(col.field);
-                return col.title;
-              });
-              const dataRows = data.map(({ tableData, ...row }) => {
-                row.bookingDate =
-                  new Date(row.bookingDate).toLocaleDateString() +
-                  " " +
-                  new Date(row.bookingDate).toLocaleTimeString();
-                row.tripdate =
-                  new Date(row.tripdate).toLocaleDateString() +
-                  " " +
-                  new Date(row.tripdate).toLocaleTimeString();
-                row.pickupAddress = row.pickupAddress.replace(/,/g, ";");
-                row.dropAddress = row.dropAddress.replace(/,/g, ";");
-                let dArr = [];
-                for (let i = 0; i < hArray.length; i++) {
-                  dArr.push(row[hArray[i]]);
-                }
-                return Object.values(dArr);
-              });
-              const { exportDelimiter } = ",";
-              const delimiter = exportDelimiter ? exportDelimiter : ",";
-              const csvContent = [headerRow, ...dataRows]
-                .map((e) => e.join(delimiter))
-                .join("\n");
-              const csvFileName = "download.csv";
-              downloadCsv(csvContent, csvFileName);
-            },
-            exportButton: {
-              csv: settings.AllowCriticalEditsAdmin,
-              pdf: false,
-            },
-            maxColumnSort: "all_columns",
-            rowStyle: (rowData) => ({
-              backgroundColor:
-                selectedRow === rowData.tableData.id ? colors.ROW_SELECTED :colors.WHITE
-            }),
-            maxBodyHeight: "calc(100vh - 199.27px)",
-            ...TableStyle()
-          }}
-          localization={localization(t)}
-          actions={[
-            (rowData) => ({
-              icon: () => (
-                <div
-                  className={classes.action}
-                  style={{
-                    color: colors.Header_Background,
-                    backgroundColor:
-                      rowData.status === "NEW" || rowData.status === "ACCEPTED"
-                        ? colors.Action_Button_Back
-                        : colors.BORDER_BACKGROUND,
-                  }}
-                >
-                  <CancelIcon />
-                  <Typography variant="subtitle2">
-                    {t("cancel_booking")}
-                  </Typography>
-                </div>
-              ),
-              disabled:
-                rowData.status === "NEW" ||
-                rowData.status === "ACCEPTED"
-                  ? false
-                  : true,
-              onClick: (event, rowData) => {
-                if (
-                  settings.AllowCriticalEditsAdmin &&
-                  (role === "customer" ||
-                    role === "admin" ||
-                    role === "fleetadmin")
-                ) {
-                  if (rowData.status === "NEW" || rowData.status === "ACCEPTED") {
-                    setSelectedBooking(rowData);
-                    setOpenConfirm(true);
-                  } else {
-                    setTimeout(() => {
-                      dispatch(
-                        cancelBooking({
-                          reason: t("cancelled_incomplete_booking"),
-                          booking: rowData,
-                          cancelledBy: role,
-                        })
-                      );
-                    }, 1500);
+      {data?.length > 0 ?
+        <ThemeProvider theme={theme}>
+          <MaterialTable
+            title={t("booking_title")}
+            style={{
+              direction: isRTL === "rtl" ? "rtl" : "ltr",
+              borderRadius: "8px",
+              boxShadow: `0px 2px 5px ${SECONDORY_COLOR}`,
+            }}
+            onChangePage={(page) => handlePaginationChange(page)}
+            columns={columns}
+            data={data}
+            onRowClick={(evt, selectedRow) =>
+              setSelectedRow(selectedRow.tableData.id)
+            }
+            options={{
+              initialPage: state?.pageNo,
+              toolbarbuttonalignment: "right",
+              exportCsv: (columns, data) => {
+                let hArray = [];
+                const headerRow = columns.map((col) => {
+                  if (typeof col.title === "object") {
+                    return col.title.props.text;
                   }
-                } else {
-                  alert(t("demo_mode"));
-                }
+                  hArray.push(col.field);
+                  return col.title;
+                });
+                const dataRows = data.map(({ tableData, ...row }) => {
+                  row.bookingDate =
+                    new Date(row.bookingDate).toLocaleDateString() +
+                    " " +
+                    new Date(row.bookingDate).toLocaleTimeString();
+                  row.tripdate =
+                    new Date(row.tripdate).toLocaleDateString() +
+                    " " +
+                    new Date(row.tripdate).toLocaleTimeString();
+                  row.pickupAddress = row.pickupAddress.replace(/,/g, ";");
+                  row.dropAddress = row.dropAddress.replace(/,/g, ";");
+                  let dArr = [];
+                  for (let i = 0; i < hArray.length; i++) {
+                    dArr.push(row[hArray[i]]);
+                  }
+                  return Object.values(dArr);
+                });
+                const { exportDelimiter } = ",";
+                const delimiter = exportDelimiter ? exportDelimiter : ",";
+                const csvContent = [headerRow, ...dataRows]
+                  .map((e) => e.join(delimiter))
+                  .join("\n");
+                const csvFileName = "download.csv";
+                downloadCsv(csvContent, csvFileName);
               },
-            }),
-            (rowData) =>
-              rowData.status === "NEW" &&
-              role === "customer" &&
-              rowData.driverOffers
-                ? {
+              exportButton: {
+                csv: settings.AllowCriticalEditsAdmin,
+                pdf: false,
+              },
+              maxColumnSort: "all_columns",
+              rowStyle: (rowData) => ({
+                backgroundColor:
+                  selectedRow === rowData.tableData.id ? colors.ROW_SELECTED : colors.WHITE
+              }),
+              maxBodyHeight: "calc(100vh - 199.27px)",
+              ...TableStyle()
+            }}
+            localization={localization(t)}
+            actions={[
+              (rowData) => ({
+                icon: () => (
+                  <div
+                    className={classes.action}
+                    style={{
+                      color: colors.Header_Background,
+                      backgroundColor:
+                        rowData.status === "NEW" || rowData.status === "ACCEPTED"
+                          ? colors.Action_Button_Back
+                          : colors.BORDER_BACKGROUND,
+                    }}
+                  >
+                    <CancelIcon />
+                    <Typography variant="subtitle2">
+                      {t("cancel_booking")}
+                    </Typography>
+                  </div>
+                ),
+                disabled:
+                  rowData.status === "NEW" ||
+                    rowData.status === "ACCEPTED"
+                    ? false
+                    : true,
+                onClick: (event, rowData) => {
+                  if (
+                    settings.AllowCriticalEditsAdmin &&
+                    (role === "customer" ||
+                      role === "admin" ||
+                      role === "fleetadmin")
+                  ) {
+                    if (rowData.status === "NEW" || rowData.status === "ACCEPTED") {
+                      setSelectedBooking(rowData);
+                      setOpenConfirm(true);
+                    } else {
+                      setTimeout(() => {
+                        dispatch(
+                          cancelBooking({
+                            reason: t("cancelled_incomplete_booking"),
+                            booking: rowData,
+                            cancelledBy: role,
+                          })
+                        );
+                      }, 1500);
+                    }
+                  } else {
+                    alert(t("demo_mode"));
+                  }
+                },
+              }),
+              (rowData) =>
+                rowData.status === "NEW" &&
+                  role === "customer" &&
+                  rowData.driverOffers
+                  ? {
                     icon: () => (
                       <div
                         className={classes.action}
@@ -611,13 +611,13 @@ const BookingHistory = (props) => {
                       setBidModalStatus(true);
                     },
                   }
-                : null,
-            (rowData) =>
-              rowData.status === "NEW" &&
-              (role === "admin" || role === "fleetadmin") &&
-              settings.autoDispatch === false &&
-              showEst
-                ? {
+                  : null,
+              (rowData) =>
+                rowData.status === "NEW" &&
+                  (role === "admin" || role === "fleetadmin") &&
+                  settings.autoDispatch === false &&
+                  showEst
+                  ? {
                     icon: () => (
                       <div
                         className={classes.action}
@@ -646,10 +646,10 @@ const BookingHistory = (props) => {
                       setRowIndex(rowData.tableData.id);
                     },
                   }
-                : null,
-            (rowData) =>
-              (rowData.status === "PAYMENT_PENDING" || rowData.status ===  "PENDING") && role === "customer"
-                ? {
+                  : null,
+              (rowData) =>
+                (rowData.status === "PAYMENT_PENDING" || rowData.status === "PENDING") && role === "customer"
+                  ? {
                     icon: () => (
                       <div
                         className={classes.action}
@@ -677,10 +677,10 @@ const BookingHistory = (props) => {
                       processPayment(rowData);
                     },
                   }
-                : null,
-            (rowData) =>
-              rowData.status === "STARTED" && role === "admin"
-                ? {
+                  : null,
+              (rowData) =>
+                rowData.status === "STARTED" && role === "admin"
+                  ? {
                     icon: () => (
                       <div
                         className={classes.action}
@@ -708,17 +708,17 @@ const BookingHistory = (props) => {
                       dispatch(forceEndBooking(rowData));
                     },
                   }
-                : null,
-            {
-              icon: "info",
-              tooltip: t("booking_details"),
-              onClick: (event, rowData) => {
-                navigate(`/bookings/bookingdetails/${rowData.id}`,{state:{ pageNo: currentPage}})
-              },
-            }
-          ]}
-        />
-      </ThemeProvider> : <BlankTable title={t('booking_title')}  columns={columns}  data={[]} localization={localization(t)} options={TableStyle()}/>}
+                  : null,
+              {
+                icon: "info",
+                tooltip: t("booking_details"),
+                onClick: (event, rowData) => {
+                  navigate(`/bookings/bookingdetails/${rowData.id}`, { state: { pageNo: currentPage } })
+                },
+              }
+            ]}
+          />
+        </ThemeProvider> : <BlankTable title={t('booking_title')} columns={columns} data={[]} localization={localization(t)} options={TableStyle()} />}
       <BidModal
         ref={rootRef.current}
         role={role}
@@ -736,12 +736,12 @@ const BookingHistory = (props) => {
         handleChange={handleChange}
       />
       {selectedBooking &&
-      selectedBooking.payment_mode === "wallet" &&
-      (selectedBooking.status === "PENDING" ||
-        (selectedBooking &&
-          selectedBooking.selectedBid &&
-          selectedBooking.status === "NEW")) &&
-      role === "customer" ? (
+        selectedBooking.payment_mode === "wallet" &&
+        (selectedBooking.status === "PENDING" ||
+          (selectedBooking &&
+            selectedBooking.selectedBid &&
+            selectedBooking.status === "NEW")) &&
+        role === "customer" ? (
         <Modal
           disablePortal
           disableEnforceFocus
@@ -760,17 +760,17 @@ const BookingHistory = (props) => {
               lg={12}
               style={{ marginBottom: "20px" }}
             >
-              <Typography style={{ fontWeight: "bolder", marginBottom: 10 ,fontFamily: FONT_FAMILY,}}>
+              <Typography style={{ fontWeight: "bolder", marginBottom: 10, fontFamily: FONT_FAMILY, }}>
                 {t("payment")}
               </Typography>
               {selectedBooking ? (
-                <Typography color={"primary"} style={{ fontSize: 30 ,fontFamily: FONT_FAMILY}}>
+                <Typography color={"primary"} style={{ fontSize: 30, fontFamily: FONT_FAMILY }}>
                   {settings.swipe_symbol === false
                     ? settings.symbol + selectedBooking.trip_cost
                     : selectedBooking.trip_cost + settings.symbol}
                 </Typography>
               ) : null}
-              <Typography style={{fontFamily: FONT_FAMILY}}>
+              <Typography style={{ fontFamily: FONT_FAMILY }}>
                 {t("use_wallet_balance") +
                   " " +
                   (settings.swipe_symbol === false
@@ -783,14 +783,14 @@ const BookingHistory = (props) => {
               <Button
                 onClick={handleWalletModalClose}
                 variant="contained"
-                style={{backgroundColor:colors.RED, fontFamily: FONT_FAMILY }}
+                style={{ backgroundColor: colors.RED, fontFamily: FONT_FAMILY }}
               >
                 {t("cancel")}
               </Button>
               <Button
                 variant="contained"
                 color="primary"
-                style={{ marginLeft: 10 , backgroundColor:colors.GREEN, fontFamily: FONT_FAMILY }}
+                style={{ marginLeft: 10, backgroundColor: colors.GREEN, fontFamily: FONT_FAMILY }}
                 onClick={handleWalletPayment}
               >
                 {t("paynow_button")}
@@ -800,13 +800,13 @@ const BookingHistory = (props) => {
         </Modal>
       ) : null}
       {selectedBooking &&
-      selectedBooking.paymentPacket &&
-      selectedBooking.payment_mode === "card" &&
-      ((selectedBooking.status === "PENDING" || selectedBooking.status === "PAYMENT_PENDING") ||
-        (selectedBooking &&
-          selectedBooking.selectedBid &&
-          selectedBooking.status === "NEW")) &&
-      role === "customer" ? (
+        selectedBooking.paymentPacket &&
+        selectedBooking.payment_mode === "card" &&
+        ((selectedBooking.status === "PENDING" || selectedBooking.status === "PAYMENT_PENDING") ||
+          (selectedBooking &&
+            selectedBooking.selectedBid &&
+            selectedBooking.status === "NEW")) &&
+        role === "customer" ? (
         <Modal
           disablePortal
           disableEnforceFocus
@@ -891,34 +891,34 @@ const BookingHistory = (props) => {
                   lg={12}
                   style={{ marginBottom: "20px" }}
                 >
-               <FormControl fullWidth style={{ fontFamily: FONT_FAMILY }}>
-                  <FormLabel component="legend" style={{ fontFamily: FONT_FAMILY }}> {t("payment")} </FormLabel>
-                  <Select
-                    id="selectedProviderIndex"
-                    name="selectedProviderIndex"
-                    value={selectedProviderIndex}
-                    label={t("payment")}
-                    onChange={handleChange}
-                    style={{ textAlign: isRTL === "rtl" ? "right" : "left", fontFamily: FONT_FAMILY }}
-                    inputProps={{ "aria-label": "Without label", style: { fontFamily: FONT_FAMILY } }}
-                  >
-                    {providers.map((provider, index) => (
-                      <MenuItem key={provider.name} value={index} style={{ fontFamily: FONT_FAMILY }}>
-                        <img
-                          style={{ height: 24, margin: 7 }}
-                          src={icons[provider.name]}
-                          alt={provider.name}
-                        />{" "}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                  <FormControl fullWidth style={{ fontFamily: FONT_FAMILY }}>
+                    <FormLabel component="legend" style={{ fontFamily: FONT_FAMILY }}> {t("payment")} </FormLabel>
+                    <Select
+                      id="selectedProviderIndex"
+                      name="selectedProviderIndex"
+                      value={selectedProviderIndex}
+                      label={t("payment")}
+                      onChange={handleChange}
+                      style={{ textAlign: isRTL === "rtl" ? "right" : "left", fontFamily: FONT_FAMILY }}
+                      inputProps={{ "aria-label": "Without label", style: { fontFamily: FONT_FAMILY } }}
+                    >
+                      {providers.map((provider, index) => (
+                        <MenuItem key={provider.name} value={index} style={{ fontFamily: FONT_FAMILY }}>
+                          <img
+                            style={{ height: 24, margin: 7 }}
+                            src={icons[provider.name]}
+                            alt={provider.name}
+                          />{" "}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={12} md={12} lg={12}>
                   <Button
                     onClick={handlePaymentModalClose}
                     variant="contained"
-                    style={{  backgroundColor:colors.RED,fontFamily: FONT_FAMILY }}
+                    style={{ backgroundColor: colors.RED, fontFamily: FONT_FAMILY }}
                   >
                     {t("cancel")}
                   </Button>
@@ -926,7 +926,7 @@ const BookingHistory = (props) => {
                     variant="contained"
                     color="primary"
                     type="submit"
-                    style={{ marginLeft: 10 , backgroundColor:colors.GREEN, fontFamily: FONT_FAMILY }}
+                    style={{ marginLeft: 10, backgroundColor: colors.GREEN, fontFamily: FONT_FAMILY }}
                     onClick={handlePaymentModalClose}
                   >
                     {t("paynow_button")}
@@ -959,7 +959,7 @@ const BookingHistory = (props) => {
                   component="h1"
                   variant="h5"
                   className={classes.title}
-                  style={{ textAlign: isRTL === "rtl" ? "right" : "left", fontFamily: FONT_FAMILY}}
+                  style={{ textAlign: isRTL === "rtl" ? "right" : "left", fontFamily: FONT_FAMILY }}
                 >
                   {t("select_driver")}
                 </Typography>
@@ -991,7 +991,7 @@ const BookingHistory = (props) => {
                 <Button
                   onClick={handleClose}
                   variant="contained"
-                  style={{  backgroundColor:colors.RED, fontFamily: FONT_FAMILY }}
+                  style={{ backgroundColor: colors.RED, fontFamily: FONT_FAMILY }}
                 >
                   {t("cancel")}
                 </Button>
@@ -1001,7 +1001,7 @@ const BookingHistory = (props) => {
                   color="primary"
                   style={{
                     ...(isRTL === "rtl" ? { marginRight: 10 } : { marginLeft: 10 }),
-                    backgroundColor:colors.RED,
+                    backgroundColor: colors.RED,
                     fontFamily: FONT_FAMILY,
                   }}
                 >
