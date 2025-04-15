@@ -1227,7 +1227,7 @@ export default function MapScreen(props) {
             </View>
             <View style={styles.menuIcon}>
                 <ImageBackground source={require('../../assets/images/white-grad6.png')} style={{ height: '100%', width: '100%' }}>
-                    <Text style={{ color: colors.WHITE, fontFamily: fonts.Bold, fontSize: 20, alignSelf: 'center', marginTop: Platform.OS == 'android' ? (__DEV__ ? 20 : 40) : (hasNotch ? 48 : 20) }}>{((tripdata.pickup && tripdata.pickup.source == 'mapSelect') || (tripdata.drop && tripdata.drop.source == 'mapSelect')) ? t("drag_map") : t("book_ride")}</Text>
+                    <Text style={{ color: colors.BLACK, fontFamily: fonts.Bold, fontSize: 20, alignSelf: 'center', marginTop: Platform.OS == 'android' ? (__DEV__ ? 20 : 40) : (hasNotch ? 48 : 20) }}>{((tripdata.pickup && tripdata.pickup.source == 'mapSelect') || (tripdata.drop && tripdata.drop.source == 'mapSelect')) ? t("drag_map") : t("book_ride")}</Text>
                 </ImageBackground>
             </View>
 
