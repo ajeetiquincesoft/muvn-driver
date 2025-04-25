@@ -58,7 +58,7 @@ export default function AppCommon({ children }) {
   const tasks = useSelector(state => state.taskdata.tasks);
   const [sound, setSound] = useState();
   const [playedSounds, setPlayedSounds] = useState([]);
-  const [deviceId,setDeviceId] = useState();
+  const [deviceId, setDeviceId] = useState();
   const [playing, setPlaying] = useState();
 
   const loadSound = async () => {
@@ -70,34 +70,34 @@ export default function AppCommon({ children }) {
       shouldDuckAndroid: true,
     });
 
-    const { sound } = await Audio.Sound.createAsync(settings.CarHornRepeat?require('./assets/sounds/repeat.wav'):require('./assets/sounds/horn.wav'));
+    const { sound } = await Audio.Sound.createAsync(settings.CarHornRepeat ? require('./assets/sounds/repeat.wav') : require('./assets/sounds/horn.wav'));
     setSound(sound);
   }
-  
-  useEffect(()=>{
-    if(settings){
-      loadSound();
-    }
-  },[settings]);
 
   useEffect(() => {
-      AsyncStorage.getItem('deviceId', (err, result) => {
-        if (result) {
-          setDeviceId(result);
-        } else {
-          const ID = "id" + new Date().getTime();
-          AsyncStorage.setItem('deviceId',ID);
-          setDeviceId(ID);
-        }
-      });
+    if (settings) {
+      loadSound();
+    }
+  }, [settings]);
+
+  useEffect(() => {
+    AsyncStorage.getItem('deviceId', (err, result) => {
+      if (result) {
+        setDeviceId(result);
+      } else {
+        const ID = "id" + new Date().getTime();
+        AsyncStorage.setItem('deviceId', ID);
+        setDeviceId(ID);
+      }
+    });
   }, []);
 
   useEffect(() => {
     if (api) {
-        dispatch(api.fetchSettings());
-        dispatch(api.fetchLanguages());
-        dispatch(api.fetchCarTypes());
-        langCalled.current = true;
+      dispatch(api.fetchSettings());
+      dispatch(api.fetchLanguages());
+      dispatch(api.fetchCarTypes());
+      langCalled.current = true;
     }
   }, [api]);
 
@@ -124,7 +124,7 @@ export default function AppCommon({ children }) {
       });
       dispatch(api.fetchUser());
     }
-  }, [languagedata.langlist,langCalled.current]);
+  }, [languagedata.langlist, langCalled.current]);
 
   useEffect(() => {
     if (auth.profile && auth.profile.usertype && auth.profile.usertype == 'driver' && tasks && tasks.length > 0) {
@@ -139,7 +139,7 @@ export default function AppCommon({ children }) {
       }
     } else {
       if (playbackStatus.isPlaying) {
-         setPlaying(true);
+        setPlaying(true);
       } else {
         setPlaying(false);
       }
@@ -155,11 +155,11 @@ export default function AppCommon({ children }) {
   };
 
   const notifyBooking = async () => {
-    for(let i=0;i<tasks.length;i++){
-      if(!playedSounds.includes(tasks[i].id)){
+    for (let i = 0; i < tasks.length; i++) {
+      if (!playedSounds.includes(tasks[i].id)) {
         let newArr = [...playedSounds];
         newArr.push(tasks[i].id);
-        if(!playing){
+        if (!playing) {
           sound.playAsync();
           sound.setOnPlaybackStatusUpdate(_onPlaybackStatusUpdate);
         }
@@ -171,7 +171,7 @@ export default function AppCommon({ children }) {
   useEffect(() => {
     if (gps.location && gps.location.lat && gps.location.lng) {
       locationLoading.current = false;
-      if (auth.profile && auth.profile.usertype && auth.profile.usertype == 'driver' ) {
+      if (auth.profile && auth.profile.usertype && auth.profile.usertype == 'driver') {
         api.saveUserLocation({
           lat: gps.location.lat,
           lng: gps.location.lng
@@ -189,7 +189,7 @@ export default function AppCommon({ children }) {
             });
           }
         }
-        if(!lastLocation && activeBooking.status == 'ACCEPTED'){
+        if (!lastLocation && activeBooking.status == 'ACCEPTED') {
           api.saveTracking(activeBooking.id, {
             at: new Date().getTime(),
             status: activeBooking.status,
@@ -260,7 +260,7 @@ export default function AppCommon({ children }) {
         store.dispatch({
           type: 'UPDATE_GPS_LOCATION',
           payload: {
-            error:true
+            error: true
           }
         });
         locationLoading.current = false;
@@ -279,7 +279,7 @@ export default function AppCommon({ children }) {
 
   const saveToken = async () => {
     let token = await GetPushToken();
-    if((auth.profile && auth.profile.pushToken && auth.profile.pushToken != token) || !(auth.profile && auth.profile.pushToken) ){
+    if ((auth.profile && auth.profile.pushToken && auth.profile.pushToken != token) || !(auth.profile && auth.profile.pushToken)) {
       api.updatePushToken(
         token ? token : 'token_error',
         Platform.OS == 'ios' ? 'IOS' : 'ANDROID'
@@ -307,7 +307,7 @@ export default function AppCommon({ children }) {
         store.dispatch({
           type: 'UPDATE_GPS_LOCATION',
           payload: {
-            error:true
+            error: true
           }
         });
         locationLoading.current = false;
@@ -316,7 +316,7 @@ export default function AppCommon({ children }) {
       store.dispatch({
         type: 'UPDATE_GPS_LOCATION',
         payload: {
-          error:true
+          error: true
         }
       });
       locationLoading.current = false;
@@ -358,7 +358,7 @@ export default function AppCommon({ children }) {
             store.dispatch({
               type: 'UPDATE_GPS_LOCATION',
               payload: {
-                error:true
+                error: true
               }
             });
             locationLoading.current = false;
@@ -371,7 +371,7 @@ export default function AppCommon({ children }) {
           store.dispatch({
             type: 'UPDATE_GPS_LOCATION',
             payload: {
-              error:true
+              error: true
             }
           });
           locationLoading.current = false;
@@ -381,7 +381,7 @@ export default function AppCommon({ children }) {
       store.dispatch({
         type: 'UPDATE_GPS_LOCATION',
         payload: {
-          error:true
+          error: true
         }
       });
       locationLoading.current = false;
@@ -429,42 +429,42 @@ export default function AppCommon({ children }) {
     if (auth.profile && languagedata && languagedata.langlist && settings && initialFunctionsNotCalled.current) {
       authStillNotResponded.current = false;
       if (auth.profile.usertype) {
-        authState.current= auth.profile.usertype;
+        authState.current = auth.profile.usertype;
         if (auth.profile.lang) {
           const lang = auth.profile.lang;
           i18n.locale = lang['langLocale'];
           moment.locale(lang['dateLocale']);
         }
         let role = auth.profile.usertype;
-          saveToken();
-          fetchingToken.current = false;
-          if (role === 'customer') {
-            dispatch(api.fetchDrivers('app'));
-            dispatch(api.fetchBookings());
-            dispatch(api.fetchCancelReasons());
-            dispatch(api.fetchPaymentMethods());
-            dispatch(api.fetchPromos());
-            dispatch(api.fetchUserNotifications());
-            dispatch(api.fetchAddresses());
-            dispatch(api.fetchWalletHistory());
-            dispatch(api.fetchComplain());
-            initialFunctionsNotCalled.current = false;
-          } else if (role === 'driver') {
-            dispatch(api.fetchBookings());
-            dispatch(api.fetchPaymentMethods());
-            dispatch(api.fetchTasks());
-            dispatch(api.fetchUserNotifications());
-            dispatch(api.fetchCars());
-            dispatch(api.fetchWalletHistory());
-            dispatch(api.fetchPromos());
-            dispatch(api.fetchCancelReasons());
-            dispatch(api.fetchComplain());
-            initialFunctionsNotCalled.current = false;
-          }
-          else {
-            Alert.alert(t('alert'), t('not_valid_user_type'));
-            dispatch(api.signOff());
-          }
+        saveToken();
+        fetchingToken.current = false;
+        if (role === 'customer') {
+          dispatch(api.fetchDrivers('app'));
+          dispatch(api.fetchBookings());
+          dispatch(api.fetchCancelReasons());
+          dispatch(api.fetchPaymentMethods());
+          dispatch(api.fetchPromos());
+          dispatch(api.fetchUserNotifications());
+          dispatch(api.fetchAddresses());
+          dispatch(api.fetchWalletHistory());
+          dispatch(api.fetchComplain());
+          initialFunctionsNotCalled.current = false;
+        } else if (role === 'driver') {
+          dispatch(api.fetchBookings());
+          dispatch(api.fetchPaymentMethods());
+          dispatch(api.fetchTasks());
+          dispatch(api.fetchUserNotifications());
+          dispatch(api.fetchCars());
+          dispatch(api.fetchWalletHistory());
+          dispatch(api.fetchPromos());
+          dispatch(api.fetchCancelReasons());
+          dispatch(api.fetchComplain());
+          initialFunctionsNotCalled.current = false;
+        }
+        else {
+          Alert.alert(t('alert'), t('not_valid_user_type'));
+          dispatch(api.signOff());
+        }
       } else {
         Alert.alert(t('alert'), t('user_issue_contact_admin'));
         dispatch(api.signOff());
@@ -476,7 +476,7 @@ export default function AppCommon({ children }) {
   useEffect(() => {
     if (api && languagedata && languagedata.langlist && auth.error && auth.error.msg && !auth.profile && settings) {
       locationLoading.current = false;
-      authState.current= 'failed';
+      authState.current = 'failed';
       authStillNotResponded.current = false;
       initialFunctionsNotCalled.current = true;
       fetchingToken.current = false;

@@ -23,7 +23,7 @@ import {
 import CircularProgress from '@mui/material/CircularProgress';
 import Grid from '@mui/material/Grid';
 import { colors } from '../components/Theme/WebTheme';
-import {MAIN_COLOR, FONT_FAMILY} from "../common/sharedFunctions"
+import { MAIN_COLOR, FONT_FAMILY } from "../common/sharedFunctions"
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -58,7 +58,7 @@ const useStyles = makeStyles(theme => ({
   container1: {
     display: "flex",
     flexDirection: "column",
-    backgroundColor: colors.Header_Text,
+    backgroundColor: colors.WHITE,
     borderRadius: "19px",
     padding: '30px',
     width: '100%',
@@ -290,7 +290,7 @@ const MyProfile = () => {
   const completeSubmit = () => {
     setUpdateCalled(true);
     let arr = Object.keys(languagedata.langlist);
-    localStorage.setItem('lang', JSON.stringify({langLocale: multiLanguage[arr[langSelection]].langLocale, dateLocale: multiLanguage[arr[langSelection]].dateLocale}));
+    localStorage.setItem('lang', JSON.stringify({ langLocale: multiLanguage[arr[langSelection]].langLocale, dateLocale: multiLanguage[arr[langSelection]].dateLocale }));
 
     dispatch(updateProfile({
       firstName: data.firstName,
@@ -359,7 +359,7 @@ const MyProfile = () => {
                 if (settings.customMobileOTP) {
                   dispatch(requestMobileOtp(data.mobile));
                 } else {
-                  window.recaptchaVerifier = await new RecaptchaVerifier(authRef(),'sign-in-button', {
+                  window.recaptchaVerifier = await new RecaptchaVerifier(authRef(), 'sign-in-button', {
                     'size': 'invisible'
                   });
 
@@ -449,9 +449,9 @@ const MyProfile = () => {
         <CssBaseline />
         <div id="sign-in-button" />
         <div className={classes.paper}>
-         
+
           <form className={classes.form} onSubmit={handleSubmit} style={{ direction: isRTL === 'rtl' ? 'rtl' : 'ltr' }}>
-           
+
 
             <div className={classes.container1}>
               <Typography component="h1" variant="h5" className={classes.title}>
@@ -493,7 +493,7 @@ const MyProfile = () => {
                 autoFocus
               />
               <TextField
-                className={isRTL === "rtl" ? classes.rootRtl_1 :classes.textField}
+                className={isRTL === "rtl" ? classes.rootRtl_1 : classes.textField}
                 variant="outlined"
                 margin="normal"
                 required
@@ -534,7 +534,7 @@ const MyProfile = () => {
                 dir="ltr"
               />
               <TextField
-                className={isRTL === "rtl" ? classes.rootRtl :classes.textField}
+                className={isRTL === "rtl" ? classes.rootRtl : classes.textField}
                 variant="outlined"
                 margin="normal"
                 fullWidth
@@ -565,11 +565,11 @@ const MyProfile = () => {
                   value={langSelection}
                   variant="outlined"
                   onChange={handleLanguageSelect}
-                  style={{ backgroundColor: colors.WHITE, width: '100%', marginTop: '16px',justifyContent:"flex-end" }}
+                  style={{ backgroundColor: colors.WHITE, width: '100%', marginTop: '16px', justifyContent: "flex-end" }}
                 >
                   {
-                    Object.keys(multiLanguage).map((key, index) => <MenuItem key={key} value={index} style={{justifyContent:isRTL === 'rtl' ? "flex-end" : "flex-start"}}>
-                      <Typography style={{fontFamily:FONT_FAMILY}}>{multiLanguage[key].langName}</Typography>
+                    Object.keys(multiLanguage).map((key, index) => <MenuItem key={key} value={index} style={{ justifyContent: isRTL === 'rtl' ? "flex-end" : "flex-start" }}>
+                      <Typography style={{ fontFamily: FONT_FAMILY }}>{multiLanguage[key].langName}</Typography>
                     </MenuItem>)
                   }
                 </Select>

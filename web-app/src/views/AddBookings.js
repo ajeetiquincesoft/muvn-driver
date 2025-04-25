@@ -20,13 +20,13 @@ import UsersCombo from '../components/UsersCombo';
 import { api } from 'common';
 import Button from "components/CustomButtons/Button.js";
 import { useTranslation } from "react-i18next";
-import {colors} from '../components/Theme/WebTheme';
+import { colors } from '../components/Theme/WebTheme';
 import { BookingModalBody, validateBookingObj } from 'common/sharedFunctions';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { calcEst, showEst, optionsRequired} from '../common/sharedFunctions';
+import { calcEst, showEst, optionsRequired } from '../common/sharedFunctions';
 import DialogActions from '@mui/material/DialogActions';
 import CircularProgress from '@mui/material/CircularProgress';
-import {MAIN_COLOR, SECONDORY_COLOR, FONT_FAMILY} from "../common/sharedFunctions"
+import { MAIN_COLOR, SECONDORY_COLOR, FONT_FAMILY } from "../common/sharedFunctions"
 import { getLangKey } from 'common/src/other/getLangKey';
 
 const useStyles = makeStyles(theme => ({
@@ -39,10 +39,10 @@ const useStyles = makeStyles(theme => ({
     body: {
       backgroundColor: theme.palette.common.white,
     },
-    fontFamily:FONT_FAMILY
+    fontFamily: FONT_FAMILY
   },
-  typography:{
-    fontFamily:FONT_FAMILY,
+  typography: {
+    fontFamily: FONT_FAMILY,
   },
   modal: {
     display: 'flex',
@@ -51,7 +51,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
   },
   paper: {
-    width:480,
+    width: 480,
     backgroundColor: theme.palette.background.paper,
     border: `2px solid ${colors.BLACK}`,
     boxShadow: theme.shadows[5],
@@ -63,15 +63,15 @@ const useStyles = makeStyles(theme => ({
     alignContent: 'center',
     borderRadius: "8px",
     width: '70%',
-   
+
   },
   container1: {
     backgroundColor: colors.LandingPage_Background,
-    borderTopLeftRadius:"0px",
-    borderTopRightRadius:"0px",
+    borderTopLeftRadius: "0px",
+    borderTopRightRadius: "0px",
     borderBottomLeftRadius: "8px",
     borderBottomRightRadius: "8px",
-    padding:'30px',
+    padding: '30px',
     width: '100%',
     top: "19px",
     boxShadow: `0px 2px 5px ${SECONDORY_COLOR}`,
@@ -79,10 +79,10 @@ const useStyles = makeStyles(theme => ({
   title: {
     color: colors.WHITE,
     padding: '10px',
-    backgroundColor:MAIN_COLOR,
-    fontFamily:FONT_FAMILY,
-    borderRadius:"10px",
-    fontSize:18,
+    backgroundColor: MAIN_COLOR,
+    fontFamily: FONT_FAMILY,
+    borderRadius: "10px",
+    fontSize: 18,
 
   },
   gridcontainer: {
@@ -95,20 +95,20 @@ const useStyles = makeStyles(theme => ({
   input: {
     fontSize: 18,
     color: colors.BLACK,
-    fontFamily:FONT_FAMILY,
+    fontFamily: FONT_FAMILY,
   },
   inputdimmed: {
     fontSize: 18,
     color: colors.CARD_LABEL,
-    fontFamily:FONT_FAMILY,
+    fontFamily: FONT_FAMILY,
   },
   carphoto: {
     height: '18px',
     marginRight: '10px'
   },
-  carphotoRtl:{
+  carphotoRtl: {
     height: '16px',
-    marginLeft:'10px'
+    marginLeft: '10px'
   },
   buttonStyle: {
     margin: 0,
@@ -116,27 +116,27 @@ const useStyles = makeStyles(theme => ({
     height: 40,
     borderRadius: "30px",
     backgroundColor: MAIN_COLOR,
-    color:colors.WHITE,
-    fontFamily:FONT_FAMILY,
+    color: colors.WHITE,
+    fontFamily: FONT_FAMILY,
   },
-  buttonStyle1:{
+  buttonStyle1: {
     backgroundColor: MAIN_COLOR,
-    fontFamily:FONT_FAMILY
+    fontFamily: FONT_FAMILY
   },
-  buttonStyle2:{
+  buttonStyle2: {
     backgroundColor: SECONDORY_COLOR,
-    fontFamily:FONT_FAMILY
+    fontFamily: FONT_FAMILY
   },
   inputRtl: {
     "& label": {
       right: 25,
       left: "auto",
-      fontFamily:FONT_FAMILY,
+      fontFamily: FONT_FAMILY,
     },
     "& legend": {
       textAlign: "right",
       marginRight: 18,
-      fontFamily:FONT_FAMILY,
+      fontFamily: FONT_FAMILY,
     },
     "& label.Mui-focused": {
       color: MAIN_COLOR,
@@ -156,10 +156,10 @@ const useStyles = makeStyles(theme => ({
       fontFamily: FONT_FAMILY,
     },
   },
-  rightRty:{
+  rightRty: {
     "& legend": {
       marginRight: 30,
-      fontFamily:FONT_FAMILY,
+      fontFamily: FONT_FAMILY,
     },
     "& input": {
       fontFamily: FONT_FAMILY,
@@ -187,31 +187,31 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const icons = {
-  'paypal':require('../assets/payment-icons/paypal-logo.png').default,
-  'braintree':require('../assets/payment-icons/braintree-logo.png').default,
-  'stripe':require('../assets/payment-icons/stripe-logo.png').default,
-  'paytm':require('../assets/payment-icons/paytm-logo.png').default,
-  'payulatam':require('../assets/payment-icons/payulatam-logo.png').default,
-  'flutterwave':require('../assets/payment-icons/flutterwave-logo.png').default,
-  'paystack':require('../assets/payment-icons/paystack-logo.png').default,
-  'securepay':require('../assets/payment-icons/securepay-logo.png').default,
-  'payfast':require('../assets/payment-icons/payfast-logo.png').default,
-  'liqpay':require('../assets/payment-icons/liqpay-logo.png').default,
-  'culqi':require('../assets/payment-icons/culqi-logo.png').default,
-  'mercadopago':require('../assets/payment-icons/mercadopago-logo.png').default,
-  'squareup':require('../assets/payment-icons/squareup-logo.png').default,
-  'wipay':require('../assets/payment-icons/wipay-logo.png').default,
-  'test':require('../assets/payment-icons/test-logo.png').default,
-  'razorpay':require('../assets/payment-icons/razorpay-logo.png').default,
-  'paymongo':require('../assets/payment-icons/paymongo-logo.png').default,
-  'iyzico':require('../assets/payment-icons/iyzico-logo.png').default,
-  'slickpay':require('../assets/payment-icons/slickpay-logo.png').default,
-  'xendit':require('../assets/payment-icons/xendit-logo.png').default,
-  'tap':require('../assets/payment-icons/tap-logo.png').default
+  'paypal': require('../assets/payment-icons/paypal-logo.png').default,
+  'braintree': require('../assets/payment-icons/braintree-logo.png').default,
+  'stripe': require('../assets/payment-icons/stripe-logo.png').default,
+  'paytm': require('../assets/payment-icons/paytm-logo.png').default,
+  'payulatam': require('../assets/payment-icons/payulatam-logo.png').default,
+  'flutterwave': require('../assets/payment-icons/flutterwave-logo.png').default,
+  'paystack': require('../assets/payment-icons/paystack-logo.png').default,
+  'securepay': require('../assets/payment-icons/securepay-logo.png').default,
+  'payfast': require('../assets/payment-icons/payfast-logo.png').default,
+  'liqpay': require('../assets/payment-icons/liqpay-logo.png').default,
+  'culqi': require('../assets/payment-icons/culqi-logo.png').default,
+  'mercadopago': require('../assets/payment-icons/mercadopago-logo.png').default,
+  'squareup': require('../assets/payment-icons/squareup-logo.png').default,
+  'wipay': require('../assets/payment-icons/wipay-logo.png').default,
+  'test': require('../assets/payment-icons/test-logo.png').default,
+  'razorpay': require('../assets/payment-icons/razorpay-logo.png').default,
+  'paymongo': require('../assets/payment-icons/paymongo-logo.png').default,
+  'iyzico': require('../assets/payment-icons/iyzico-logo.png').default,
+  'slickpay': require('../assets/payment-icons/slickpay-logo.png').default,
+  'xendit': require('../assets/payment-icons/xendit-logo.png').default,
+  'tap': require('../assets/payment-icons/tap-logo.png').default
 }
 
 export default function AddBookings(props) {
-  const { t, i18n  } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isRTL = i18n.dir();
   const {
     getEstimate,
@@ -249,17 +249,17 @@ export default function AddBookings(props) {
   const [bookingType, setBookingType] = useState('Book Now');
   const rootRef = useRef(null);
   const [tempRoute, setTempRoute] = useState();
-  const [drivers,setDrivers] = useState([]);
+  const [drivers, setDrivers] = useState([]);
   const [paymentModalStatus, setPaymentModalStatus] = useState(false);
   const [walletModalStatus, setWalletModalStatus] = useState(false);
-  const {state} = useLocation();
+  const { state } = useLocation();
   const [selectedProvider, setSelectedProvider] = useState();
   const [selectedProviderIndex, setSelectedProviderIndex] = useState(0);
   const [roundTrip, setRoundTrip] = useState(0);
   const [tripInstructions, setTripInstructions] = useState('');
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
-  const [bookingOnWait,setBookingOnWait] = useState();
+  const [bookingOnWait, setBookingOnWait] = useState();
   const [deliveryWithBid, setDeliveryWithBid] = useState(0);
   const [otherPerson, setOtherPerson] = useState(false);
   const [offerFare, setOfferFare] = useState('');
@@ -267,14 +267,14 @@ export default function AddBookings(props) {
 
   useEffect(() => {
     if (settings && settings.bookingFlow) {
-        setDeliveryWithBid(settings.bookingFlow === "2" ? 1 : 0)
+      setDeliveryWithBid(settings.bookingFlow === "2" ? 1 : 0)
     }
   }, [settings, settings.bookingFlow])
 
 
 
-  const [instructionData,setInstructionData] = useState({
-    otherPerson : "",
+  const [instructionData, setInstructionData] = useState({
+    otherPerson: "",
     otherPersonPhone: "",
     pickUpInstructions: "",
     deliveryInstructions: "",
@@ -284,40 +284,40 @@ export default function AddBookings(props) {
     optionSelected: null
   });
 
-  const [profileData,setProfileData] = useState({
-    firstName : '',
-    lastName : '',
+  const [profileData, setProfileData] = useState({
+    firstName: '',
+    lastName: '',
     email: ''
   });
 
   const [payment_mode, setPaymentMode] = useState(0);
-  const [radioProps,setRadioProps] =  useState([]);
+  const [radioProps, setRadioProps] = useState([]);
 
   const navigate = useNavigate();
 
-  useEffect(()=>{
-      if(settings && providers){
-        setSelectedProvider(providers[0]);
-        let arr = [{ label: t('wallet'), value: 0, cat: 'wallet' }];
-        let val = 0;
-        if(!settings.disable_online && providers && providers.length > 0){
-            val++;
-            arr.push({ label: t('card'), value: val , cat: 'card' });
-        }
-        if(!settings.disable_cash){
-            val++;
-            arr.push({ label: t('cash'), value: val, cat: 'cash' });
-        }
-        setRadioProps(arr);
+  useEffect(() => {
+    if (settings && providers) {
+      setSelectedProvider(providers[0]);
+      let arr = [{ label: t('wallet'), value: 0, cat: 'wallet' }];
+      let val = 0;
+      if (!settings.disable_online && providers && providers.length > 0) {
+        val++;
+        arr.push({ label: t('card'), value: val, cat: 'card' });
       }
-  },[settings, providers, t]);;
+      if (!settings.disable_cash) {
+        val++;
+        arr.push({ label: t('cash'), value: val, cat: 'cash' });
+      }
+      setRadioProps(arr);
+    }
+  }, [settings, providers, t]);;
 
   useEffect(() => {
-    if(state && state !== null){
+    if (state && state !== null) {
       let carDetails = state.carData;
       setCarType(carDetails.name)
       setInstructionData({
-        deliveryPerson : "",
+        deliveryPerson: "",
         deliveryPersonPhone: "",
         pickUpInstructions: "",
         deliveryInstructions: "",
@@ -331,38 +331,38 @@ export default function AddBookings(props) {
   }, [state]);
 
   const handleChange = (e) => {
-    if(e.target.name === 'parcelTypeIndex'){
-      setInstructionData({ 
+    if (e.target.name === 'parcelTypeIndex') {
+      setInstructionData({
         ...instructionData,
         parcelTypeIndex: parseInt(e.target.value),
         parcelTypeSelected: selectedCarDetails.parcelTypes[e.target.value]
       });
-    }else if(e.target.name === 'optionIndex'){
-      setInstructionData({ 
+    } else if (e.target.name === 'optionIndex') {
+      setInstructionData({
         ...instructionData,
         optionIndex: parseInt(e.target.value),
         optionSelected: selectedCarDetails.options[e.target.value]
       });
-    }else if(e.target.name === 'payment_mode'){
+    } else if (e.target.name === 'payment_mode') {
       setPaymentMode(e.target.value);
-    }else if(e.target.name === 'selectedProviderIndex'){
+    } else if (e.target.name === 'selectedProviderIndex') {
       setSelectedProviderIndex(parseInt(e.target.value));
       setSelectedProvider(providers[parseInt(e.target.value)]);
-    }else if(e.target.name === 'tripInstructions'){
+    } else if (e.target.name === 'tripInstructions') {
       setTripInstructions(e.target.value);
-    }else if(e.target.name === 'roundTrip'){
+    } else if (e.target.name === 'roundTrip') {
       setRoundTrip(e.target.value);
-    }else if(e.target.name === 'bookingFlow'){
+    } else if (e.target.name === 'bookingFlow') {
       setDeliveryWithBid(e.target.value);
-    }else if(e.target.name === 'firstName'){
+    } else if (e.target.name === 'firstName') {
       setProfileData({ ...profileData, [e.target.name]: e.target.value });
-    }else if(e.target.name === 'lastName'){
+    } else if (e.target.name === 'lastName') {
       setProfileData({ ...profileData, [e.target.name]: e.target.value });
-    }else if(e.target.name === 'email'){
+    } else if (e.target.name === 'email') {
       setProfileData({ ...profileData, [e.target.name]: e.target.value });
-    }else if(e.target.name === 'offerFare'){
+    } else if (e.target.name === 'offerFare') {
       setOfferFare(e.target.value);
-    }else{
+    } else {
       setInstructionData({ ...instructionData, [e.target.name]: e.target.value });
     }
   };
@@ -381,25 +381,25 @@ export default function AddBookings(props) {
 
   useEffect(() => {
     if (auth.profile && bookingOnWait) {
-      setEstimateModalStatus(false); 
+      setEstimateModalStatus(false);
       dispatch(addBooking(bookingOnWait));
       setBookingOnWait(null);
       setLoading(false);
     }
-  }, [auth.profile,bookingOnWait,dispatch,addBooking])
+  }, [auth.profile, bookingOnWait, dispatch, addBooking])
 
   useEffect(() => {
     if (bookingdata.booking && bookingdata.booking.mainData.status === 'PAYMENT_PENDING') {
-      if(bookingdata.booking.mainData.payment_mode === 'cash'){
+      if (bookingdata.booking.mainData.payment_mode === 'cash') {
         dispatch(clearBooking());
         setTempRoute(null);
         setLoading2(false);
         navigate('/bookings')
-      } else{
-        if(bookingdata.booking.mainData.payment_mode === 'card'){
+      } else {
+        if (bookingdata.booking.mainData.payment_mode === 'card') {
           setLoading2(false);
           setPaymentModalStatus(true);
-        }else{
+        } else {
           setLoading2(false);
           setWalletModalStatus(true);
         }
@@ -411,7 +411,7 @@ export default function AddBookings(props) {
       setLoading2(false);
       navigate('/bookings')
     }
-  }, [bookingdata.booking,clearBooking,dispatch,navigate]);
+  }, [bookingdata.booking, clearBooking, dispatch, navigate]);
 
   const handleCarSelect = (event) => {
     setCarType(event.target.value);
@@ -419,12 +419,12 @@ export default function AddBookings(props) {
     for (let i = 0; i < cartypes.length; i++) {
       if (cartypes[i].name === event.target.value) {
         carDetails = cartypes[i];
-        let instObj = {...instructionData};
-        if(Array.isArray(cartypes[i].parcelTypes) && instObj.parcelTypeSelected !== cartypes[i].parcelTypes[0]){
+        let instObj = { ...instructionData };
+        if (Array.isArray(cartypes[i].parcelTypes) && instObj.parcelTypeSelected !== cartypes[i].parcelTypes[0]) {
           instObj.parcelTypeSelected = cartypes[i].parcelTypes[0];
           instObj.parcelTypeIndex = 0;
         }
-        if(Array.isArray(cartypes[i].options) && instObj.optionSelected !== cartypes[i].options[0]){
+        if (Array.isArray(cartypes[i].options) && instObj.optionSelected !== cartypes[i].options[0]) {
           instObj.optionSelected = cartypes[i].options[0];
           instObj.optionIndex = 0;
         }
@@ -451,9 +451,9 @@ export default function AddBookings(props) {
       setEstimateModalStatus(true);
     }
     if (estimatedata.estimate && estimateRequested && settings && !settings.coustomerBidPrice) {
-      let  price = estimatedata.estimate.estimateFare;
-      let ammount =  settings.coustomerBidPriceType === 'flat' ? parseFloat(price- settings.bidprice).toFixed(settings.decimal) : parseFloat(price - parseFloat(price*(settings.bidprice/100))).toFixed(settings.decimal);
-      if(ammount && ammount > 0){setMinimumPrice(ammount)}
+      let price = estimatedata.estimate.estimateFare;
+      let ammount = settings.coustomerBidPriceType === 'flat' ? parseFloat(price - settings.bidprice).toFixed(settings.decimal) : parseFloat(price - parseFloat(price * (settings.bidprice / 100))).toFixed(settings.decimal);
+      if (ammount && ammount > 0) { setMinimumPrice(ammount) }
     }
     if (userdata.users) {
       let arr = [];
@@ -466,7 +466,7 @@ export default function AddBookings(props) {
             'mobile': user.mobile,
             'email': user.email,
             'uid': user.id,
-            'desc': user.firstName + ' ' + user.lastName + ' (' + (settings.AllowCriticalEditsAdmin? user.mobile : t("hidden_demo")) + ') ' + (settings.AllowCriticalEditsAdmin? user.email : t("hidden_demo")),
+            'desc': user.firstName + ' ' + user.lastName + ' (' + (settings.AllowCriticalEditsAdmin ? user.mobile : t("hidden_demo")) + ') ' + (settings.AllowCriticalEditsAdmin ? user.email : t("hidden_demo")),
             'pushToken': user.pushToken ? user.pushToken : ''
           });
         }
@@ -476,7 +476,7 @@ export default function AddBookings(props) {
       for (let i = 0; i < userdata.users.length; i++) {
         let user = userdata.users[i];
         if ((user.usertype) && (user.usertype === 'driver') && (user.approved === true) && (user.queue === false) && (user.driverActiveStatus === true) && (user.location) && ((user.licenseImage && settings.license_image_required) || !settings.license_image_required) && ((user.carApproved && settings.carType_required) || !settings.carType_required) && ((user.term && settings.term_required) || !settings.term_required)) {
-          if((auth.profile.usertype === 'fleetadmin' && user.fleetadmin === auth.profile.uid) || auth.profile.usertype === 'admin' || auth.profile.usertype === 'customer'){
+          if ((auth.profile.usertype === 'fleetadmin' && user.fleetadmin === auth.profile.uid) || auth.profile.usertype === 'admin' || auth.profile.usertype === 'customer') {
             arrDrivers.push({
               'uid': user.id,
               'location': user.location,
@@ -488,11 +488,11 @@ export default function AddBookings(props) {
       }
       setDrivers(arrDrivers);
     }
-  }, [estimatedata.estimate, userdata.users, estimateRequested, settings, auth.profile.usertype, auth.profile.uid,t]);
- 
- 
+  }, [estimatedata.estimate, userdata.users, estimateRequested, settings, auth.profile.usertype, auth.profile.uid, t]);
+
+
   useEffect(() => {
-    if(auth.profile.usertype && auth.profile.usertype==='customer'){
+    if (auth.profile.usertype && auth.profile.usertype === 'customer') {
       setUserCombo({
         'firstName': auth.profile.firstName,
         'lastName': auth.profile.lastName,
@@ -509,9 +509,9 @@ export default function AddBookings(props) {
 
   const handleGetOptions = async (e) => {
     e.preventDefault();
-    if((settings && settings.imageIdApproval && auth.profile.usertype ==='customer' && auth.profile.verifyId) || auth.profile.usertype==='admin' || (settings && !settings.imageIdApproval && auth.profile.usertype ==='customer') || auth.profile.usertype === 'fleetadmin'){
-      if(!(settings && settings.disable_cash && (auth.profile.usertype==='admin'|| auth.profile.usertype === 'fleetadmin')) || auth.profile.usertype==='customer'){
-        if((auth.profile.usertype==='customer' && parseFloat(auth.profile.walletBalance)>=0) || auth.profile.usertype==='admin' || auth.profile.usertype === 'fleetadmin'){
+    if ((settings && settings.imageIdApproval && auth.profile.usertype === 'customer' && auth.profile.verifyId) || auth.profile.usertype === 'admin' || (settings && !settings.imageIdApproval && auth.profile.usertype === 'customer') || auth.profile.usertype === 'fleetadmin') {
+      if (!(settings && settings.disable_cash && (auth.profile.usertype === 'admin' || auth.profile.usertype === 'fleetadmin')) || auth.profile.usertype === 'customer') {
+        if ((auth.profile.usertype === 'customer' && parseFloat(auth.profile.walletBalance) >= 0) || auth.profile.usertype === 'admin' || auth.profile.usertype === 'fleetadmin') {
           setEstimateRequested(true);
           if (userCombo && pickupAddress && dropAddress && selectedCarDetails) {
             // const directionService = new window.google.maps.DirectionsService();
@@ -522,68 +522,68 @@ export default function AddBookings(props) {
             //     travelMode: window.google.maps.TravelMode.DRIVING
             //   },
             //   (result, status) => {
-                // if (status === window.google.maps.DirectionsStatus.OK) {
-                  // const route = {
-                  //   distance_in_km:(result.routes[0].legs[0].distance.value / 1000),
-                  //   time_in_secs:result.routes[0].legs[0].duration.value,
-                  //   polylinePoints:result.routes[0].overview_polyline
-                  // };
-                  const route = await getDirectionsApi(pickupAddress.coords.lat + "," + pickupAddress.coords.lng, dropAddress.coords.lat + ',' + dropAddress.coords.lng, null);
-                  setTempRoute(route);
-                  if(pickupAddress && dropAddress){
-                    if (bookingType === 'Book Now') {
-                      if(mobile === true){
-                        if(Array.isArray(selectedCarDetails.options) || Array.isArray(selectedCarDetails.parcelTypes)){
-                          setOptionModalStatus(true);
-                        }else{
-                          let estimateRequest = {
-                            pickup: pickupAddress,
-                            drop: dropAddress,
-                            carDetails: selectedCarDetails,
-                            instructionData: instructionData,
-                            routeDetails: route
-                          };
-                          dispatch(getEstimate(estimateRequest));
-                        }
-                      }else{
-                        setCommonAlert({ open: true, msg: t('incomplete_user')});
+            // if (status === window.google.maps.DirectionsStatus.OK) {
+            // const route = {
+            //   distance_in_km:(result.routes[0].legs[0].distance.value / 1000),
+            //   time_in_secs:result.routes[0].legs[0].duration.value,
+            //   polylinePoints:result.routes[0].overview_polyline
+            // };
+            const route = await getDirectionsApi(pickupAddress.coords.lat + "," + pickupAddress.coords.lng, dropAddress.coords.lat + ',' + dropAddress.coords.lng, null);
+            setTempRoute(route);
+            if (pickupAddress && dropAddress) {
+              if (bookingType === 'Book Now') {
+                if (mobile === true) {
+                  if (Array.isArray(selectedCarDetails.options) || Array.isArray(selectedCarDetails.parcelTypes)) {
+                    setOptionModalStatus(true);
+                  } else {
+                    let estimateRequest = {
+                      pickup: pickupAddress,
+                      drop: dropAddress,
+                      carDetails: selectedCarDetails,
+                      instructionData: instructionData,
+                      routeDetails: route
+                    };
+                    dispatch(getEstimate(estimateRequest));
+                  }
+                } else {
+                  setCommonAlert({ open: true, msg: t('incomplete_user') });
+                }
+              } else {
+                if (bookingType === 'Book Later' && selectedDate) {
+                  if (MinutesPassed(selectedDate) >= 15) {
+                    if (mobile === true) {
+                      if (Array.isArray(selectedCarDetails.options) || Array.isArray(selectedCarDetails.parcelTypes)) {
+                        setOptionModalStatus(true);
+                      } else {
+                        let estimateRequest = {
+                          pickup: pickupAddress,
+                          drop: dropAddress,
+                          carDetails: selectedCarDetails,
+                          instructionData: instructionData,
+                          routeDetails: route
+                        };
+                        dispatch(getEstimate(estimateRequest));
                       }
                     } else {
-                        if (bookingType === 'Book Later' && selectedDate) {
-                          if (MinutesPassed(selectedDate) >= 15) {
-                            if(mobile === true){
-                              if(Array.isArray(selectedCarDetails.options) || Array.isArray(selectedCarDetails.parcelTypes)){
-                                setOptionModalStatus(true);
-                              }else{
-                                let estimateRequest = {
-                                  pickup: pickupAddress,
-                                  drop: dropAddress,
-                                  carDetails: selectedCarDetails,
-                                  instructionData: instructionData,
-                                  routeDetails: route
-                                };
-                                dispatch(getEstimate(estimateRequest));
-                              }
-                            }else{
-                              setCommonAlert({ open: true, msg: t('incomplete_user')});
-                            }
-                          } else {
-                            setCommonAlert({ open: true, msg: t('past_booking_error') });
-                          }
-                        } else {
-                          setCommonAlert({ open: true, msg: t('select_proper') });
-                        }
-                      }
+                      setCommonAlert({ open: true, msg: t('incomplete_user') });
+                    }
                   } else {
-                    setCommonAlert({ open: true, msg: t('place_to_coords_error') })
+                    setCommonAlert({ open: true, msg: t('past_booking_error') });
                   }
-              //   }
-              // }
+                } else {
+                  setCommonAlert({ open: true, msg: t('select_proper') });
+                }
+              }
+            } else {
+              setCommonAlert({ open: true, msg: t('place_to_coords_error') })
+            }
+            //   }
+            // }
             // )
           } else {
             setCommonAlert({ open: true, msg: t('select_proper') })
           }
-        }else{
+        } else {
           setCommonAlert({ open: true, msg: t('wallet_balance_low') })
         }
       } else {
@@ -591,15 +591,15 @@ export default function AddBookings(props) {
       }
     } else {
       setCommonAlert({ open: true, msg: t('verifyid_error') })
-    }    
+    }
   }
 
   const handleWalletPayment = (e) => {
     e.preventDefault();
     let curBooking = { ...bookingdata.booking.mainData };
-    if(parseFloat(curBooking.trip_cost)>parseFloat(auth.profile.walletBalance) && radioProps[payment_mode].cat === 'wallet'){
-      setCommonAlert({open:true, msg: t('wallet_balance_low')});
-    }else{
+    if (parseFloat(curBooking.trip_cost) > parseFloat(auth.profile.walletBalance) && radioProps[payment_mode].cat === 'wallet') {
+      setCommonAlert({ open: true, msg: t('wallet_balance_low') });
+    } else {
       let requestedDrivers = {};
       if (settings.autoDispatch && bookingType === 'Book Now') {
         for (let i = 0; i < drivers.length; i++) {
@@ -626,7 +626,7 @@ export default function AddBookings(props) {
 
       dispatch(updateBooking(curBooking));
 
-      setTimeout(()=>{
+      setTimeout(() => {
         dispatch(clearEstimate());
         setPaymentModalStatus(false);
         setWalletModalStatus(false);
@@ -634,7 +634,7 @@ export default function AddBookings(props) {
         dispatch(clearBooking());
         setTempRoute(null);
         navigate('/bookings')
-      },1500);
+      }, 1500);
     }
   }
 
@@ -658,20 +658,20 @@ export default function AddBookings(props) {
     let driverEstimates = {};
 
     let notfound = true;
-    if(activeBookings){
-        for(let i=0; i<activeBookings.length; i++){
-            if(activeBookings[i].payment_mode==='wallet' && activeBookings[i].status!=='PAID'){
-                notfound = false;
-                break;
-            }
+    if (activeBookings) {
+      for (let i = 0; i < activeBookings.length; i++) {
+        if (activeBookings[i].payment_mode === 'wallet' && activeBookings[i].status !== 'PAID') {
+          notfound = false;
+          break;
         }
+      }
     }
 
-    if((radioProps[payment_mode].cat === 'wallet' && notfound && auth.profile.usertype === 'customer') || radioProps[payment_mode].cat !== 'wallet' || auth.profile.usertype === 'admin' || auth.profile.usertype === 'fleetadmin'){
+    if ((radioProps[payment_mode].cat === 'wallet' && notfound && auth.profile.usertype === 'customer') || radioProps[payment_mode].cat !== 'wallet' || auth.profile.usertype === 'admin' || auth.profile.usertype === 'fleetadmin') {
       const regx1 = /([0-9\s-]{7,})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$/;
-      if ((otherPerson && /\S/.test(instructionData.otherPerson) && regx1.test(instructionData.otherPersonPhone) && instructionData.otherPersonPhone && instructionData.otherPersonPhone.length > 6) || !otherPerson){
-        if((offerFare > 0 && offerFare >= parseFloat(minimumPrice)) || offerFare === ''){
-          if ((radioProps[payment_mode].cat === 'wallet' && (parseFloat(auth.profile.walletBalance) >= parseFloat(estimatedata.estimate.estimateFare)) && !calcEst && auth.profile.usertype === 'customer') || radioProps[payment_mode].cat !== 'wallet' || (radioProps[payment_mode].cat === 'wallet' && calcEst && auth.profile.usertype === 'customer')|| auth.profile.usertype === 'admin' || auth.profile.usertype === 'fleetadmin') {
+      if ((otherPerson && /\S/.test(instructionData.otherPerson) && regx1.test(instructionData.otherPersonPhone) && instructionData.otherPersonPhone && instructionData.otherPersonPhone.length > 6) || !otherPerson) {
+        if ((offerFare > 0 && offerFare >= parseFloat(minimumPrice)) || offerFare === '') {
+          if ((radioProps[payment_mode].cat === 'wallet' && (parseFloat(auth.profile.walletBalance) >= parseFloat(estimatedata.estimate.estimateFare)) && !calcEst && auth.profile.usertype === 'customer') || radioProps[payment_mode].cat !== 'wallet' || (radioProps[payment_mode].cat === 'wallet' && calcEst && auth.profile.usertype === 'customer') || auth.profile.usertype === 'admin' || auth.profile.usertype === 'fleetadmin') {
             if (settings.autoDispatch && bookingType === 'Book Now') {
               for (let i = 0; i < drivers.length; i++) {
                 const driver = drivers[i];
@@ -681,12 +681,12 @@ export default function AddBookings(props) {
                 }
                 if (distance < ((settings && settings.driverRadius) ? settings.driverRadius : 10) && ((settings.carType_required && selectedCarDetails.name === driver.carType) || !settings.carType_required) && ((auth.profile.usertype === 'fleetadmin' && driver.fleetadmin === auth.profile.uid) || auth.profile.usertype !== 'fleetadmin')) {
                   requestedDrivers[driver['uid']] = true;
-                  driverEstimates[driver['uid']] = {distance: distance, timein_text: ((distance * 2) + 1).toFixed(0) + ' min'};
+                  driverEstimates[driver['uid']] = { distance: distance, timein_text: ((distance * 2) + 1).toFixed(0) + ' min' };
                 }
               }
-              if(Object.keys(requestedDrivers).length=== 0){
+              if (Object.keys(requestedDrivers).length === 0) {
                 setLoading2(false);
-                setCommonAlert({open:true, msg: t('no_driver_found_alert_messege')});
+                setCommonAlert({ open: true, msg: t('no_driver_found_alert_messege') });
                 return;
               }
             }
@@ -706,90 +706,90 @@ export default function AddBookings(props) {
               estimate: estimatedata.estimate,
               instructionData: instructionData,
               tripInstructions: tripInstructions,
-              roundTrip: roundTrip === 0? false: true,
+              roundTrip: roundTrip === 0 ? false : true,
               tripdate: bookingType === 'Book Later' ? new Date(selectedDate).getTime() : new Date().getTime(),
               bookLater: bookingType === 'Book Later' ? true : false,
               settings: settings,
-              booking_type_admin: auth.profile.usertype === 'admin'? true: false,
-              booking_type_fleetadmin: auth.profile.usertype === 'fleetadmin'? true: false,
-              fleetadmin: auth.profile.usertype === 'fleetadmin'? auth.profile.uid: null,
-              requestedDrivers: calcEst ? requestedDrivers : (optionsRequired && radioProps[payment_mode].cat === 'cash') ? requestedDrivers : (settings.prepaid && radioProps[payment_mode].cat === 'cash') ? requestedDrivers : !settings.prepaid ? requestedDrivers : requestedDrivers ,
+              booking_type_admin: auth.profile.usertype === 'admin' ? true : false,
+              booking_type_fleetadmin: auth.profile.usertype === 'fleetadmin' ? true : false,
+              fleetadmin: auth.profile.usertype === 'fleetadmin' ? auth.profile.uid : null,
+              requestedDrivers: calcEst ? requestedDrivers : (optionsRequired && radioProps[payment_mode].cat === 'cash') ? requestedDrivers : (settings.prepaid && radioProps[payment_mode].cat === 'cash') ? requestedDrivers : !settings.prepaid ? requestedDrivers : requestedDrivers,
               driverEstimates: driverEstimates,
-              payment_mode: (auth.profile.usertype === 'admin' || auth.profile.usertype === 'fleetadmin' )?'cash':radioProps[payment_mode].cat,
+              payment_mode: (auth.profile.usertype === 'admin' || auth.profile.usertype === 'fleetadmin') ? 'cash' : radioProps[payment_mode].cat,
               booking_from_web: true,
-              deliveryWithBid : auth.profile.usertype === 'customer'?  deliveryWithBid === 0 ? false : true :false,
+              deliveryWithBid: auth.profile.usertype === 'customer' ? deliveryWithBid === 0 ? false : true : false,
               offerFare: (offerFare && offerFare > 0) ? offerFare : 0,
               customer_offer: (offerFare && offerFare > 0) ? offerFare : 0
             };
 
-            if(auth.profile.usertype === 'customer' && !(auth.profile.firstName && auth.profile.lastName && auth.profile.email && auth.profile.firstName.length>0 && auth.profile.lastName.length>0 && auth.profile.email.length>0)){
+            if (auth.profile.usertype === 'customer' && !(auth.profile.firstName && auth.profile.lastName && auth.profile.email && auth.profile.firstName.length > 0 && auth.profile.lastName.length > 0 && auth.profile.email.length > 0)) {
               // const regx1 = /([0-9\s-]{7,})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$/;
               // if ((optionsRequired && /\S/.test(instructionData.deliveryPerson) && regx1.test(instructionData.deliveryPersonPhone) && instructionData.deliveryPersonPhone && instructionData.deliveryPersonPhone.length > 6) || !optionsRequired){
-                if((profileData.firstName && profileData.firstName.length > 0 && profileData.lastName && profileData.lastName.length > 0) || (auth.profile.firstName && auth.profile.firstName.length > 0 && auth.profile.lastName && auth.profile.lastName.length > 0)){
-                  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-                  if((re.test(profileData.email) && !auth.profile.email) || (auth.profile.email && auth.profile.email.length > 0)){
-                    setLoading(true);
-                    checkUserExists({email: profileData.email}).then(async(res) => {
-                      if (res.users && res.users.length > 0) {
-                        setLoading(false);
-                        alert(t('user_exists'));
+              if ((profileData.firstName && profileData.firstName.length > 0 && profileData.lastName && profileData.lastName.length > 0) || (auth.profile.firstName && auth.profile.firstName.length > 0 && auth.profile.lastName && auth.profile.lastName.length > 0)) {
+                const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                if ((re.test(profileData.email) && !auth.profile.email) || (auth.profile.email && auth.profile.email.length > 0)) {
+                  setLoading(true);
+                  checkUserExists({ email: profileData.email }).then(async (res) => {
+                    if (res.users && res.users.length > 0) {
+                      setLoading(false);
+                      alert(t('user_exists'));
+                    }
+                    else if (res.error) {
+                      setLoading(false);
+                      alert(t('email_or_mobile_issue'));
+                    } else {
+                      setLoading(false);
+                      if (radioProps[payment_mode].cat === 'card') {
+                        const paymentPacket = {
+                          payment_mode: 'card',
+                          customer_paid: parseFloat(estimatedata.estimate.estimateFare).toFixed(settings.decimal),
+                          cardPaymentAmount: parseFloat(estimatedata.estimate.estimateFare).toFixed(settings.decimal),
+                          discount: 0,
+                          usedWalletMoney: 0,
+                          cashPaymentAmount: 0,
+                          promo_applied: false,
+                          promo_details: null,
+                          payableAmount: parseFloat(estimatedata.estimate.estimateFare).toFixed(settings.decimal),
+                        };
+                        bookingObject['paymentPacket'] = paymentPacket;
                       }
-                      else if(res.error){
-                        setLoading(false);
-                        alert(t('email_or_mobile_issue'));
-                      } else{
-                        setLoading(false);
-                        if(radioProps[payment_mode].cat === 'card'){
-                          const paymentPacket = { 
-                            payment_mode: 'card',
-                            customer_paid: parseFloat(estimatedata.estimate.estimateFare).toFixed(settings.decimal),
-                            cardPaymentAmount: parseFloat(estimatedata.estimate.estimateFare).toFixed(settings.decimal),
-                            discount: 0,
-                            usedWalletMoney:0,
-                            cashPaymentAmount: 0,
-                            promo_applied: false,
-                            promo_details: null,
-                            payableAmount: parseFloat(estimatedata.estimate.estimateFare).toFixed(settings.decimal),
-                          };
-                          bookingObject['paymentPacket'] = paymentPacket;
-                        }
-                
-                        const result = validateBookingObj(t, bookingObject, instructionData, otherPerson);
-                        if(result.error){
-                          setLoading2(false);
-                          setCommonAlert({ open: true, msg: result.msg });
-                        } else{
-                          profileData['uid'] = auth.profile.uid;
-                          let bookingData = result.bookingObject;
-                          bookingData.userDetails.firstName = profileData.firstName;
-                          bookingData.userDetails.lastName = profileData.lastName;
-                          bookingData.userDetails.email = profileData.email;
-                          setBookingOnWait(bookingData);
-                        }
-                        setTimeout(()=>{
-                          dispatch(updateProfileWithEmail(profileData));
-                        },200) 
+
+                      const result = validateBookingObj(t, bookingObject, instructionData, otherPerson);
+                      if (result.error) {
+                        setLoading2(false);
+                        setCommonAlert({ open: true, msg: result.msg });
+                      } else {
+                        profileData['uid'] = auth.profile.uid;
+                        let bookingData = result.bookingObject;
+                        bookingData.userDetails.firstName = profileData.firstName;
+                        bookingData.userDetails.lastName = profileData.lastName;
+                        bookingData.userDetails.email = profileData.email;
+                        setBookingOnWait(bookingData);
                       }
+                      setTimeout(() => {
+                        dispatch(updateProfileWithEmail(profileData));
+                      }, 200)
+                    }
                   });
-                  } else {
-                    setLoading2(false);
-                    setCommonAlert({ open: true, msg: t('proper_email') })
-                  }
                 } else {
                   setLoading2(false);
-                  setCommonAlert({ open: true, msg: t('proper_input_name') })
+                  setCommonAlert({ open: true, msg: t('proper_email') })
                 }
+              } else {
+                setLoading2(false);
+                setCommonAlert({ open: true, msg: t('proper_input_name') })
+              }
               // } else {
               //   setCommonAlert({ open: true, msg: t('deliveryDetailMissing') })
               // }
-            } else{
-              if(radioProps[payment_mode].cat === 'card'){
-                const paymentPacket = { 
+            } else {
+              if (radioProps[payment_mode].cat === 'card') {
+                const paymentPacket = {
                   payment_mode: 'card',
                   customer_paid: parseFloat(estimatedata.estimate.estimateFare).toFixed(settings.decimal),
                   cardPaymentAmount: parseFloat(estimatedata.estimate.estimateFare).toFixed(settings.decimal),
                   discount: 0,
-                  usedWalletMoney:0,
+                  usedWalletMoney: 0,
                   cashPaymentAmount: 0,
                   promo_applied: false,
                   promo_details: null,
@@ -798,19 +798,19 @@ export default function AddBookings(props) {
                 bookingObject['paymentPacket'] = paymentPacket;
               }
               const result = validateBookingObj(t, bookingObject, instructionData, otherPerson);
-              if(result.error){
+              if (result.error) {
                 setLoading2(false);
                 setCommonAlert({ open: true, msg: result.msg });
-              } else{
-                setEstimateModalStatus(false); 
+              } else {
+                setEstimateModalStatus(false);
                 dispatch(addBooking(result.bookingObject));
               }
             }
-          }else{
+          } else {
             setLoading2(false);
             setCommonAlert({ open: true, msg: t('wallet_balance_low') });
           }
-        }else{
+        } else {
           setLoading2(false);
           setCommonAlert({ open: true, msg: t('offer_price_greter_minimum_price') })
         }
@@ -854,131 +854,135 @@ export default function AddBookings(props) {
   };
 
   const handleWalletModalClose = (e) => {
-    setTimeout(()=>{
+    setTimeout(() => {
       setWalletModalStatus(false);
       dispatch(clearBooking());
       dispatch(clearEstimate());
-    },1500);
+    }, 1500);
   }
 
   const handlePaymentModalClose = (e) => {
-    setTimeout(()=>{
+    setTimeout(() => {
       setPaymentModalStatus(false);
       dispatch(clearBooking());
       dispatch(clearEstimate());
-    },1500);
+    }, 1500);
   }
-return loading2 ? (
-  <Grid
-    container
-    style={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: '80vh'  
-    }}
-  >
-    <CircularProgress />
-  </Grid>
-)
-:
-   (
-    <div className={classes.container} ref={rootRef}>
-      <Grid item xs={12} sm={12} md={8} lg={8}>
-        <Grid item xs={12}>
-            <Typography className={classes.title} style={{textAlign:isRTL==='rtl'?'right':'left',fontFamily:FONT_FAMILY}}>
+  return loading2 ? (
+    <Grid
+      container
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '80vh'
+      }}
+    >
+      <CircularProgress />
+    </Grid>
+  )
+    :
+    (
+      <div className={classes.container} ref={rootRef}>
+        <Grid item xs={12} sm={12} md={8} lg={8}>
+          <Grid item xs={12}>
+            <Typography className={classes.title} style={{ textAlign: isRTL === 'rtl' ? 'right' : 'left', fontFamily: FONT_FAMILY }}>
               {t('add_booking_title')}
             </Typography>
           </Grid>
-        <div className={classes.container1}>
-          <Grid container spacing={2} >
-            <Grid item xs={12} >
-              {users && auth.profile.usertype && auth.profile.usertype!=='customer' ?
-                <UsersCombo
+          <div className={classes.container1}>
+            <Grid container spacing={2} >
+              <Grid item xs={12} >
+                {users && auth.profile.usertype && auth.profile.usertype !== 'customer' ?
+                  <UsersCombo
+                    className={classes.items}
+                    placeholder={t('select_user')}
+                    users={users}
+                    value={userCombo}
+                    onChange={(event, newValue) => {
+                      setUserCombo(newValue);
+                    }}
+                  />
+                  : null}
+              </Grid>
+              <Grid item xs={12} >
+                <GoogleMapsAutoComplete
+                  variant={"outlined"}
+                  placeholder={t('pickup_location')}
+                  value={pickupAddress}
                   className={classes.items}
-                  placeholder={t('select_user')}
-                  users={users}
-                  value={userCombo}
-                  onChange={(event, newValue) => {
-                    setUserCombo(newValue);
-                  }}
+                  onChange={
+                    (value) => {
+                      setPickupAddress(value);
+                    }
+                  }
                 />
-                : null}
-            </Grid>
-            <Grid item xs={12} >
-              <GoogleMapsAutoComplete
-                variant={"outlined"}
-                placeholder={t('pickup_location')}
-                value={pickupAddress}
-                className={classes.items}
-                onChange={
-                  (value) => {
-                    setPickupAddress(value);
+              </Grid>
+              <Grid item xs={12} >
+                <GoogleMapsAutoComplete placeholder={t('drop_location')}
+                  variant={"outlined"}
+                  value={dropAddress}
+                  className={classes.items}
+                  onChange={
+                    (value) => {
+                      setDropAddress(value);
+                    }
                   }
-                }
-              />
-            </Grid>
-            <Grid item xs={12} >
-              <GoogleMapsAutoComplete placeholder={t('drop_location')}
-                variant={"outlined"}
-                value={dropAddress}
-                className={classes.items}
-                onChange={
-                  (value) => {
-                    setDropAddress(value);
-                  }
-                }
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} >
-              {cartypes ?
+                />
+              </Grid>
+              <Grid item xs={12} sm={6} >
+                {cartypes ?
                   <Select
-                     labelId="demo-simple-select-label"
-                     id="demo-simple-select"
-                      value={carType}
-                      onChange={handleCarSelect}
-                      variant="outlined"
-                      fullWidth
-                      style={{textAlign:isRTL==='rtl'? 'right':'left',}}
-                      className={carType === t('select_car') ? classes.inputdimmed : classes.input}
-                      sx={{color: colors.BLACK,
-                          "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                          borderColor: MAIN_COLOR,
-                      },}}
-                     
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={carType}
+                    onChange={handleCarSelect}
+                    variant="outlined"
+                    fullWidth
+                    style={{ textAlign: isRTL === 'rtl' ? 'right' : 'left', }}
+                    className={carType === t('select_car') ? classes.inputdimmed : classes.input}
+                    sx={{
+                      color: colors.BLACK,
+                      "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                        borderColor: MAIN_COLOR,
+                      },
+                    }}
+
                   >
-                    <MenuItem dense={true} value={t('select_car')} key={t('select_car')} style={{direction:isRTL==='rtl'?'rtl':'ltr', width:'100%', justifyContent:'flex-start', paddingLeft:10,fontFamily:FONT_FAMILY}}>
+                    <MenuItem dense={true} value={t('select_car')} key={t('select_car')} style={{ direction: isRTL === 'rtl' ? 'rtl' : 'ltr', width: '100%', justifyContent: 'flex-start', paddingLeft: 10, fontFamily: FONT_FAMILY }}>
                       {t('select_car')}
                     </MenuItem>
                     {
                       cartypes.sort((a, b) => a.pos - b.pos).map((car) =>
-                        <MenuItem dense={true}  key={car.name} value={car.name} style={{direction:isRTL==='rtl'?'rtl':'ltr', width:'100%', justifyContent:'flex-start', paddingLeft:10,fontFamily:FONT_FAMILY}}>
-                          <img src={car.image} className={isRTL==='rtl'? classes.carphotoRtl : classes.carphoto} alt="car types"/>{t(getLangKey(car.name))}
+                        <MenuItem dense={true} key={car.name} value={car.name} style={{ direction: isRTL === 'rtl' ? 'rtl' : 'ltr', width: '100%', justifyContent: 'flex-start', paddingLeft: 10, fontFamily: FONT_FAMILY }}>
+                          <img src={car.image} className={isRTL === 'rtl' ? classes.carphotoRtl : classes.carphoto} alt="car types" />{t(getLangKey(car.name))}
                         </MenuItem>
                       )
                     }
                   </Select>
-                : null}
-            </Grid>
-            <Grid item xs={12} sm={6}>
+                  : null}
+              </Grid>
+              <Grid item xs={12} sm={6}>
                 <Select
                   id="booking-type-native"
                   value={bookingType}
                   onChange={handleBookTypeSelect}
                   className={classes.input}
-                  style={{textAlign:isRTL==='rtl'? 'right':'left'}}
-                  sx={{color: colors.BLACK,
-                          "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                          borderColor: MAIN_COLOR,
-                      },}}
+                  style={{ textAlign: isRTL === 'rtl' ? 'right' : 'left' }}
+                  sx={{
+                    color: colors.BLACK,
+                    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                      borderColor: MAIN_COLOR,
+                    },
+                  }}
                   variant="outlined"
                   fullWidth
                   inputProps={{ 'aria-label': 'Without label' }}
                 >
-                  <MenuItem dense key={"Book Now"} value={"Book Now"} style={{direction:isRTL==='rtl'?'rtl':'ltr', width:'100%', justifyContent:'flex-start', paddingLeft:10,fontFamily:FONT_FAMILY}}>
+                  <MenuItem dense key={"Book Now"} value={"Book Now"} style={{ direction: isRTL === 'rtl' ? 'rtl' : 'ltr', width: '100%', justifyContent: 'flex-start', paddingLeft: 10, fontFamily: FONT_FAMILY }}>
                     {t('book_now')}
                   </MenuItem>
-                  <MenuItem dense key={"Book Later"} value={"Book Later"} style={{direction:isRTL==='rtl'?'rtl':'ltr', width:'100%', justifyContent:'flex-start', paddingLeft:10,fontFamily:FONT_FAMILY}}>
+                  <MenuItem dense key={"Book Later"} value={"Book Later"} style={{ direction: isRTL === 'rtl' ? 'rtl' : 'ltr', width: '100%', justifyContent: 'flex-start', paddingLeft: 10, fontFamily: FONT_FAMILY }}>
                     {t('book_later')}
                   </MenuItem>
                 </Select>
@@ -992,103 +996,103 @@ return loading2 ? (
                     type="datetime-local"
                     variant="outlined"
                     fullWidth
-                    className={[isRTL==='rtl'?classes.inputRtl:classes.commonInputStyle, classes.textField].join(" ")}
+                    className={[isRTL === 'rtl' ? classes.inputRtl : classes.commonInputStyle, classes.textField].join(" ")}
                     InputProps={{
                       className: classes.input,
-                      style:{textAlignLast:isRTL==='rtl'?'end':'start'}
+                      style: { textAlignLast: isRTL === 'rtl' ? 'end' : 'start' }
                     }}
                     value={selectedDate}
                     onChange={onDateChange}
                   />
                 </Grid>
-              : null}
+                : null}
               {bookingType === 'Book Later' ?
                 <Grid item xs={12} sm={6} >
                   <Button
                     size="lg"
                     onClick={handleGetOptions}
-                    variant="contained" 
+                    variant="contained"
                     color="secondaryButton"
                     className={classes.buttonStyle}
                   >
-                    <i className="fas fa-car" style={isRTL ==='rtl' ? {marginLeft:5}:{marginRight:5}}/>
+                    <i className="fas fa-car" style={isRTL === 'rtl' ? { marginLeft: 5 } : { marginRight: 5 }} />
                     {t('book')}
                   </Button>
                 </Grid>
-              :
+                :
                 <Grid item xs={12} >
                   <Button
                     size="lg"
                     onClick={handleGetOptions}
-                    variant="contained" 
+                    variant="contained"
                     color="secondaryButton"
                     className={classes.buttonStyle}
                   >
-                    <i className="fas fa-car" style={isRTL ==='rtl' ? {marginLeft:5}:{marginRight:5}}/>
+                    <i className="fas fa-car" style={isRTL === 'rtl' ? { marginLeft: 5 } : { marginRight: 5 }} />
                     {t('book')}
                   </Button>
                 </Grid>
               }
-          </Grid>
-        </div>
-      </Grid>
-      <Modal
-        disablePortal
-        disableEnforceFocus
-        disableAutoFocus
-        open={optionModalStatus}
-        onClose={handleOptionModalClose}
-        className={classes.modal}
-        container={() => rootRef.current}
-      >
-        <Grid container spacing={2} className={classes.paper}>
-          <Grid item xs={12} sm={12} md={12} lg={12} style={{textAlign:isRTL==='rtl'?'right':'left'}}>
-          {selectedCarDetails && selectedCarDetails.parcelTypes?
-            <FormControl component="fieldset">
-              <FormLabel component="legend" style={{fontFamily:FONT_FAMILY,}}>{t('parcel_types')}</FormLabel>
-              <RadioGroup name="parcelTypeIndex" value={instructionData.parcelTypeIndex} onChange={handleChange}>
-                {selectedCarDetails.parcelTypes.map((element,index) =>
-                  <FormControlLabel key={element.description} value={index} control={<Radio />} label={ <Typography className={classes.typography}>{ settings.swipe_symbol===false? settings.symbol + ' ' + element.amount + ' - ' + t(getLangKey(element.description)): element.amount + ' ' + settings.symbol + ' - ' + t(getLangKey(element.description))}</Typography>}/>
-                )}
-              </RadioGroup>
-            </FormControl>
-          :null}
-          </Grid>
-          <Grid item xs={12} sm={12} md={12} lg={12} style={{textAlign:isRTL==='rtl'?'right':'left'}}>
-          {selectedCarDetails && selectedCarDetails.options?
-            <FormControl component="fieldset">
-              <FormLabel component="legend" style={{fontFamily:FONT_FAMILY,}}>{t('options')}</FormLabel>
-              <RadioGroup name="optionIndex" value={instructionData.optionIndex} onChange={handleChange}>
-                {selectedCarDetails.options.map((element,index) =>
-                  <FormControlLabel key={element.description} value={index} control={<Radio />} label={ <Typography className={classes.typography}>{ settings.swipe_symbol===false? settings.symbol + ' ' + element.amount + ' - ' + t(getLangKey(element.description)): element.amount + ' ' + settings.symbol + ' - ' + t(getLangKey(element.description))}</Typography>} />
-                )}
-              </RadioGroup>
-            </FormControl>
-          :null}
-          </Grid>
-          <Grid item xs={12} sm={12} md={12} lg={12}  style={{textAlign:isRTL==='rtl'?'right':'left'}}>
-          <Button onClick={handleOptionModalClose} variant="contained" color="primary" className={classes.buttonStyle2}>
-            {t('cancel')}
-          </Button>
-          <Button onClick={handleGetEstimate} variant="contained" color="primary" style={isRTL==='rtl'?{marginRight:10}:{marginLeft:10}} className={classes.buttonStyle1}>
-            {t('get_estimate')}
-          </Button>
-          </Grid>
+            </Grid>
+          </div>
         </Grid>
-      </Modal>
-      <Modal
-        disablePortal
-        disableEnforceFocus
-        disableAutoFocus
-        open={estimateModalStatus}
-        onClose={handleEstimateModalClose}
-        className={classes.modal}
-        container={() => rootRef.current}
-      >
-        <Grid container spacing={1} className={classes.paper}>
-          <BookingModalBody 
-              classes={classes}  
-              instructionData={instructionData} 
+        <Modal
+          disablePortal
+          disableEnforceFocus
+          disableAutoFocus
+          open={optionModalStatus}
+          onClose={handleOptionModalClose}
+          className={classes.modal}
+          container={() => rootRef.current}
+        >
+          <Grid container spacing={2} className={classes.paper}>
+            <Grid item xs={12} sm={12} md={12} lg={12} style={{ textAlign: isRTL === 'rtl' ? 'right' : 'left' }}>
+              {selectedCarDetails && selectedCarDetails.parcelTypes ?
+                <FormControl component="fieldset">
+                  <FormLabel component="legend" style={{ fontFamily: FONT_FAMILY, }}>{t('parcel_types')}</FormLabel>
+                  <RadioGroup name="parcelTypeIndex" value={instructionData.parcelTypeIndex} onChange={handleChange}>
+                    {selectedCarDetails.parcelTypes.map((element, index) =>
+                      <FormControlLabel key={element.description} value={index} control={<Radio />} label={<Typography className={classes.typography}>{settings.swipe_symbol === false ? settings.symbol + ' ' + element.amount + ' - ' + t(getLangKey(element.description)) : element.amount + ' ' + settings.symbol + ' - ' + t(getLangKey(element.description))}</Typography>} />
+                    )}
+                  </RadioGroup>
+                </FormControl>
+                : null}
+            </Grid>
+            <Grid item xs={12} sm={12} md={12} lg={12} style={{ textAlign: isRTL === 'rtl' ? 'right' : 'left' }}>
+              {selectedCarDetails && selectedCarDetails.options ?
+                <FormControl component="fieldset">
+                  <FormLabel component="legend" style={{ fontFamily: FONT_FAMILY, }}>{t('options')}</FormLabel>
+                  <RadioGroup name="optionIndex" value={instructionData.optionIndex} onChange={handleChange}>
+                    {selectedCarDetails.options.map((element, index) =>
+                      <FormControlLabel key={element.description} value={index} control={<Radio />} label={<Typography className={classes.typography}>{settings.swipe_symbol === false ? settings.symbol + ' ' + element.amount + ' - ' + t(getLangKey(element.description)) : element.amount + ' ' + settings.symbol + ' - ' + t(getLangKey(element.description))}</Typography>} />
+                    )}
+                  </RadioGroup>
+                </FormControl>
+                : null}
+            </Grid>
+            <Grid item xs={12} sm={12} md={12} lg={12} style={{ textAlign: isRTL === 'rtl' ? 'right' : 'left' }}>
+              <Button onClick={handleOptionModalClose} variant="contained" color="primary" className={classes.buttonStyle2}>
+                {t('cancel')}
+              </Button>
+              <Button onClick={handleGetEstimate} variant="contained" color="primary" style={isRTL === 'rtl' ? { marginRight: 10 } : { marginLeft: 10 }} className={classes.buttonStyle1}>
+                {t('get_estimate')}
+              </Button>
+            </Grid>
+          </Grid>
+        </Modal>
+        <Modal
+          disablePortal
+          disableEnforceFocus
+          disableAutoFocus
+          open={estimateModalStatus}
+          onClose={handleEstimateModalClose}
+          className={classes.modal}
+          container={() => rootRef.current}
+        >
+          <Grid container spacing={1} className={classes.paper}>
+            <BookingModalBody
+              classes={classes}
+              instructionData={instructionData}
               handleChange={handleChange}
               tripInstructions={tripInstructions}
               roundTrip={roundTrip}
@@ -1101,139 +1105,139 @@ return loading2 ? (
               minimumPrice={minimumPrice}
               offerFare={offerFare}
               estimate={estimatedata.estimate}
-          />
-          {showEst && settings && settings.hasOwnProperty( "bookingFlow" )&& (settings.bookingFlow === "0" || settings.bookingFlow === "2") ? null :
-          <Grid item xs={12} sm={12} md={12} lg={12} style={{textAlign:isRTL==='rtl'?'right':'left'}}>
-            {settings.swipe_symbol===false?
-              <Typography color={'primary'} style={{fontSize:30, fontFamily:FONT_FAMILY,}}>
-                {t('total')} - {settings?settings.symbol:null} {estimatedata.estimate ? estimatedata.estimate.estimateFare : null}
-              </Typography>
-              :
-              <Typography color={'primary'} style={{fontSize:30, fontFamily:FONT_FAMILY,}}>
-                {t('total')} - {estimatedata.estimate ? estimatedata.estimate.estimateFare : null} {settings?settings.symbol:null}
-              </Typography>
+            />
+            {showEst && settings && settings.hasOwnProperty("bookingFlow") && (settings.bookingFlow === "0" || settings.bookingFlow === "2") ? null :
+              <Grid item xs={12} sm={12} md={12} lg={12} style={{ textAlign: isRTL === 'rtl' ? 'right' : 'left' }}>
+                {settings.swipe_symbol === false ?
+                  <Typography color={'primary'} style={{ fontSize: 30, fontFamily: FONT_FAMILY, }}>
+                    {t('total')} - {settings ? settings.symbol : null} {estimatedata.estimate ? estimatedata.estimate.estimateFare : null}
+                  </Typography>
+                  :
+                  <Typography color={'primary'} style={{ fontSize: 30, fontFamily: FONT_FAMILY, }}>
+                    {t('total')} - {estimatedata.estimate ? estimatedata.estimate.estimateFare : null} {settings ? settings.symbol : null}
+                  </Typography>
+                }
+              </Grid>
             }
-          </Grid>
-          }
-          {auth.profile.usertype === 'customer'?
-          <Grid item xs={12} sm={12} md={12} lg={12} style={{textAlign:isRTL==='rtl'?'right':'left'}}>
-            <FormControl component="fieldset">
-              <FormLabel component="legend" style={{fontFamily:FONT_FAMILY,}}>{t('payment_mode')}</FormLabel>
-              <RadioGroup name="payment_mode" value={payment_mode} onChange={handleChange}>
-                {radioProps.map((element,index) =>
-                  <FormControlLabel key={element.cat} value={index} control={<Radio />} label={ <Typography className={classes.typography}>{element.label}</Typography>} />
-                )}
-              </RadioGroup>
-            </FormControl>
-          </Grid>
-          :null}
-          <Grid item xs={12} sm={12} md={12} lg={12} style={{textAlign:isRTL==='rtl'?'right':'left'}}>
-          {loading?
-            <DialogActions style={{justifyContent:'center', alignContent:'center'}}>
-              <CircularProgress/>
-            </DialogActions>
-          :
-            <Grid item xs={12} >
-              <Button onClick={handleEstimateModalClose} variant="contained" style={{ backgroundColor:colors.RED, fontFamily:FONT_FAMILY }}>
-                {t('cancel')}
-              </Button>
-              <Button onClick={confirmBooking} variant="contained"  style={isRTL==='rtl'?{marginRight:10, backgroundColor:colors.GREEN}:{marginLeft:10, backgroundColor:colors.GREEN, fontFamily:FONT_FAMILY}}>
-                {t('book_now')}
-              </Button>
+            {auth.profile.usertype === 'customer' ?
+              <Grid item xs={12} sm={12} md={12} lg={12} style={{ textAlign: isRTL === 'rtl' ? 'right' : 'left' }}>
+                <FormControl component="fieldset">
+                  <FormLabel component="legend" style={{ fontFamily: FONT_FAMILY, }}>{t('payment_mode')}</FormLabel>
+                  <RadioGroup name="payment_mode" value={payment_mode} onChange={handleChange}>
+                    {radioProps.map((element, index) =>
+                      <FormControlLabel key={element.cat} value={index} control={<Radio />} label={<Typography className={classes.typography}>{element.label}</Typography>} />
+                    )}
+                  </RadioGroup>
+                </FormControl>
+              </Grid>
+              : null}
+            <Grid item xs={12} sm={12} md={12} lg={12} style={{ textAlign: isRTL === 'rtl' ? 'right' : 'left' }}>
+              {loading ?
+                <DialogActions style={{ justifyContent: 'center', alignContent: 'center' }}>
+                  <CircularProgress />
+                </DialogActions>
+                :
+                <Grid item xs={12} >
+                  <Button onClick={handleEstimateModalClose} variant="contained" style={{ backgroundColor: colors.RED, fontFamily: FONT_FAMILY }}>
+                    {t('cancel')}
+                  </Button>
+                  <Button onClick={confirmBooking} variant="contained" style={isRTL === 'rtl' ? { marginRight: 10, backgroundColor: colors.GREEN } : { marginLeft: 10, backgroundColor: colors.GREEN, fontFamily: FONT_FAMILY }}>
+                    {t('book_now')}
+                  </Button>
+                </Grid>
+              }
             </Grid>
-          }
           </Grid>
-        </Grid>
-      </Modal>
+        </Modal>
 
-      <Modal
-        disablePortal
-        disableEnforceFocus
-        disableAutoFocus
-        open={walletModalStatus}
-        onClose={handleWalletModalClose}
-        className={classes.modal}
-        container={() => rootRef.current}
-      >
-        <Grid container spacing={2} className={classes.paper}>
-          <Grid item xs={12} sm={12} md={12} lg={12} style={{marginBottom: '20px'}}>
-            <Typography  style={{fontWeight:'bolder', marginBottom:10}}>
-              {t('payment')}
-            </Typography>
-            {bookingdata && bookingdata.booking?
-            <Typography color={"primary"} style={{fontSize:30}}>
-              { (settings.swipe_symbol===false? settings.symbol + bookingdata.booking.mainData.trip_cost :  bookingdata.booking.mainData.trip_cost + settings.symbol) }
-            </Typography>
-            :null}
-            <Typography >
-              {t('use_wallet_balance') + " " + (settings.swipe_symbol===false? settings.symbol + auth.profile.walletBalance :  auth.profile.walletBalance + settings.symbol) + ")"}
-            </Typography>
-          </Grid>            
-          <Grid item xs={12} sm={12} md={12} lg={12}>
-            <Button onClick={handleWalletModalClose} variant="contained" style={{backgroundColor:colors.RED }}>
-              {t('cancel')}
-            </Button>
-            <Button variant="contained" color="primary" style={{marginLeft:10,backgroundColor:colors.GREEN}} onClick={handleWalletPayment}>
-              {t('paynow_button')}
-            </Button>
-          </Grid>
-        </Grid>
-      </Modal>
-      <Modal
-        disablePortal
-        disableEnforceFocus
-        disableAutoFocus
-        open={paymentModalStatus}
-        onClose={handlePaymentModalClose}
-        className={classes.modal}
-        container={() => rootRef.current}
-      >
-        <Grid container spacing={2} className={classes.paper}>
-          {providers && selectedProvider && bookingdata && bookingdata.booking?
-          <form action={selectedProvider.link} method="POST">
-            <input type='hidden' name='order_id' value={bookingdata.booking.booking_id}/>
-            <input type='hidden' name='amount' value={bookingdata.booking.mainData.trip_cost}/>
-            <input type='hidden' name='currency' value={settings.code}/>
-            <input type='hidden' name='product_name' value={t('bookingPayment')}/>
-            <input type='hidden' name='first_name' value={auth.profile.firstName}/>
-            <input type='hidden' name='last_name' value={auth.profile.lastName}/>
-            <input type='hidden' name='quantity' value={1}/>
-            <input type='hidden' name='cust_id' value={bookingdata.booking.mainData.customer}/>
-            <input type='hidden' name='mobile_no' value={bookingdata.booking.mainData.customer_contact}/>
-            <input type='hidden' name='email' value={bookingdata.booking.mainData.customer_email}/>
-            <Grid item xs={12} sm={12} md={12} lg={12} style={{marginBottom: '20px'}}>
-              <FormControl fullWidth>
-              <FormLabel component="legend">{t('payment')}</FormLabel>
-              <Select
-                  id="selectedProviderIndex"
-                  name= "selectedProviderIndex"
-                  value={selectedProviderIndex}
-                  label={t('payment')}
-                  onChange={handleChange}
-                  style={{textAlign:isRTL==='rtl'? 'right':'left'}}
-                  inputProps={{ 'aria-label': 'Without label' }}
-                >
-                  {providers.map((provider,index) =>
-                    <MenuItem key={provider.name} value={index}><img style={{height:24,margin:7}} src={icons[provider.name]} alt={provider.name}/> </MenuItem>
-                  )}
-                </Select>
-              </FormControl>
+        <Modal
+          disablePortal
+          disableEnforceFocus
+          disableAutoFocus
+          open={walletModalStatus}
+          onClose={handleWalletModalClose}
+          className={classes.modal}
+          container={() => rootRef.current}
+        >
+          <Grid container spacing={2} className={classes.paper}>
+            <Grid item xs={12} sm={12} md={12} lg={12} style={{ marginBottom: '20px' }}>
+              <Typography style={{ fontWeight: 'bolder', marginBottom: 10 }}>
+                {t('payment')}
+              </Typography>
+              {bookingdata && bookingdata.booking ?
+                <Typography color={"primary"} style={{ fontSize: 30 }}>
+                  {(settings.swipe_symbol === false ? settings.symbol + bookingdata.booking.mainData.trip_cost : bookingdata.booking.mainData.trip_cost + settings.symbol)}
+                </Typography>
+                : null}
+              <Typography >
+                {t('use_wallet_balance') + " " + (settings.swipe_symbol === false ? settings.symbol + auth.profile.walletBalance : auth.profile.walletBalance + settings.symbol) + ")"}
+              </Typography>
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12}>
-            <Button onClick={handlePaymentModalClose} variant="contained" color="primary">
-              {t('cancel')}
-            </Button>
-            <Button variant="contained" color="primary" type="submit" style={{marginLeft:10}} onClick={handlePaymentModalClose}>
-              {t('paynow_button')}
-            </Button>
+              <Button onClick={handleWalletModalClose} variant="contained" style={{ backgroundColor: colors.RED }}>
+                {t('cancel')}
+              </Button>
+              <Button variant="contained" color="primary" style={{ marginLeft: 10, backgroundColor: colors.GREEN }} onClick={handleWalletPayment}>
+                {t('paynow_button')}
+              </Button>
             </Grid>
-          </form>
-          :null}
-        </Grid>
-      </Modal>
-      <AlertDialog open={bookingdata.error.flag} onClose={handleBookingErrorClose}>{bookingdata.error.msg}</AlertDialog>
-      <AlertDialog open={estimatedata.error.flag} onClose={handleEstimateErrorClose}>{estimatedata.error.msg}</AlertDialog>
-      <AlertDialog open={commonAlert.open} onClose={handleCommonAlertClose}>{commonAlert.msg}</AlertDialog>
-    </div>
-  );
+          </Grid>
+        </Modal>
+        <Modal
+          disablePortal
+          disableEnforceFocus
+          disableAutoFocus
+          open={paymentModalStatus}
+          onClose={handlePaymentModalClose}
+          className={classes.modal}
+          container={() => rootRef.current}
+        >
+          <Grid container spacing={2} className={classes.paper}>
+            {providers && selectedProvider && bookingdata && bookingdata.booking ?
+              <form action={selectedProvider.link} method="POST">
+                <input type='hidden' name='order_id' value={bookingdata.booking.booking_id} />
+                <input type='hidden' name='amount' value={bookingdata.booking.mainData.trip_cost} />
+                <input type='hidden' name='currency' value={settings.code} />
+                <input type='hidden' name='product_name' value={t('bookingPayment')} />
+                <input type='hidden' name='first_name' value={auth.profile.firstName} />
+                <input type='hidden' name='last_name' value={auth.profile.lastName} />
+                <input type='hidden' name='quantity' value={1} />
+                <input type='hidden' name='cust_id' value={bookingdata.booking.mainData.customer} />
+                <input type='hidden' name='mobile_no' value={bookingdata.booking.mainData.customer_contact} />
+                <input type='hidden' name='email' value={bookingdata.booking.mainData.customer_email} />
+                <Grid item xs={12} sm={12} md={12} lg={12} style={{ marginBottom: '20px' }}>
+                  <FormControl fullWidth>
+                    <FormLabel component="legend">{t('payment')}</FormLabel>
+                    <Select
+                      id="selectedProviderIndex"
+                      name="selectedProviderIndex"
+                      value={selectedProviderIndex}
+                      label={t('payment')}
+                      onChange={handleChange}
+                      style={{ textAlign: isRTL === 'rtl' ? 'right' : 'left' }}
+                      inputProps={{ 'aria-label': 'Without label' }}
+                    >
+                      {providers.map((provider, index) =>
+                        <MenuItem key={provider.name} value={index}><img style={{ height: 24, margin: 7 }} src={icons[provider.name]} alt={provider.name} /> </MenuItem>
+                      )}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={12} md={12} lg={12}>
+                  <Button onClick={handlePaymentModalClose} variant="contained" color="primary">
+                    {t('cancel')}
+                  </Button>
+                  <Button variant="contained" color="primary" type="submit" style={{ marginLeft: 10 }} onClick={handlePaymentModalClose}>
+                    {t('paynow_button')}
+                  </Button>
+                </Grid>
+              </form>
+              : null}
+          </Grid>
+        </Modal>
+        <AlertDialog open={bookingdata.error.flag} onClose={handleBookingErrorClose}>{bookingdata.error.msg}</AlertDialog>
+        <AlertDialog open={estimatedata.error.flag} onClose={handleEstimateErrorClose}>{estimatedata.error.msg}</AlertDialog>
+        <AlertDialog open={commonAlert.open} onClose={handleCommonAlertClose}>{commonAlert.msg}</AlertDialog>
+      </div>
+    );
 }

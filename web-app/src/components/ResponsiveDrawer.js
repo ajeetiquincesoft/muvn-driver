@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -32,9 +32,9 @@ import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import MoneyIcon from '@mui/icons-material/Money';
 import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
-import {calcEst, showEst, optionsRequired} from '../common/sharedFunctions';
+import { calcEst, showEst, optionsRequired } from '../common/sharedFunctions';
 import SosIcon from '@mui/icons-material/Sos';
-import {MAIN_COLOR, SECONDORY_COLOR, FONT_FAMILY} from "../common/sharedFunctions"
+import { MAIN_COLOR, SECONDORY_COLOR, FONT_FAMILY } from "../common/sharedFunctions"
 import AnnouncementOutlinedIcon from '@mui/icons-material/AnnouncementOutlined';
 
 
@@ -42,7 +42,7 @@ import AnnouncementOutlinedIcon from '@mui/icons-material/AnnouncementOutlined';
 const drawerWidth = 260;
 
 export default function ResponsiveDrawer(props) {
-  const { t, i18n  } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isRTL = i18n.dir();
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -60,7 +60,7 @@ export default function ResponsiveDrawer(props) {
   const [role, setRole] = useState(null);
 
   useEffect(() => {
-    if(auth.profile && auth.profile.usertype){
+    if (auth.profile && auth.profile.usertype) {
       setRole(auth.profile.usertype);
     }
   }, [auth.profile]);
@@ -73,58 +73,58 @@ export default function ResponsiveDrawer(props) {
   };
 
   const drawer = (
-    <div  style={{backgroundColor:MAIN_COLOR, height:'100%'}}>
-      <div style={{ display: 'flex', backgroundColor:MAIN_COLOR, justifyContent:'center' }}>
-        <img style={{ marginTop: '20px', marginBottom: '20px', width: '120px', height: '120px' }} src={require("../assets/img/logo192x192.png").default} alt="Logo" />
+    <div style={{ backgroundColor: MAIN_COLOR, height: '100%' }}>
+      <div style={{ display: 'flex', backgroundColor: MAIN_COLOR, justifyContent: 'center' }}>
+        <img style={{ marginTop: '20px', marginBottom: '20px', width: '120px', height: '120px' }} src={require("../assets/img/logo192x192_black.png").default} alt="Logo" />
       </div>
-      <div style={{ backgroundColor:MAIN_COLOR}}>
+      <div style={{ backgroundColor: MAIN_COLOR }}>
         {role ?
-        <List disablePadding={true} dense={false}>
-          {[
-            {name : t('home'), url:'/', icon: <HomeIcon/>, access: ['admin','fleetadmin','driver','customer']},
-            {name : t('dashboard_text'), url:'/dashboard', icon: <DashboardIcon/>, access: ['admin','fleetadmin']},
-            {name : t('booking_history'), url:'/bookings', icon: <ViewListIcon/>, access: ['admin','fleetadmin','driver','customer']},
-            {name : t('addbookinglable'), url:'/addbookings', icon: <ContactPhoneIcon/>, access: calcEst && !showEst && !optionsRequired ? ['customer'] : ['admin','fleetadmin','customer']},
+          <List disablePadding={true} dense={false}>
+            {[
+              { name: t('home'), url: '/', icon: <HomeIcon />, access: ['admin', 'fleetadmin', 'driver', 'customer'] },
+              { name: t('dashboard_text'), url: '/dashboard', icon: <DashboardIcon />, access: ['admin', 'fleetadmin'] },
+              { name: t('booking_history'), url: '/bookings', icon: <ViewListIcon />, access: ['admin', 'fleetadmin', 'driver', 'customer'] },
+              { name: t('addbookinglable'), url: '/addbookings', icon: <ContactPhoneIcon />, access: calcEst && !showEst && !optionsRequired ? ['customer'] : ['admin', 'fleetadmin', 'customer'] },
 
-            {name : t('user'), url:'/users/0', icon: <EmojiPeopleIcon />, access: ['admin','fleetadmin']},
+              { name: t('user'), url: '/users/0', icon: <EmojiPeopleIcon />, access: ['admin', 'fleetadmin'] },
 
-            {name : t('car_type'), url:'/cartypes', icon: <CarIcon/>, access: ['admin']},
-            {name : t('cars'), url:'/cars', icon: <CarIcon/>, access: ['admin','fleetadmin','driver']},
-            
-            {name : t('withdraws_web'), url:'/withdraws', icon: <MoneyIcon />, access: ['admin']},
-            {name : t('add_to_wallet'), url:'/addtowallet', icon: <AccountBalanceWalletIcon />, access: ['admin']},
-          
-            {name : t('report'), url:'/allreports', icon: <AssessmentIcon />, access: ['admin','fleetadmin']},
-            {name : t('promo'), url:'/promos', icon: <OfferIcon />, access: ['admin']},
-            {name : t('push_notifications'), url:'/notifications', icon: <NotifyIcon />, access: ['admin']},
-            {name : t('sos'), url:'/sos', icon: <SosIcon />, access: ['admin']},
-            {name : t('complain'), url:'/complain', icon: <AnnouncementOutlinedIcon/>, access: ['admin']},
-            {name : t('my_wallet_tile'), url:'/userwallet', icon: <AccountBalanceWalletIcon />, access: ['driver','customer','fleetadmin']},
-            {name : t('settings_title'), url:'/settings', icon: <PhoneIphoneIcon />, access: ['admin']},
-            {name : t('payment_settings'), url:'/paymentsettings', icon: <PhoneIphoneIcon />, access: ['admin']},
-            {name : t('profile'), url:'/profile', icon: <AccountCircleIcon />, access: ['admin','fleetadmin','driver','customer']},
-            {name : t('logout'), url:'logout', icon: <ExitIcon />, access: ['admin','fleetadmin','driver','customer']}
-          ].map((item, index) => (
-            item.access.includes(role)?
-              <div style={{ display: 'flex',height: '50px'}} key={"key" + index}>
-                <ListItem key={item} disableGutters={true} disablePadding={true} style={{paddingLeft:5,}} alignItems='center' dense={false} onClick={handleDrawer}>
-                  <ListItemButton disableGutters={true} dense={false} component={Link} to={item.url==='logout'? null : item.url} onClick={item.url==='logout'? LogOut : null}> 
-                    <ListItemIcon style={{color: colors.Header_Text,}}>
-                      {item.icon}
-                    </ListItemIcon>
-                    <ListItemText inset={false} disableTypography={false} 
-                    primary={<Typography style={{ color: colors.Header_Text, textAlign: isRTL === 'rtl' ? 'right' : 'left', fontFamily: FONT_FAMILY }}>
-                    {item.name}
-                  </Typography>} 
-                   />
-                  </ListItemButton>
-                  <Divider />
-                </ListItem>
-              </div>
-            :null
-          ))}
-        </List>
-        : null }
+              { name: t('car_type'), url: '/cartypes', icon: <CarIcon />, access: ['admin'] },
+              { name: t('cars'), url: '/cars', icon: <CarIcon />, access: ['admin', 'fleetadmin', 'driver'] },
+
+              { name: t('withdraws_web'), url: '/withdraws', icon: <MoneyIcon />, access: ['admin'] },
+              { name: t('add_to_wallet'), url: '/addtowallet', icon: <AccountBalanceWalletIcon />, access: ['admin'] },
+
+              { name: t('report'), url: '/allreports', icon: <AssessmentIcon />, access: ['admin', 'fleetadmin'] },
+              { name: t('promo'), url: '/promos', icon: <OfferIcon />, access: ['admin'] },
+              { name: t('push_notifications'), url: '/notifications', icon: <NotifyIcon />, access: ['admin'] },
+              // { name: t('sos'), url: '/sos', icon: <SosIcon />, access: ['admin'] },
+              { name: t('complain'), url: '/complain', icon: <AnnouncementOutlinedIcon />, access: ['admin'] },
+              { name: t('my_wallet_tile'), url: '/userwallet', icon: <AccountBalanceWalletIcon />, access: ['driver', 'customer', 'fleetadmin'] },
+              { name: t('settings_title'), url: '/settings', icon: <PhoneIphoneIcon />, access: ['admin'] },
+              { name: t('payment_settings'), url: '/paymentsettings', icon: <PhoneIphoneIcon />, access: ['admin'] },
+              { name: t('profile'), url: '/profile', icon: <AccountCircleIcon />, access: ['admin', 'fleetadmin', 'driver', 'customer'] },
+              { name: t('logout'), url: 'logout', icon: <ExitIcon />, access: ['admin', 'fleetadmin', 'driver', 'customer'] }
+            ].map((item, index) => (
+              item.access.includes(role) ?
+                <div style={{ display: 'flex', height: '50px' }} key={"key" + index}>
+                  <ListItem key={item} disableGutters={true} disablePadding={true} style={{ paddingLeft: 5, }} alignItems='center' dense={false} onClick={handleDrawer}>
+                    <ListItemButton disableGutters={true} dense={false} component={Link} to={item.url === 'logout' ? null : item.url} onClick={item.url === 'logout' ? LogOut : null}>
+                      <ListItemIcon style={{ color: colors.Header_Text, }}>
+                        {item.icon}
+                      </ListItemIcon>
+                      <ListItemText inset={false} disableTypography={false}
+                        primary={<Typography style={{ color: colors.Header_Text, textAlign: isRTL === 'rtl' ? 'right' : 'left', fontFamily: FONT_FAMILY }}>
+                          {item.name}
+                        </Typography>}
+                      />
+                    </ListItemButton>
+                    <Divider />
+                  </ListItem>
+                </div>
+                : null
+            ))}
+          </List>
+          : null}
 
       </div>
     </div>
@@ -133,7 +133,7 @@ export default function ResponsiveDrawer(props) {
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: 'flex',direction:isRTL === 'rtl'? 'rtl':'ltr'}}>
+    <Box sx={{ display: 'flex', direction: isRTL === 'rtl' ? 'rtl' : 'ltr' }}>
       <CssBaseline />
       <style>
         {`
@@ -157,7 +157,7 @@ export default function ResponsiveDrawer(props) {
       </style>
       <AppBar
         position="fixed"
-        style={isRTL=== 'rtl'? {marginRight:drawerWidth,backgroundColor:MAIN_COLOR,}:{marginLeft:drawerWidth,backgroundColor:MAIN_COLOR,}}
+        style={isRTL === 'rtl' ? { marginRight: drawerWidth, backgroundColor: MAIN_COLOR, } : { marginLeft: drawerWidth, backgroundColor: MAIN_COLOR, }}
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
@@ -169,12 +169,12 @@ export default function ResponsiveDrawer(props) {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2,  display: { sm: 'none' }, }}
+            sx={{ mr: 2, display: { sm: 'none' }, }}
           >
-            <MenuIcon style={{color:colors.WHITE}} />
+            <MenuIcon style={{ color: colors.WHITE }} />
           </IconButton>
-          <Typography variant="h6" noWrap component="div" style={{color:colors.WHITE, fontFamily:FONT_FAMILY,}}>
-          {settings && settings.appName? settings.appName: '' }
+          <Typography variant="h6" noWrap component="div" style={{ color: colors.BLACK, fontFamily: FONT_FAMILY, }}>
+            {settings && settings.appName ? settings.appName : ''}
           </Typography>
         </Toolbar>
       </AppBar>
@@ -194,7 +194,7 @@ export default function ResponsiveDrawer(props) {
           }}
           sx={{
             display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },direction:isRTL === 'rtl'? 'rtl':'ltr'
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth }, direction: isRTL === 'rtl' ? 'rtl' : 'ltr'
           }}
         >
           {drawer}
@@ -204,7 +204,7 @@ export default function ResponsiveDrawer(props) {
           anchor={isRTL === 'rtl' ? 'right' : 'left'}
           sx={{
             display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },direction:isRTL === 'rtl'? 'rtl':'ltr'
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth }, direction: isRTL === 'rtl' ? 'rtl' : 'ltr'
           }}
           open
         >
@@ -215,7 +215,7 @@ export default function ResponsiveDrawer(props) {
         component="main"
         sx={{ flexGrow: 1, p: 1, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
-        <Toolbar/>
+        <Toolbar />
         {props.children}
       </Box>
     </Box>

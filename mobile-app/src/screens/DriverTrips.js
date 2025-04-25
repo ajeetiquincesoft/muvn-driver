@@ -359,301 +359,284 @@ export default function DriverTrips(props) {
     }
     const windoWidth = Dimensions.get("window").width
     const windoHight = Dimensions.get("window").height
-   
+
     return (
         <View style={styles.mainViewStyle}>
             <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : (__DEV__ ? null : "padding")}>
-                <View style={{height:'80%'}}>
-                <FlatList
-                    data={auth.profile && auth.profile.uid && auth.profile.driverActiveStatus ?
-                        (appConsts && appConsts.showBookingOptions ? tasks ? tasks : activeBookings : auth.profile.queue ? activeBookings : tasks) : []}
-                    keyExtractor={(item, index) => index.toString()}
-                    ListEmptyComponent={
-                        <View style={{ height: '100%', width: width,overflow:'hidden'}}>
-                            {region && region.latitude && pageActive.current && auth.profile ?
-                                <MapView
-                                    region={{
-                                        latitude: region.latitude,
-                                        longitude: region.longitude,
-                                        latitudeDelta: latitudeDelta,
-                                        longitudeDelta: longitudeDelta
-                                    }}
-                                    minZoomLevel={3}
-                                    provider={PROVIDER_GOOGLE}
-                                    style={{ minHeight: height - 60, height: height - (Platform.OS == 'android' ? 15 : 60), width: width }}
-                                >
-                                    <Marker
-                                        coordinate={{ latitude: region.latitude, longitude: region.longitude }}
-                                        pinColor={colors.HEADER}
-                                    >
-                                        <View style={{ alignItems: 'center' }}>
-                                            <View style={{ alignItems: 'center', backgroundColor: '#fff', opacity: 0.8, borderColor: '#000', borderWidth: 1, borderRadius: 10, paddingVertical: 10, paddingHorizontal: 5, marginBottom: 5 }}>
-                                                <Text style={{ fontFamily: fonts.Bold, color: colors.BUTTON_ORANGE }}>{t('where_are_you')}</Text>
-                                                <Text style={{ fontFamily: fonts.Bold, color: colors.BUTTON_ORANGE }}>{auth.profile.driverActiveStatus ? t('rider_not_here') : t('service_off')}</Text>
-                                            </View>
-                                            <Image
-                                                source={carImageIcon}
-                                                style={{ height: 40, width: 40 }}
-                                            />
-                                        </View>
-                                    </Marker>
-                                </MapView>
-                                :
-                                gps.error ?
-                                    <View style={{ alignItems: 'center', justifyContent: 'center', height: height, width: width }}>
-                                        <Text style={{ fontFamily: fonts.Regular }} >{t('location_permission_error')}</Text>
-                                    </View>
-                                    :
-                                    <View style={{ alignItems: 'center', justifyContent: 'center', height: height, width: width }}>
-                                        <Text style={{ fontFamily: fonts.Regular }}>{t('loading')}</Text>
-                                    </View>
-                            }
-                            {gps.error || (!auth.profile.carType && settings.carType_required) || (!auth.profile.carApproved && settings.carType_required) || (!auth.profile.licenseImage && settings.license_image_required) || (!auth.profile.approved && settings.driver_approval) || !checks.driverActiveStatus || (settings && settings.imageIdApproval && !auth.profile.verifyIdImage) || (!auth.profile.term && settings.term_required) ?
-                                <View style={{
-                                    top: 0, left: 0, position: 'absolute', width: width - 20, margin: 10, borderRadius: 8, flexDirection: 'column', alignItems: 'center', backgroundColor: colors.new,
-                                    shadowColor: colors.BLACK, shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.75, shadowRadius: 4, elevation: 5,
-                                    minHeight: 10 + (gps.error ? 70 : 0) + (!checks.driverActiveStatus ? 70 : 0) + (!auth.profile.carType && settings.carType_required ? 70 : 0) + (!auth.profile.carApproved && settings.carType_required ? 70 : 0) + (!auth.profile.approved && settings.driver_approval ? 70 : 0) + (!auth.profile.licenseImage && settings.license_image_required ? 70 : 0) + (settings && settings.imageIdApproval && !auth.profile.verifyIdImage ? 70 : 0) + (!auth.profile.term && settings.term_required ? 70 : 0)
-                                }}>
-                                    {gps.error ?
-                                        <View style={[styles.alrt, { flexDirection: isRTL ? 'row-reverse' : 'row', }]}>
-                                            <View style={[styles.alrt1, { flexDirection: isRTL ? 'row-reverse' : 'row', }]}>
-                                                <Icon name="alert-circle" type="ionicon" color={colors.RED} size={18} />
-                                                <Text style={{ fontSize: 14, fontFamily: fonts.Bold, color: colors.BLACK, marginLeft: 3 }}>{t('always_on')}</Text>
-                                            </View>
-                                            <Button onPress={changePermission} title={t('fix').toUpperCase()} titleStyle={styles.checkButtonTitle} buttonStyle={styles.checkButtonStyle} />
-                                        </View>
-                                        : null}
-                                    {!auth.profile.carType && settings.carType_required ?
-                                        <View style={[styles.alrt, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
-                                            <View style={[styles.alrt1, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
-                                                <Icon name="alert-circle" type="ionicon" color={colors.RED} size={18} />
-                                                <Text style={{ fontSize: 14, fontFamily: fonts.Bold, color: colors.BLACK, marginLeft: 3 }}>{t('no_car_assign_text')}</Text>
-                                            </View>
-                                            <Button onPress={() => props.navigation.dispatch(CommonActions.reset({ index: 0, routes: [{ name: 'Cars', params: { fromPage: 'DriverTrips' } }] }))}
-                                                title={t('cars')} titleStyle={styles.checkButtonTitle} buttonStyle={styles.checkButtonStyle} />
-                                        </View>
-                                        : null}
-                                    {!auth.profile.carApproved && settings.carType_required ?
-                                        <View style={[styles.alrt, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
-                                            <View style={[styles.alrt1, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
-                                                <Icon name="alert-circle" type="ionicon" color={colors.RED} size={16} />
-                                                <Text style={{ fontSize: 14, fontFamily: fonts.Bold, color: colors.BLACK, marginLeft: 3 }}>{t('carApproved_by_admin')}</Text>
-                                            </View>
-                                        </View>
-                                        : null}
-                                    {!auth.profile.licenseImage && settings.license_image_required ?
-                                        <View style={[styles.alrt, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
-                                            <View style={[styles.alrt1, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
-                                                <Icon name="alert-circle" type="ionicon" color={colors.RED} size={16} />
-                                                <Text style={{ fontSize: 14, fontFamily: fonts.Bold, color: colors.BLACK, marginLeft: 3 }}>{t('upload_driving_license')}</Text>
-                                            </View>
-                                            <Button onPress={navEditUser} title={t('profile')} titleStyle={styles.checkButtonTitle} buttonStyle={styles.checkButtonStyle} />
-                                        </View>
-                                        : null}
-                                    {!auth.profile.approved && settings.driver_approval ?
-                                        <View style={[styles.alrt, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
-                                            <View style={[styles.alrt1, { flexDirection: isRTL ? 'row-reverse' : 'row', width: "100%" }]}>
-                                                <Icon name="alert-circle" type="ionicon" color={colors.RED} size={18} />
-                                                <Text style={{ fontSize: 14, fontFamily: fonts.Bold, color: colors.BLACK, marginLeft: 3 }}>{t('admin_contact')}</Text>
-                                            </View>
-                                        </View>
-                                        : null}
-                                    {!checks.driverActiveStatus ?
-                                        <View style={[styles.alrt, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
-                                            <View style={[styles.alrt1, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
-                                                <Icon name="alert-circle" type="ionicon" color={colors.RED} size={18} />
-                                                <Text style={{ fontSize: 14, fontFamily: fonts.Bold, color: colors.BLACK, marginLeft: 3 }}>{t('driver_active')}</Text>
-                                            </View>
-                                            <Button onPress={onChangeFunction} title={t('make_active').toUpperCase()} titleStyle={styles.checkButtonTitle} buttonStyle={styles.checkButtonStyle} />
-                                        </View>
-                                        : null}
-                                    {settings && settings.imageIdApproval && !auth.profile.verifyIdImage ?
-                                        <View style={[styles.alrt, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
-                                            <View style={[styles.alrt1, { flexDirection: isRTL ? 'row-reverse' : 'row', padding: 2 }]}>
-                                                <Icon name="alert-circle" type="ionicon" color={colors.RED} size={18} />
-                                                <Text style={{ fontSize: 14, fontFamily: fonts.Bold, color: colors.BLACK, marginLeft: 3 }}>{t('upload_id_details')}</Text>
-                                            </View>
-                                            <Button onPress={navEditUser} title={t('profile')} titleStyle={styles.checkButtonTitle} buttonStyle={[styles.checkButtonStyle, { width: 90 }]} />
-                                        </View>
-                                        : null}
-                                    {!auth.profile.term && settings.term_required ?
-                                        <View style={[styles.alrt, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
-                                            <TouchableOpacity onPress={onTermLink} style={[styles.alrt1, { flexDirection: isRTL ? 'row-reverse' : 'row', width: width - 180, height: 50 }]}>
-                                                <Icon name="document-text" type="ionicon" color={colors.RED} size={18} />
-                                                <Text style={{ fontSize: 14, fontFamily: fonts.Bold, color: colors.SKY, marginLeft: 3, textDecorationLine: 'underline' }}>{t('term_condition')}</Text>
-                                            </TouchableOpacity>
-                                            <Button onPress={onTermAccept} title={t('accept')} titleStyle={styles.checkButtonTitle} buttonStyle={styles.checkButtonStyle} />
-                                        </View>
-                                        : null}
-                                </View>
-                                : null}
-                            
-                        </View>
-                    }
-                    renderItem={({ item, index }) => {
-                        return (
-                            <KeyboardAvoidingView behavior="position" style={styles.listItemView}>
-                                {/* <View style={styles.listItemView}> */}
-                                <View style={[styles.mapcontainer, activeBookings && activeBookings.length >= 1 ? { height: height - 500 } : null]}>
-                                    <MapView style={styles.map}
-                                        provider={PROVIDER_GOOGLE}
-                                        minZoomLevel={3}
-                                        initialRegion={{
-                                            latitude: item.pickup.lat,
-                                            longitude: item.pickup.lng,
-                                            latitudeDelta: activeBookings && activeBookings.length >= 1 ? 0.0922 : 0.0822,
-                                            longitudeDelta: activeBookings && activeBookings.length >= 1 ? 0.0421 : 0.0321
+                <View style={{ height: '80%' }}>
+                    <FlatList
+                        data={auth.profile && auth.profile.uid && auth.profile.driverActiveStatus ?
+                            (appConsts && appConsts.showBookingOptions ? tasks ? tasks : activeBookings : auth.profile.queue ? activeBookings : tasks) : []}
+                        keyExtractor={(item, index) => index.toString()}
+                        ListEmptyComponent={
+                            <View style={{ height: '100%', width: width, overflow: 'hidden' }}>
+                                {region && region.latitude && pageActive.current && auth.profile ?
+                                    <MapView
+                                        region={{
+                                            latitude: region.latitude,
+                                            longitude: region.longitude,
+                                            latitudeDelta: latitudeDelta,
+                                            longitudeDelta: longitudeDelta
                                         }}
+                                        minZoomLevel={3}
+                                        provider={PROVIDER_GOOGLE}
+                                        style={{ minHeight: height - 60, height: height - (Platform.OS == 'android' ? 15 : 60), width: width }}
                                     >
                                         <Marker
-                                            coordinate={{ latitude: item.pickup.lat, longitude: item.pickup.lng }}
-                                            title={item.pickup.add}
-                                            description={t('pickup_location')}>
-                                            <Image source={require("../../assets/images/green_pin.png")} style={{ height: 35, width: 35 }} />
-                                        </Marker>
-
-                                        <Marker
-                                            coordinate={{ latitude: item.drop.lat, longitude: item.drop.lng }}
-                                            title={item.drop.add}
-                                            description={t('drop_location')}>
-                                            <Image source={require("../../assets/images/rsz_2red_pin.png")} style={{ height: 35, width: 35 }} />
-                                        </Marker>
-                                        {item.waypoints && item.waypoints.length > 0 ? item.waypoints.map((point, index) => {
-                                            return (
-                                                <Marker
-                                                    coordinate={{ latitude: point.lat, longitude: point.lng }}
-                                                    title={point.add}
-                                                    key={index}
-                                                >
-                                                    <Image source={require("../../assets/images/rsz_2red_pin.png")} style={{ height: 35, width: 35 }} />
-                                                </Marker>
-                                            )
-                                        })
-                                            : null}
-                                        {item.coords ?
-                                            <Polyline
-                                                coordinates={item.coords}
-                                                strokeWidth={4}
-                                                strokeColor={colors.INDICATOR_BLUE}
-                                            />
-                                            : null}
-                                    </MapView>
-                                </View>
-                                <View style={styles.mapDetails}>
-                                    <View style={styles.dateView}>
-                                        <View>
-                                            <Text style={styles.listDate}>{moment(item.tripdate).format('lll')}</Text>
-                                        </View>
-                                        <RateView
-                                            uid={auth.profile.uid}
-                                            settings={settings}
-                                            item={item}
-                                            styles={styles}
-                                        />
-                                        <View style={[styles.estimateView, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
-                                            <Text style={styles.listEstimate}>{item.estimateDistance ? parseFloat(item.estimateDistance).toFixed(settings.decimal) : 0} {settings.convert_to_mile ? t('mile') : t('km')}</Text>
-                                            <Text style={styles.listEstimate}>{item.estimateTime ? parseFloat(item.estimateTime / 60).toFixed(0) : 0} {t('mins')}</Text>
-                                        </View>
-                                    </View>
-                                    <View style={[styles.addressViewStyle, isRTL ? {} : {}]}>
-                                        <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', alignItems: 'center', marginBottom: 8, width: '100%' }}>
-                                            <View style={styles.locationStyle}>
-                                                <Ionicons name="location-sharp" size={24} color="white" />
-                                            </View>
-                                            <Text style={[styles.addressViewTextStyle, isRTL ? { marginRight: 8 } : { marginLeft: 8 }, { textAlign: isRTL ? 'right' : 'left' }]}>{item.pickup.add}</Text>
-                                        </View>
-                                        {item.waypoints && item.waypoints.length > 0 ? item.waypoints.map((point, index) => {
-                                            return (
-                                                <View key={"key" + index} style={{ marginBottom: 8, flexDirection: isRTL ? 'row-reverse' : 'row', alignItems: 'center' }}>
-                                                    <View style={styles.locationStyle}>
-                                                        <Ionicons name="location-sharp" size={24} color="white" />
-                                                    </View>
-                                                    <Text style={[styles.addressViewTextStyle, isRTL ? { marginRight: 8 } : { marginLeft: 8 }, { textAlign: isRTL ? 'right' : 'left' }]}>{point.add}</Text>
+                                            coordinate={{ latitude: region.latitude, longitude: region.longitude }}
+                                            pinColor={colors.HEADER}
+                                        >
+                                            <View style={{ alignItems: 'center' }}>
+                                                <View style={{ alignItems: 'center', backgroundColor: '#fff', opacity: 0.8, borderColor: '#000', borderWidth: 1, borderRadius: 10, paddingVertical: 10, paddingHorizontal: 5, marginBottom: 5 }}>
+                                                    <Text style={{ fontFamily: fonts.Bold, color: colors.BUTTON_ORANGE }}>{t('where_are_you')}</Text>
+                                                    <Text style={{ fontFamily: fonts.Bold, color: colors.BUTTON_ORANGE }}>{auth.profile.driverActiveStatus ? t('rider_not_here') : t('service_off')}</Text>
                                                 </View>
-                                            )
-                                        })
-                                            : null}
-                                        <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', alignItems: 'center' }}>
-                                            <View style={styles.locationStyle}>
-                                                <Ionicons name="location-sharp" size={24} color="white" />
-                                            </View>
-                                            <Text style={[styles.addressViewTextStyle, isRTL ? { marginRight: 8 } : { marginLeft: 8 }, { textAlign: isRTL ? 'right' : 'left' }]}>{item.drop.add}</Text>
-                                        </View>
-                                    </View>
-                                    <ExtraInfo
-                                        item={item}
-                                        uid={auth.profile.uid}
-                                        amount={amount}
-                                        setAmount={setAmount}
-                                        styles={styles}
-                                        onPressAccept={onPressAccept}
-                                        settings={settings}
-                                    />
-                                    {item && item.status != 'NEW' ?
-                                        <View style={styles.detailsBtnView}>
-                                            <View style={{ flex: 1 }}>
-                                                <Button
-                                                    onPress={() => {
-                                                        goToBooking(item.id);
-                                                    }}
-                                                    title={t('go_to_booking')}
-                                                    titleStyle={styles.titleStyles}
-                                                    buttonStyle={{
-                                                        backgroundColor: colors.DRIVER_TRIPS_BUTTON,
-                                                        width: 150,
-                                                        minHeight: 50,
-                                                        padding: 2,
-                                                        borderColor: colors.TRANSPARENT,
-                                                        borderWidth: 0,
-                                                        borderRadius: 10,
-                                                    }}
-                                                    containerStyle={{
-                                                        flex: 1,
-                                                        alignSelf: 'center',
-                                                        paddingRight: 14
-                                                    }}
+                                                <Image
+                                                    source={carImageIcon}
+                                                    style={{ height: 40, width: 40 }}
                                                 />
                                             </View>
+                                        </Marker>
+                                    </MapView>
+                                    :
+                                    gps.error ?
+                                        <View style={{ alignItems: 'center', justifyContent: 'center', height: height, width: width }}>
+                                            <Text style={{ fontFamily: fonts.Regular }} >{t('location_permission_error')}</Text>
                                         </View>
                                         :
-                                        <View style={[styles.detailsBtnView, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
-                                            <View style={{ flex: 1 }}>
-                                                <Button
-                                                    onPress={() => {
-                                                        setModalVisible(true);
-                                                        setSelectedItem(item);
-                                                    }}
-                                                    title={t('ignore_text')}
-                                                    titleStyle={styles.titleStyles}
-                                                    buttonStyle={[styles.btn, { backgroundColor: colors.LIGHT_RED, width: 150 }]}
-                                                    containerStyle={{
-                                                        flex: 1,
-                                                        alignSelf: isRTL ? 'flex-start' : 'flex-end',
-                                                        paddingRight: isRTL ? 0 : 14,
-                                                        paddingLeft: isRTL ? 14 : 0
-
-                                                    }}
-                                                />
+                                        <View style={{ alignItems: 'center', justifyContent: 'center', height: height, width: width }}>
+                                            <Text style={{ fontFamily: fonts.Regular }}>{t('loading')}</Text>
+                                        </View>
+                                }
+                                {gps.error || (!auth.profile.carType && settings.carType_required) || (!auth.profile.carApproved && settings.carType_required) || (!auth.profile.licenseImage && settings.license_image_required) || (!auth.profile.approved && settings.driver_approval) || !checks.driverActiveStatus || (settings && settings.imageIdApproval && !auth.profile.verifyIdImage) || (!auth.profile.term && settings.term_required) ?
+                                    <View style={{
+                                        top: 0, left: 0, position: 'absolute', width: width - 20, margin: 10, borderRadius: 8, flexDirection: 'column', alignItems: 'center', backgroundColor: colors.new,
+                                        shadowColor: colors.BLACK, shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.75, shadowRadius: 4, elevation: 5,
+                                        minHeight: 10 + (gps.error ? 70 : 0) + (!checks.driverActiveStatus ? 70 : 0) + (!auth.profile.carType && settings.carType_required ? 70 : 0) + (!auth.profile.carApproved && settings.carType_required ? 70 : 0) + (!auth.profile.approved && settings.driver_approval ? 70 : 0) + (!auth.profile.licenseImage && settings.license_image_required ? 70 : 0) + (settings && settings.imageIdApproval && !auth.profile.verifyIdImage ? 70 : 0) + (!auth.profile.term && settings.term_required ? 70 : 0)
+                                    }}>
+                                        {gps.error ?
+                                            <View style={[styles.alrt, { flexDirection: isRTL ? 'row-reverse' : 'row', }]}>
+                                                <View style={[styles.alrt1, { flexDirection: isRTL ? 'row-reverse' : 'row', }]}>
+                                                    <Icon name="alert-circle" type="ionicon" color={colors.RED} size={18} />
+                                                    <Text style={{ fontSize: 14, fontFamily: fonts.Bold, color: colors.BLACK, marginLeft: 3 }}>{t('always_on')}</Text>
+                                                </View>
+                                                <Button onPress={changePermission} title={t('fix').toUpperCase()} titleStyle={styles.checkButtonTitle} buttonStyle={styles.checkButtonStyle} />
                                             </View>
-                                            {item.deliveryWithBid && !(item.driverOffers && item.driverOffers[auth.profile.uid]) ?
-                                                <View style={styles.viewFlex1}>
+                                            : null}
+                                        {!auth.profile.carType && settings.carType_required ?
+                                            <View style={[styles.alrt, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                                                <View style={[styles.alrt1, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                                                    <Icon name="alert-circle" type="ionicon" color={colors.RED} size={18} />
+                                                    <Text style={{ fontSize: 14, fontFamily: fonts.Bold, color: colors.BLACK, marginLeft: 3 }}>{t('no_car_assign_text')}</Text>
+                                                </View>
+                                                <Button onPress={() => props.navigation.dispatch(CommonActions.reset({ index: 0, routes: [{ name: 'Cars', params: { fromPage: 'DriverTrips' } }] }))}
+                                                    title={t('cars')} titleStyle={styles.checkButtonTitle} buttonStyle={styles.checkButtonStyle} />
+                                            </View>
+                                            : null}
+                                        {!auth.profile.carApproved && settings.carType_required ?
+                                            <View style={[styles.alrt, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                                                <View style={[styles.alrt1, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                                                    <Icon name="alert-circle" type="ionicon" color={colors.RED} size={16} />
+                                                    <Text style={{ fontSize: 14, fontFamily: fonts.Bold, color: colors.BLACK, marginLeft: 3 }}>{t('carApproved_by_admin')}</Text>
+                                                </View>
+                                            </View>
+                                            : null}
+                                        {!auth.profile.licenseImage && settings.license_image_required ?
+                                            <View style={[styles.alrt, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                                                <View style={[styles.alrt1, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                                                    <Icon name="alert-circle" type="ionicon" color={colors.RED} size={16} />
+                                                    <Text style={{ fontSize: 14, fontFamily: fonts.Bold, color: colors.BLACK, marginLeft: 3 }}>{t('upload_driving_license')}</Text>
+                                                </View>
+                                                <Button onPress={navEditUser} title={t('profile')} titleStyle={styles.checkButtonTitle} buttonStyle={styles.checkButtonStyle} />
+                                            </View>
+                                            : null}
+                                        {!auth.profile.approved && settings.driver_approval ?
+                                            <View style={[styles.alrt, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                                                <View style={[styles.alrt1, { flexDirection: isRTL ? 'row-reverse' : 'row', width: "100%" }]}>
+                                                    <Icon name="alert-circle" type="ionicon" color={colors.RED} size={18} />
+                                                    <Text style={{ fontSize: 14, fontFamily: fonts.Bold, color: colors.BLACK, marginLeft: 3 }}>{t('admin_contact')}</Text>
+                                                </View>
+                                            </View>
+                                            : null}
+                                        {!checks.driverActiveStatus ?
+                                            <View style={[styles.alrt, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                                                <View style={[styles.alrt1, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                                                    <Icon name="alert-circle" type="ionicon" color={colors.RED} size={18} />
+                                                    <Text style={{ fontSize: 14, fontFamily: fonts.Bold, color: colors.BLACK, marginLeft: 3 }}>{t('driver_active')}</Text>
+                                                </View>
+                                                <Button onPress={onChangeFunction} title={t('make_active').toUpperCase()} titleStyle={styles.checkButtonTitle} buttonStyle={styles.checkButtonStyle} />
+                                            </View>
+                                            : null}
+                                        {settings && settings.imageIdApproval && !auth.profile.verifyIdImage ?
+                                            <View style={[styles.alrt, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                                                <View style={[styles.alrt1, { flexDirection: isRTL ? 'row-reverse' : 'row', padding: 2 }]}>
+                                                    <Icon name="alert-circle" type="ionicon" color={colors.RED} size={18} />
+                                                    <Text style={{ fontSize: 14, fontFamily: fonts.Bold, color: colors.BLACK, marginLeft: 3 }}>{t('upload_id_details')}</Text>
+                                                </View>
+                                                <Button onPress={navEditUser} title={t('profile')} titleStyle={styles.checkButtonTitle} buttonStyle={[styles.checkButtonStyle, { width: 90 }]} />
+                                            </View>
+                                            : null}
+                                        {!auth.profile.term && settings.term_required ?
+                                            <View style={[styles.alrt, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                                                <TouchableOpacity onPress={onTermLink} style={[styles.alrt1, { flexDirection: isRTL ? 'row-reverse' : 'row', width: width - 180, height: 50 }]}>
+                                                    <Icon name="document-text" type="ionicon" color={colors.RED} size={18} />
+                                                    <Text style={{ fontSize: 14, fontFamily: fonts.Bold, color: colors.SKY, marginLeft: 3, textDecorationLine: 'underline' }}>{t('term_condition')}</Text>
+                                                </TouchableOpacity>
+                                                <Button onPress={onTermAccept} title={t('accept')} titleStyle={styles.checkButtonTitle} buttonStyle={styles.checkButtonStyle} />
+                                            </View>
+                                            : null}
+                                    </View>
+                                    : null}
+
+                            </View>
+                        }
+                        renderItem={({ item, index }) => {
+                            return (
+                                <KeyboardAvoidingView behavior="position" style={styles.listItemView}>
+                                    {/* <View style={styles.listItemView}> */}
+                                    <View style={[styles.mapcontainer, activeBookings && activeBookings.length >= 1 ? { height: height - 500 } : null]}>
+                                        <MapView style={styles.map}
+                                            provider={PROVIDER_GOOGLE}
+                                            minZoomLevel={3}
+                                            initialRegion={{
+                                                latitude: item.pickup.lat,
+                                                longitude: item.pickup.lng,
+                                                latitudeDelta: activeBookings && activeBookings.length >= 1 ? 0.0922 : 0.0822,
+                                                longitudeDelta: activeBookings && activeBookings.length >= 1 ? 0.0421 : 0.0321
+                                            }}
+                                        >
+                                            <Marker
+                                                coordinate={{ latitude: item.pickup.lat, longitude: item.pickup.lng }}
+                                                title={item.pickup.add}
+                                                description={t('pickup_location')}>
+                                                <Image source={require("../../assets/images/green_pin.png")} style={{ height: 35, width: 35 }} />
+                                            </Marker>
+
+                                            <Marker
+                                                coordinate={{ latitude: item.drop.lat, longitude: item.drop.lng }}
+                                                title={item.drop.add}
+                                                description={t('drop_location')}>
+                                                <Image source={require("../../assets/images/rsz_2red_pin.png")} style={{ height: 35, width: 35 }} />
+                                            </Marker>
+                                            {item.waypoints && item.waypoints.length > 0 ? item.waypoints.map((point, index) => {
+                                                return (
+                                                    <Marker
+                                                        coordinate={{ latitude: point.lat, longitude: point.lng }}
+                                                        title={point.add}
+                                                        key={index}
+                                                    >
+                                                        <Image source={require("../../assets/images/rsz_2red_pin.png")} style={{ height: 35, width: 35 }} />
+                                                    </Marker>
+                                                )
+                                            })
+                                                : null}
+                                            {item.coords ?
+                                                <Polyline
+                                                    coordinates={item.coords}
+                                                    strokeWidth={4}
+                                                    strokeColor={colors.INDICATOR_BLUE}
+                                                />
+                                                : null}
+                                        </MapView>
+                                    </View>
+                                    <View style={styles.mapDetails}>
+                                        <View style={styles.dateView}>
+                                            <View>
+                                                <Text style={styles.listDate}>{moment(item.tripdate).format('lll')}</Text>
+                                            </View>
+                                            <RateView
+                                                uid={auth.profile.uid}
+                                                settings={settings}
+                                                item={item}
+                                                styles={styles}
+                                            />
+                                            <View style={[styles.estimateView, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                                                <Text style={styles.listEstimate}>{item.estimateDistance ? parseFloat(item.estimateDistance).toFixed(settings.decimal) : 0} {settings.convert_to_mile ? t('mile') : t('km')}</Text>
+                                                <Text style={styles.listEstimate}>{item.estimateTime ? parseFloat(item.estimateTime / 60).toFixed(0) : 0} {t('mins')}</Text>
+                                            </View>
+                                        </View>
+                                        <View style={[styles.addressViewStyle, isRTL ? {} : {}]}>
+                                            <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', alignItems: 'center', marginBottom: 8, width: '100%' }}>
+                                                <View style={styles.locationStyle}>
+                                                    <Ionicons name="location-sharp" size={24} color="white" />
+                                                </View>
+                                                <Text style={[styles.addressViewTextStyle, isRTL ? { marginRight: 8 } : { marginLeft: 8 }, { textAlign: isRTL ? 'right' : 'left' }]}>{item.pickup.add}</Text>
+                                            </View>
+                                            {item.waypoints && item.waypoints.length > 0 ? item.waypoints.map((point, index) => {
+                                                return (
+                                                    <View key={"key" + index} style={{ marginBottom: 8, flexDirection: isRTL ? 'row-reverse' : 'row', alignItems: 'center' }}>
+                                                        <View style={styles.locationStyle}>
+                                                            <Ionicons name="location-sharp" size={24} color="white" />
+                                                        </View>
+                                                        <Text style={[styles.addressViewTextStyle, isRTL ? { marginRight: 8 } : { marginLeft: 8 }, { textAlign: isRTL ? 'right' : 'left' }]}>{point.add}</Text>
+                                                    </View>
+                                                )
+                                            })
+                                                : null}
+                                            <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', alignItems: 'center' }}>
+                                                <View style={styles.locationStyle}>
+                                                    <Ionicons name="location-sharp" size={24} color="white" />
+                                                </View>
+                                                <Text style={[styles.addressViewTextStyle, isRTL ? { marginRight: 8 } : { marginLeft: 8 }, { textAlign: isRTL ? 'right' : 'left' }]}>{item.drop.add}</Text>
+                                            </View>
+                                        </View>
+                                        <ExtraInfo
+                                            item={item}
+                                            uid={auth.profile.uid}
+                                            amount={amount}
+                                            setAmount={setAmount}
+                                            styles={styles}
+                                            onPressAccept={onPressAccept}
+                                            settings={settings}
+                                        />
+                                        {item && item.status != 'NEW' ?
+                                            <View style={styles.detailsBtnView}>
+                                                <View style={{ flex: 1 }}>
                                                     <Button
-                                                        title={t('accept')}
-                                                        titleStyle={styles.titleStyles}
                                                         onPress={() => {
-                                                            onPressAccept(item, amount[item.id])
+                                                            goToBooking(item.id);
                                                         }}
-                                                        buttonStyle={[styles.btn, { backgroundColor: colors.DRIVER_TRIPS_BUTTON, width: 150 }]}
+                                                        title={t('go_to_booking')}
+                                                        titleStyle={styles.titleStyles}
+                                                        buttonStyle={{
+                                                            backgroundColor: colors.DRIVER_TRIPS_BUTTON,
+                                                            width: 150,
+                                                            minHeight: 50,
+                                                            padding: 2,
+                                                            borderColor: colors.TRANSPARENT,
+                                                            borderWidth: 0,
+                                                            borderRadius: 10,
+                                                            color: colors.BLACK
+                                                        }}
                                                         containerStyle={{
                                                             flex: 1,
-                                                            alignSelf: isRTL ? 'flex-end' : 'flex-start',
-                                                            paddingRight: isRTL ? 14 : 0,
-                                                            paddingLeft: isRTL ? 0 : 14
+                                                            alignSelf: 'center',
+                                                            paddingRight: 14
                                                         }}
                                                     />
                                                 </View>
-                                                :
-                                                !item.deliveryWithBid && (!appConsts.acceptWithAmount || (appConsts.acceptWithAmount && !(item.driverOffers && item.driverOffers[auth.profile.uid]))) ?
+                                            </View>
+                                            :
+                                            <View style={[styles.detailsBtnView, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                                                <View style={{ flex: 1 }}>
+                                                    <Button
+                                                        onPress={() => {
+                                                            setModalVisible(true);
+                                                            setSelectedItem(item);
+                                                        }}
+                                                        title={t('ignore_text')}
+                                                        titleStyle={styles.titleStyles}
+                                                        buttonStyle={[styles.btn, { backgroundColor: colors.LIGHT_RED, width: 150 }]}
+                                                        containerStyle={{
+                                                            flex: 1,
+                                                            alignSelf: isRTL ? 'flex-start' : 'flex-end',
+                                                            paddingRight: isRTL ? 0 : 14,
+                                                            paddingLeft: isRTL ? 14 : 0
+
+                                                        }}
+                                                    />
+                                                </View>
+                                                {item.deliveryWithBid && !(item.driverOffers && item.driverOffers[auth.profile.uid]) ?
                                                     <View style={styles.viewFlex1}>
                                                         <Button
                                                             title={t('accept')}
@@ -670,46 +653,64 @@ export default function DriverTrips(props) {
                                                             }}
                                                         />
                                                     </View>
-                                                    : null}
-                                        </View>
-                                    }
-                                </View>
+                                                    :
+                                                    !item.deliveryWithBid && (!appConsts.acceptWithAmount || (appConsts.acceptWithAmount && !(item.driverOffers && item.driverOffers[auth.profile.uid]))) ?
+                                                        <View style={styles.viewFlex1}>
+                                                            <Button
+                                                                title={t('accept')}
+                                                                titleStyle={styles.titleStyles}
+                                                                onPress={() => {
+                                                                    onPressAccept(item, amount[item.id])
+                                                                }}
+                                                                buttonStyle={[styles.btn, { backgroundColor: colors.DRIVER_TRIPS_BUTTON, width: 150 }]}
+                                                                containerStyle={{
+                                                                    flex: 1,
+                                                                    alignSelf: isRTL ? 'flex-end' : 'flex-start',
+                                                                    paddingRight: isRTL ? 14 : 0,
+                                                                    paddingLeft: isRTL ? 0 : 14
+                                                                }}
+                                                            />
+                                                        </View>
+                                                        : null}
+                                            </View>
+                                        }
+                                    </View>
 
-                            </KeyboardAvoidingView>
-                        )
-                    }
-                    }
-                />
+                                </KeyboardAvoidingView>
+                            )
+                        }
+                        }
+                    />
                 </View>
                 <View style={styles.report}>
-                                <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', justifyContent: 'space-between', width: '80%', alignSelf: 'center', marginVertical:10}}>
-                                    <Text style={{ color: MAIN_COLOR, fontSize:windoHight > 1000? 30: 20, fontWeight: 'bold' }}>{t('today_text')}</Text>
-                                    <MaterialIcons
-                                        name="keyboard-arrow-right"
-                                        size={windoHight > 1000? 45:28}
-                                        color={MAIN_COLOR}
-                                        onPress={() => {
-                                            props.navigation.navigate("MyEarning");
-                                        }}
-                                    />
-                                </View>
-                                <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', justifyContent: 'space-between', width: '80%', alignSelf: 'center', marginTop: 5 }}>
-                                    <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', alignItems: 'center' }}>
-                                        <Text style={{ color: MAIN_COLOR, fontSize: windoHight > 1000? 30:20, fontWeight: 'bold' }}>{bookingCount}</Text>
-                                        <Text style={{ color: MAIN_COLOR, fontSize: windoHight > 1000? 26:18, marginHorizontal: 3 }}>{t('rides')}</Text>
-                                    </View>
-                                    {settings.swipe_symbol === false ?
-                                        <Text style={{ color: MAIN_COLOR, fontSize: windoHight > 1000? 30: 20, fontWeight: 'bold' }}>
-                                            {settings.symbol}{today ? parseFloat(today).toFixed(settings.decimal) : '0'}
-                                        </Text>
-                                        :
-                                        <Text style={{ color: MAIN_COLOR, fontSize:  windoHight > 1000? 30: 20, fontWeight: 'bold' }}>
-                                            {today ? parseFloat(today).toFixed(settings.decimal) : '0'}{settings.symbol}
-                                        </Text>
-                                    }
-                                </View>
-                            </View> 
-                
+                    <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', justifyContent: 'space-between', width: '80%', alignSelf: 'center', marginVertical: 10 }}>
+                        <Text style={{ color: MAIN_COLOR, fontSize: windoHight > 1000 ? 30 : 20, fontWeight: 'bold' }}>{t('today_text')}</Text>
+                        <MaterialIcons
+                            name="keyboard-arrow-right"
+                            size={windoHight > 1000 ? 45 : 28}
+                            color={MAIN_COLOR}
+                            onPress={() => {
+                                props.navigation.navigate("MyEarning");
+                            }}
+                        />
+                    </View>
+                    <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', justifyContent: 'space-between', width: '80%', alignSelf: 'center', marginTop: 5 }}>
+                        <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', alignItems: 'center' }}>
+                            <Text style={{ color: MAIN_COLOR, fontSize: windoHight > 1000 ? 30 : 20, fontWeight: 'bold' }}>{bookingCount}</Text>
+                            <Text style={{ color: MAIN_COLOR, fontSize: windoHight > 1000 ? 26 : 18, marginHorizontal: 3 }}>{t('rides')}</Text>
+                        </View>
+                        {settings.swipe_symbol === false ?
+                            <Text style={{ color: MAIN_COLOR, fontSize: windoHight > 1000 ? 30 : 20, fontWeight: 'bold' }}>
+                                {settings.symbol}{today ? parseFloat(today).toFixed(settings.decimal) : '0'}
+                            </Text>
+                            :
+                            <Text style={{ color: MAIN_COLOR, fontSize: windoHight > 1000 ? 30 : 20, fontWeight: 'bold' }}>
+                                {today ? parseFloat(today).toFixed(settings.decimal) : '0'}{settings.symbol}
+                            </Text>
+                        }
+                    </View>
+                </View>
+
             </KeyboardAvoidingView>
 
             <View style={styles.modalPage}>
@@ -766,13 +767,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     report: {
-        height:'30%',
+        height: '30%',
         width: '100%',
         alignSelf: 'center',
         borderTopRightRadius: 15,
-        borderTopLeftRadius: 15, 
+        borderTopLeftRadius: 15,
         backgroundColor: colors.WHITE,
-        marginTop:-10,
+        marginTop: -10,
         shadowColor: 'black',
         shadowOffset: { width: 0, height: -4 },
         shadowOpacity: Platform.OS == 'ios' ? 0.1 : 0.8,

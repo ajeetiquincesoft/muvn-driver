@@ -25,9 +25,9 @@ const databaseURL = admin.app().options.databaseURL;
 setGlobalOptions({ region: databaseURL.split('.').length === 4 ? databaseURL.split('.')[1] : 'us-central1' });
 
 var methods = [
-    //"braintree",
-    // "culqi",
-    // "flutterwave",
+    "braintree",
+    "culqi",
+    "flutterwave",
     // "liqpay",
     // "mercadopago",
     // "payfast",

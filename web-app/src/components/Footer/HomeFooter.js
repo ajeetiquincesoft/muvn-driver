@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useTranslation } from "react-i18next";
 import { colors } from "../../components/Theme/WebTheme";
-import { FONT_FAMILY} from "../../common/sharedFunctions.js"
+import { FONT_FAMILY } from "../../common/sharedFunctions.js"
 
 const useStyles = makeStyles(styles);
 
@@ -27,18 +27,18 @@ export default function HomeFooter(props) {
     [classes.footerWhiteFont]: whiteFont
   });
   const navigate = useNavigate();
-  const { t, i18n  } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isRTL = i18n.dir();
 
   return (
-    <footer className={footerClasses} style={{backgroundColor: colors.HEADER}}>
-      <div className={classes.container} style={{direction:isRTL === 'rtl' ? 'rtl' : 'ltr'}}>
-        <div className={isRTL === 'rtl' ? classes.right : classes.left} style={{marginBottom: '12px'}}>
+    <footer className={footerClasses} style={{ backgroundColor: colors.HEADER, color: "#000" }}>
+      <div className={classes.container} style={{ direction: isRTL === 'rtl' ? 'rtl' : 'ltr' }}>
+        <div className={isRTL === 'rtl' ? classes.right : classes.left} style={{ marginBottom: '12px' }}>
           <List className={classes.list}>
             <ListItem className={classes.inlineBlock}>
               <a
-                style={{cursor:'pointer', color: colors.Header_Background,fontFamily: FONT_FAMILY,}}
-                className={classes.block }
+                style={{ cursor: 'pointer', color: colors.Header_Background, fontFamily: FONT_FAMILY, }}
+                className={classes.block}
                 onClick={(e) => { e.preventDefault(); navigate('/') }}
               >
                 {t('home')}
@@ -47,7 +47,7 @@ export default function HomeFooter(props) {
             <ListItem className={classes.inlineBlock}>
               <a
                 className={classes.block}
-                style={{cursor:'pointer', color: colors.Header_Background,fontFamily: FONT_FAMILY}}
+                style={{ cursor: 'pointer', color: colors.Header_Background, fontFamily: FONT_FAMILY }}
                 onClick={(e) => { e.preventDefault(); navigate('/bookings') }}
               >
                 {t('myaccount')}
@@ -56,7 +56,7 @@ export default function HomeFooter(props) {
             <ListItem className={classes.inlineBlock}>
               <a
                 className={classes.block}
-                style={{cursor:'pointer', color: colors.Header_Background,fontFamily: FONT_FAMILY}}
+                style={{ cursor: 'pointer', color: colors.Header_Background, fontFamily: FONT_FAMILY }}
                 onClick={(e) => { e.preventDefault(); navigate('/about-us') }}
               >
                 {t('about_us')}
@@ -65,7 +65,7 @@ export default function HomeFooter(props) {
             <ListItem className={classes.inlineBlock}>
               <a
                 className={classes.block}
-                style={{cursor:'pointer', color: colors.Header_Background,fontFamily: FONT_FAMILY}}
+                style={{ cursor: 'pointer', color: colors.Header_Background, fontFamily: FONT_FAMILY }}
                 onClick={(e) => { e.preventDefault(); navigate('/contact-us') }}
               >
                 {t('contact_us')}
@@ -73,7 +73,7 @@ export default function HomeFooter(props) {
             </ListItem>
             <ListItem className={classes.inlineBlock}>
               <a
-                style={{cursor:'pointer', color: colors.Header_Background,fontFamily: FONT_FAMILY}} 
+                style={{ cursor: 'pointer', color: colors.Header_Background, fontFamily: FONT_FAMILY }}
                 className={classes.block}
                 onClick={(e) => { e.preventDefault(); navigate('/privacy-policy') }}
               >
@@ -82,7 +82,7 @@ export default function HomeFooter(props) {
             </ListItem>
             <ListItem className={classes.inlineBlock}>
               <a
-                style={{cursor:'pointer', color: colors.Header_Background,fontFamily: FONT_FAMILY}} 
+                style={{ cursor: 'pointer', color: colors.Header_Background, fontFamily: FONT_FAMILY }}
                 className={classes.block}
                 onClick={(e) => { e.preventDefault(); navigate('/term-condition') }}
               >
@@ -91,19 +91,19 @@ export default function HomeFooter(props) {
             </ListItem>
           </List>
         </div>
-        {settings && settings.CompanyWebsite?
-        <div style={{marginTop: "12px", color: colors.Header_Background}}>
-          &copy; {1900 + new Date().getYear() + " "} 
-          <a
-          style={{color: colors.Header_Background,fontFamily: FONT_FAMILY }}
-            href={settings.CompanyWebsite}
-            className={aClasses}
-            target="_blank"
-          >
-            {settings.CompanyName}
-          </a>
-        </div>
-        :null}
+        {settings && settings.CompanyWebsite ?
+          <div style={{ marginTop: "12px", color: colors.Header_Background }}>
+            &copy; {1900 + new Date().getYear() + " "}
+            <a
+              style={{ color: colors.Header_Background, fontFamily: FONT_FAMILY }}
+              href={settings.CompanyWebsite}
+              className={aClasses}
+              target="_blank"
+            >
+              {settings.CompanyName}
+            </a>
+          </div>
+          : null}
       </div>
     </footer>
   );

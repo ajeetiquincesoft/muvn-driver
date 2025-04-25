@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Typography, TextField, useMediaQuery} from '@mui/material';
+import { Grid, Typography, TextField, useMediaQuery } from '@mui/material';
 import { useSelector, useDispatch } from "react-redux";
 import AlertDialog from '../components/AlertDialog';
 import { makeStyles } from '@mui/styles';
 import UsersCombo from '../components/UsersCombo';
 import { api } from 'common';
 import { useTranslation } from "react-i18next";
-import {colors} from '../components/Theme/WebTheme';
+import { colors } from '../components/Theme/WebTheme';
 import Button from "components/CustomButtons/Button.js";
-import { MAIN_COLOR, SECONDORY_COLOR , FONT_FAMILY} from "../common/sharedFunctions";
+import { MAIN_COLOR, SECONDORY_COLOR, FONT_FAMILY } from "../common/sharedFunctions";
 
 
 const useStyles = makeStyles(theme => ({
@@ -30,21 +30,21 @@ const useStyles = makeStyles(theme => ({
         borderRadius: "8px",
     },
     container1: {
-        backgroundColor: colors.Header_Text,
-        borderTopLeftRadius:"0px",
-        borderTopRightRadius:"0px",
+        backgroundColor: colors.WHITE,
+        borderTopLeftRadius: "0px",
+        borderTopRightRadius: "0px",
         borderBottomLeftRadius: "8px",
         borderBottomRightRadius: "8px",
-        padding:'30px',
+        padding: '30px',
         width: '100%',
         top: "19px",
         boxShadow: `0px 2px 5px ${SECONDORY_COLOR}`,
     },
     title: {
-        color: colors.WHITE, 
-        padding:'10px',
-        fontSize:18,
-        fontFamily: FONT_FAMILY 
+        color: colors.WHITE,
+        padding: '10px',
+        fontSize: 18,
+        fontFamily: FONT_FAMILY
     },
     items: {
         margin: 0,
@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => ({
     input: {
         fontSize: 18,
         color: colors.BLACK,
-        fontFamily: FONT_FAMILY 
+        fontFamily: FONT_FAMILY
     },
     inputdimmed: {
         fontSize: 18,
@@ -69,75 +69,75 @@ const useStyles = makeStyles(theme => ({
         height: 40,
         borderRadius: "30px",
         backgroundColor: MAIN_COLOR,
-        marginTop:'15px',
-        color:colors.WHITE,
-        fontWeight:"bold",
-        fontFamily: FONT_FAMILY 
+        marginTop: '15px',
+        color: colors.WHITE,
+        fontWeight: "bold",
+        fontFamily: FONT_FAMILY
     },
     label: {
         transformOrigin: "top right",
         right: 0,
         left: "auto"
-      }, 
+    },
     inputRtl: {
         "& label": {
-          right: 20,
-          left: "auto",
-          fontFamily: FONT_FAMILY 
-          
+            right: 20,
+            left: "auto",
+            fontFamily: FONT_FAMILY
+
         },
         "& legend": {
-          textAlign: "right",
+            textAlign: "right",
         },
         "& label.Mui-focused": {
             color: MAIN_COLOR,
-            fontFamily: FONT_FAMILY 
-          },
-          "& .MuiInput-underline:after": {
+            fontFamily: FONT_FAMILY
+        },
+        "& .MuiInput-underline:after": {
             borderBottomColor: MAIN_COLOR,
-          },
-          "& .MuiFilledInput-underline:after": {
+        },
+        "& .MuiFilledInput-underline:after": {
             borderBottomColor: MAIN_COLOR,
-          },
-          "& .MuiOutlinedInput-root": {
+        },
+        "& .MuiOutlinedInput-root": {
             "&.Mui-focused fieldset": {
-              borderColor: MAIN_COLOR,
+                borderColor: MAIN_COLOR,
             },
-          },
-          
-      fontFamily: FONT_FAMILY 
-      },
-      textField: {
+        },
+
+        fontFamily: FONT_FAMILY
+    },
+    textField: {
         "& label": {
-            fontFamily: FONT_FAMILY 
-          },
+            fontFamily: FONT_FAMILY
+        },
         "& label.Mui-focused": {
             color: MAIN_COLOR,
-            fontFamily: FONT_FAMILY 
-          },
-          "& .MuiInput-underline:after": {
+            fontFamily: FONT_FAMILY
+        },
+        "& .MuiInput-underline:after": {
             borderBottomColor: MAIN_COLOR,
-          },
-          "& .MuiFilledInput-underline:after": {
+        },
+        "& .MuiFilledInput-underline:after": {
             borderBottomColor: MAIN_COLOR,
-          },
-          "& .MuiOutlinedInput-root": {
+        },
+        "& .MuiOutlinedInput-root": {
             "&.Mui-focused fieldset": {
-              borderColor: MAIN_COLOR,
+                borderColor: MAIN_COLOR,
             },
-          },
-          fontFamily: FONT_FAMILY 
-      },
-      selectField: {
+        },
+        fontFamily: FONT_FAMILY
+    },
+    selectField: {
         color: colors.BLACK,
         "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-          borderColor: MAIN_COLOR,
+            borderColor: MAIN_COLOR,
         },
-      },
+    },
 }));
 
 export default function AddMoney(props) {
-    const { t, i18n  } = useTranslation();
+    const { t, i18n } = useTranslation();
     const isRTL = i18n.dir();
     const {
         addToWallet
@@ -163,20 +163,20 @@ export default function AddMoney(props) {
                     'mobile': user.mobile,
                     'email': user.email,
                     'uid': user.id,
-                    'desc': user.firstName + ' ' + user.lastName + ' (' + (settings.AllowCriticalEditsAdmin? user.mobile :t("hidden_demo")) + ') ' + (settings.AllowCriticalEditsAdmin? user.email :t("hidden_demo")),
+                    'desc': user.firstName + ' ' + user.lastName + ' (' + (settings.AllowCriticalEditsAdmin ? user.mobile : t("hidden_demo")) + ') ' + (settings.AllowCriticalEditsAdmin ? user.email : t("hidden_demo")),
                     'pushToken': user.pushToken ? user.pushToken : ''
                 });
             }
             setUsers(arr);
         }
-    }, [userdata.users,settings.AllowCriticalEditsAdmin,t]);
+    }, [userdata.users, settings.AllowCriticalEditsAdmin, t]);
 
     const handleAddBalance = () => {
-        if(userCombo && userCombo.uid && amount> 0){
-            dispatch(addToWallet(userCombo.uid,amount));
-            setCommonAlert({ open:true, msg: t('success')});
-        }else{
-            setCommonAlert({ open:true, msg: t('no_details_error')});
+        if (userCombo && userCombo.uid && amount > 0) {
+            dispatch(addToWallet(userCombo.uid, amount));
+            setCommonAlert({ open: true, msg: t('success') });
+        } else {
+            setCommonAlert({ open: true, msg: t('no_details_error') });
         }
     }
 
@@ -186,11 +186,11 @@ export default function AddMoney(props) {
     };
 
     return (
-        <div className={classes.container} style={{direction:isRTL==='rtl'?'rtl':'ltr',maxWidth:isMidScreen&&"100%"}}>
+        <div className={classes.container} style={{ direction: isRTL === 'rtl' ? 'rtl' : 'ltr', maxWidth: isMidScreen && "100%" }}>
             <Grid item xs={12} sm={12} md={8} lg={8}>
                 <Grid item >
                     <Grid item xs={12}>
-                        <Typography className={classes.title} style={{textAlign:isRTL==='rtl'?'right':'left'}}>
+                        <Typography className={classes.title} style={{ textAlign: isRTL === 'rtl' ? 'right' : 'left' }}>
                             {t('add_to_wallet_title')}
                         </Typography>
                     </Grid>
@@ -206,29 +206,29 @@ export default function AddMoney(props) {
                                         onChange={(event, newValue) => {
                                             setUserCombo(newValue);
                                         }}
-                                        
+
                                     />
                                     : null}
                             </Grid>
-                            <Grid item xs={12} sm={12}  md={12} lg={6} xl={6} >
+                            <Grid item xs={12} sm={12} md={12} lg={6} xl={6} >
                                 <TextField
                                     id="datetime-local"
                                     label={t('amount')}
                                     type="number"
                                     variant={"outlined"}
                                     fullWidth
-                                    className={isRTL==='rtl'? classes.inputRtl:classes.textField}
+                                    className={isRTL === 'rtl' ? classes.inputRtl : classes.textField}
                                     InputProps={{
                                         className: classes.input
                                     }}
                                     value={amount}
                                     onChange={event => {
                                         const { value } = event.target;
-                                        setAmount(value === '' || value === null || value === undefined? 0:parseFloat(value));
+                                        setAmount(value === '' || value === null || value === undefined ? 0 : parseFloat(value));
                                     }}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={12}  md={12} lg={6} xl={6} >
+                            <Grid item xs={12} sm={12} md={12} lg={6} xl={6} >
                                 <Button
                                     size="lg"
                                     onClick={handleAddBalance}

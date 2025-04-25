@@ -73,12 +73,12 @@ export default function Header(props) {
   </Button>;
   return (
     <AppBar className={appBarClasses}>
-          {settings && settings.appName?
-      <Helmet>
-        <title>{settings.appName + " | " + t("book_your_title")}</title>
-        <meta name="description" content={t("about_us_content2")}/>
-      </Helmet>
-      :null}
+      {settings && settings.appName ?
+        <Helmet>
+          <title>{settings.appName + " | " + t("book_your_title")}</title>
+          <meta name="description" content={t("about_us_content2")} />
+        </Helmet>
+        : null}
       <Toolbar className={classes.container} style={{ direction: isRTL === 'rtl' ? 'rtl' : 'ltr' }}>
         {leftLinks !== undefined ? brandComponent : null}
         <div className={isRTL === 'rtl' ? null : classes.flex}>
@@ -93,7 +93,7 @@ export default function Header(props) {
 
         <div style={{ direction: isRTL === 'rtl' ? 'rtl' : 'ltr' }}>
           <Box component="div" sx={{ display: { sm: 'none', md: 'block', xs: 'none' } }} >
-              {rightLinks}
+            {rightLinks}
           </Box>
         </div>
         <Box component="div" sx={{ display: { md: 'none', xs: 'block' } }} >

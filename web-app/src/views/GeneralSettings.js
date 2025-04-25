@@ -13,11 +13,11 @@ import { useTranslation } from "react-i18next";
 import CountryListSelect from '../components/CountryListSelect';
 import { colors } from '../components/Theme/WebTheme';
 import Button from "components/CustomButtons/Button.js";
-import { PanicSettings, BookingImageSettings , DeliveryFlow, CustomerBidSettings} from 'common/sharedFunctions';
+import { PanicSettings, BookingImageSettings, DeliveryFlow, CustomerBidSettings } from 'common/sharedFunctions';
 import { DispatchSettings } from 'common/sharedFunctions';
 import { showEst, calcEst } from 'common/sharedFunctions';
 import { optionsRequired } from 'common/sharedFunctions';
-import {MAIN_COLOR, SECONDORY_COLOR, FONT_FAMILY } from "../common/sharedFunctions"
+import { MAIN_COLOR, SECONDORY_COLOR, FONT_FAMILY } from "../common/sharedFunctions"
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -34,12 +34,12 @@ const useStyles = makeStyles(theme => ({
     color: colors.WHITE,
     alignContent: 'center'
   },
-  formControlLabel:{
-    fontFamily: FONT_FAMILY, 
+  formControlLabel: {
+    fontFamily: FONT_FAMILY,
     flexDirection: 'row-reverse',
   },
   container1: {
-    backgroundColor: colors.Header_Text,
+    backgroundColor: colors.WHITE,
     borderTopLeftRadius: "0px",
     borderTopRightRadius: "0px",
     borderBottomLeftRadius: "8px",
@@ -65,7 +65,7 @@ const useStyles = makeStyles(theme => ({
   form: {
     width: '100%',
     marginTop: theme.spacing(1),
-    backgroundColor:MAIN_COLOR,
+    backgroundColor: MAIN_COLOR,
     alignContent: 'center',
     borderRadius: "8px",
   },
@@ -184,8 +184,8 @@ const useStyles = makeStyles(theme => ({
     height: 40,
     borderRadius: "30px",
     backgroundColor: MAIN_COLOR,
-    color:colors.WHITE,
-    fontWeight:"bold",
+    color: colors.WHITE,
+    fontWeight: "bold",
     fontFamily: FONT_FAMILY,
     padding: '12px 24px',
     minWidth: '150px',
@@ -288,7 +288,7 @@ const GeneralSettings = (props) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  const  handleChange = (e) => {
+  const handleChange = (e) => {
     setData({ ...data, bookingFlow: e.target.value });
   }
 
@@ -303,7 +303,7 @@ const GeneralSettings = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (data.AllowCriticalEditsAdmin) {
-      if((data.mobileLogin === false && data.emailLogin === true) || (data.mobileLogin === true && data.emailLogin === false) || (data.mobileLogin === true && data.emailLogin === true)) {
+      if ((data.mobileLogin === false && data.emailLogin === true) || (data.mobileLogin === true && data.emailLogin === false) || (data.mobileLogin === true && data.emailLogin === true)) {
         if (data.bonus === '') {
           alert(t('proper_bonus'))
         } else {
@@ -329,14 +329,14 @@ const GeneralSettings = (props) => {
       <form className={classes.form}>
         <Grid item xs={12} sm={12}>
           <Grid item xs={12}>
-            <Typography component="h1" variant="h5" className={classes.title} style={{ textAlign: isRTL === 'rtl' ? 'right' : 'left', fontFamily:FONT_FAMILY }}>
+            <Typography component="h1" variant="h5" className={classes.title} style={{ textAlign: isRTL === 'rtl' ? 'right' : 'left', fontFamily: FONT_FAMILY }}>
               {t('general_settings')}
             </Typography>
           </Grid>
           <div className={classes.container1}>
             <Grid container spacing={2} style={{ direction: isRTL === 'rtl' ? 'rtl' : 'ltr' }} >
               <Grid item xs={12} sm={12} md={6} lg={6} >
-                <Typography component="h1" variant="h5" style={{ textAlign: isRTL === 'rtl' ? 'right' : 'left', fontFamily:FONT_FAMILY }}>
+                <Typography component="h1" variant="h5" style={{ textAlign: isRTL === 'rtl' ? 'right' : 'left', fontFamily: FONT_FAMILY }}>
                   {t('currency_settings')}
                 </Typography>
                 <Grid container spacing={2}>
@@ -375,7 +375,7 @@ const GeneralSettings = (props) => {
                   </Grid>
                   <Grid item xs={12} sm={4} md={4} lg={4}>
                     <TextField
-                    InputLabelProps={{ style: { fontFamily: FONT_FAMILY } }}
+                      InputLabelProps={{ style: { fontFamily: FONT_FAMILY } }}
                       className={isRTL === "rtl" ? classes.rootRtl : classes.textField}
                       variant="outlined"
                       margin="normal"
@@ -398,7 +398,7 @@ const GeneralSettings = (props) => {
                         color="primary"
                       />
                     }
-                    label={ <Typography className={classes.typography}>{t('swipe_symbol')}</Typography>}
+                    label={<Typography className={classes.typography}>{t('swipe_symbol')}</Typography>}
                   />
                   <FormControlLabel
                     style={{ marginLeft: '6px', marginBottom: '10px', flexDirection: isRTL === 'rtl' ? 'row-reverse' : 'row' }}
@@ -410,22 +410,22 @@ const GeneralSettings = (props) => {
                         color="primary"
                       />
                     }
-                    label={ <Typography className={classes.typography}>{t('disable_online')}</Typography>}
-                  />                  
+                    label={<Typography className={classes.typography}>{t('disable_online')}</Typography>}
+                  />
                   <FormControlLabel
-                  style={{ marginLeft: '6px', marginBottom: '10px', flexDirection: isRTL === 'rtl' ? 'row-reverse' : 'row' }}
-                  control={
-                    <Switch
-                      checked={data.disable_cash}
-                      onChange={handleSwitchChange}
-                      name="disable_cash"
-                      color="primary"
-                    />
-                  }
-                  label={ <Typography className={classes.typography}>{t('disable_cash')}</Typography>}
-                />  
+                    style={{ marginLeft: '6px', marginBottom: '10px', flexDirection: isRTL === 'rtl' ? 'row-reverse' : 'row' }}
+                    control={
+                      <Switch
+                        checked={data.disable_cash}
+                        onChange={handleSwitchChange}
+                        name="disable_cash"
+                        color="primary"
+                      />
+                    }
+                    label={<Typography className={classes.typography}>{t('disable_cash')}</Typography>}
+                  />
                 </Grid>
-                <Typography component="h1" variant="h5" style={{ marginTop: '15px', textAlign: isRTL === 'rtl' ? 'right' : 'left' , fontFamily:FONT_FAMILY}}>
+                <Typography component="h1" variant="h5" style={{ marginTop: '15px', textAlign: isRTL === 'rtl' ? 'right' : 'left', fontFamily: FONT_FAMILY }}>
                   {t('security_title')}
                 </Typography>
                 <FormControlLabel
@@ -438,7 +438,7 @@ const GeneralSettings = (props) => {
                       color="primary"
                     />
                   }
-                  label={ <Typography className={classes.typography}>{t('settings_label3')}</Typography>}
+                  label={<Typography className={classes.typography}>{t('settings_label3')}</Typography>}
                 />
                 <FormControlLabel
                   style={{ flexDirection: isRTL === 'rtl' ? 'row-reverse' : 'row' }}
@@ -450,7 +450,7 @@ const GeneralSettings = (props) => {
                       color="primary"
                     />
                   }
-                  label={ <Typography className={classes.typography}>{t('settings_label4')}</Typography>}
+                  label={<Typography className={classes.typography}>{t('settings_label4')}</Typography>}
                 />
                 <FormControlLabel
                   style={{ flexDirection: isRTL === 'rtl' ? 'row-reverse' : 'row' }}
@@ -462,7 +462,7 @@ const GeneralSettings = (props) => {
                       color="primary"
                     />
                   }
-                  label={ <Typography className={classes.typography}>{t('settings_label5')}</Typography>}
+                  label={<Typography className={classes.typography}>{t('settings_label5')}</Typography>}
                 />
                 <FormControlLabel
                   style={{ flexDirection: isRTL === 'rtl' ? 'row-reverse' : 'row' }}
@@ -474,15 +474,15 @@ const GeneralSettings = (props) => {
                       color="primary"
                     />
                   }
-                  label={ <Typography className={classes.typography}>{t('settings_label6')}</Typography>}
+                  label={<Typography className={classes.typography}>{t('settings_label6')}</Typography>}
                 />
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={12} md={12} lg={12}>
-                    <Typography component="h1" variant="h5" style={{ marginTop: '13px', textAlign: isRTL === 'rtl' ? 'right' : 'left', fontFamily:FONT_FAMILY }}>
+                    <Typography component="h1" variant="h5" style={{ marginTop: '13px', textAlign: isRTL === 'rtl' ? 'right' : 'left', fontFamily: FONT_FAMILY }}>
                       {t('referral_bonus')}
                     </Typography>
                     <TextField
-                    InputLabelProps={{ style: { fontFamily: FONT_FAMILY } }}
+                      InputLabelProps={{ style: { fontFamily: FONT_FAMILY } }}
                       className={isRTL === "rtl" ? classes.rootRtl : classes.textField}
                       variant="outlined"
                       margin="normal"
@@ -496,11 +496,11 @@ const GeneralSettings = (props) => {
                     />
                   </Grid>
                 </Grid>
-                <Typography component="h1" variant="h5" style={{ marginTop: '10px', textAlign: isRTL === 'rtl' ? 'right' : 'left', fontFamily:FONT_FAMILY }}>
+                <Typography component="h1" variant="h5" style={{ marginTop: '10px', textAlign: isRTL === 'rtl' ? 'right' : 'left', fontFamily: FONT_FAMILY }}>
                   {t('wallet_money_field')}
                 </Typography>
                 <TextField
-                InputLabelProps={{ style: { fontFamily: FONT_FAMILY } }}
+                  InputLabelProps={{ style: { fontFamily: FONT_FAMILY } }}
                   className={isRTL === "rtl" ? classes.rootRtl : classes.textField}
                   variant="outlined"
                   margin="normal"
@@ -512,11 +512,11 @@ const GeneralSettings = (props) => {
                   onChange={handleWalletMoney}
                   value={data.walletMoneyField}
                 />
-                <Typography component="h1" variant="h5" style={{ marginTop: '10px', textAlign: isRTL === 'rtl' ? 'right' : 'left', fontFamily:FONT_FAMILY }}>
+                <Typography component="h1" variant="h5" style={{ marginTop: '10px', textAlign: isRTL === 'rtl' ? 'right' : 'left', fontFamily: FONT_FAMILY }}>
                   {t('tip_money_field')}
                 </Typography>
                 <TextField
-                InputLabelProps={{ style: { fontFamily: FONT_FAMILY } }}
+                  InputLabelProps={{ style: { fontFamily: FONT_FAMILY } }}
                   className={isRTL === "rtl" ? classes.rootRtl : classes.textField}
                   variant="outlined"
                   margin="normal"
@@ -532,11 +532,11 @@ const GeneralSettings = (props) => {
                   data={data.bookingFlow}
                   handleChange={handleChange}
                 />
-                <Typography component="h1" variant="h5" style={{ marginTop: '10px', textAlign: isRTL === 'rtl' ? 'right' : 'left' , fontFamily: FONT_FAMILY,}}>
+                <Typography component="h1" variant="h5" style={{ marginTop: '10px', textAlign: isRTL === 'rtl' ? 'right' : 'left', fontFamily: FONT_FAMILY, }}>
                   {t('driver_threshold')}
                 </Typography>
                 <TextField
-                InputLabelProps={{ style: { fontFamily: FONT_FAMILY } }}
+                  InputLabelProps={{ style: { fontFamily: FONT_FAMILY } }}
                   className={isRTL === "rtl" ? classes.rootRtl : classes.textField}
                   variant="outlined"
                   margin="normal"
@@ -550,7 +550,7 @@ const GeneralSettings = (props) => {
                 />
               </Grid>
               <Grid item xs={12} sm={12} md={6} lg={6}>
-                <Typography component="h1" variant="h5" style={{ textAlign: isRTL === 'rtl' ? 'right' : 'left' , fontFamily:FONT_FAMILY}}>
+                <Typography component="h1" variant="h5" style={{ textAlign: isRTL === 'rtl' ? 'right' : 'left', fontFamily: FONT_FAMILY }}>
                   {t('advance_settings')}
                 </Typography>
                 <Grid container spacing={2}>
@@ -566,7 +566,7 @@ const GeneralSettings = (props) => {
                           handleCountryChange(value);
                         }
                       }
-                      style={{ marginTop: 16, fontFamily:FONT_FAMILY }}
+                      style={{ marginTop: 16, fontFamily: FONT_FAMILY }}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} md={6} lg={6} >
@@ -581,7 +581,7 @@ const GeneralSettings = (props) => {
                           handleCountryCode(value);
                         }
                       }
-                      style={{ marginTop: 16 , fontFamily:FONT_FAMILY}}
+                      style={{ marginTop: 16, fontFamily: FONT_FAMILY }}
                     />
                   </Grid>
                 </Grid>
@@ -595,7 +595,7 @@ const GeneralSettings = (props) => {
                       color="primary"
                     />
                   }
-                  label={ <Typography className={classes.typography}>{t('allow_multi_country')}</Typography>}
+                  label={<Typography className={classes.typography}>{t('allow_multi_country')}</Typography>}
 
                 />
                 <FormControlLabel
@@ -608,11 +608,11 @@ const GeneralSettings = (props) => {
                       color="primary"
                     />
                   }
-                  label={ <Typography className={classes.typography}>{t('convert_to_mile')}</Typography>}
+                  label={<Typography className={classes.typography}>{t('convert_to_mile')}</Typography>}
                 />
                 <BookingImageSettings
-                  data = {data}
-                  handleSwitchChange = {handleSwitchChange}
+                  data={data}
+                  handleSwitchChange={handleSwitchChange}
                 />
                 <FormControlLabel
                   style={{ marginTop: '10px', flexDirection: isRTL === 'rtl' ? 'row-reverse' : 'row' }}
@@ -624,7 +624,7 @@ const GeneralSettings = (props) => {
                       color="primary"
                     />
                   }
-                  label={ <Typography className={classes.typography}>{t('rider_withdraw')}</Typography>}
+                  label={<Typography className={classes.typography}>{t('rider_withdraw')}</Typography>}
                 />
                 <FormControlLabel
                   style={{ marginTop: '10px', flexDirection: isRTL === 'rtl' ? 'row-reverse' : 'row' }}
@@ -636,7 +636,7 @@ const GeneralSettings = (props) => {
                       color="primary"
                     />
                   }
-                  label={ <Typography className={classes.typography}>{t('car_view_horizontal')}</Typography>}
+                  label={<Typography className={classes.typography}>{t('car_view_horizontal')}</Typography>}
                 />
                 <FormControlLabel
                   style={{ marginTop: '10px', flexDirection: isRTL === 'rtl' ? 'row-reverse' : 'row' }}
@@ -648,9 +648,9 @@ const GeneralSettings = (props) => {
                       color="primary"
                     />
                   }
-                  label={ <Typography className={classes.typography}>{t('use_distance_matrix')}</Typography>}
+                  label={<Typography className={classes.typography}>{t('use_distance_matrix')}</Typography>}
                 />
-                  <FormControlLabel
+                <FormControlLabel
                   style={{ marginTop: '10px', flexDirection: isRTL === 'rtl' ? 'row-reverse' : 'row' }}
                   control={
                     <Switch
@@ -660,38 +660,38 @@ const GeneralSettings = (props) => {
                       color="primary"
                     />
                   }
-                  label={ <Typography className={classes.typography}>{t('car_horn_repeat')}</Typography>}
+                  label={<Typography className={classes.typography}>{t('car_horn_repeat')}</Typography>}
                 />
                 {showEst && (!optionsRequired) ?
                   <FormControlLabel
-                  style={{ marginTop: '10px', flexDirection: isRTL === 'rtl' ? 'row-reverse' : 'row' }}
-                  control={
-                    <Switch
-                      checked={data.prepaid}
-                      onChange={handleSwitchChange}
-                      name="prepaid"
-                      color="primary"
-                    />
-                  }
-                  label={ <Typography className={classes.typography}>{t('prepaid')}</Typography>}
-                />
-                : null}
+                    style={{ marginTop: '10px', flexDirection: isRTL === 'rtl' ? 'row-reverse' : 'row' }}
+                    control={
+                      <Switch
+                        checked={data.prepaid}
+                        onChange={handleSwitchChange}
+                        name="prepaid"
+                        color="primary"
+                      />
+                    }
+                    label={<Typography className={classes.typography}>{t('prepaid')}</Typography>}
+                  />
+                  : null}
                 {calcEst && (!optionsRequired) ?
                   <FormControlLabel
+                    style={{ marginTop: '10px', flexDirection: isRTL === 'rtl' ? 'row-reverse' : 'row' }}
+                    control={
+                      <Switch
+                        checked={data.disablesystemprice}
+                        onChange={handleSwitchChange}
+                        name="disablesystemprice"
+                        color="primary"
+                      />
+                    }
+                    label={<Typography className={classes.typography}>{t('disablesystemprice')}</Typography>}
+                  />
+                  : null}
+                <FormControlLabel
                   style={{ marginTop: '10px', flexDirection: isRTL === 'rtl' ? 'row-reverse' : 'row' }}
-                  control={
-                    <Switch
-                      checked={data.disablesystemprice}
-                      onChange={handleSwitchChange}
-                      name="disablesystemprice"
-                      color="primary"
-                    />
-                  }
-                  label={ <Typography className={classes.typography}>{t('disablesystemprice')}</Typography>}
-                />
-                : null}
-                 <FormControlLabel
-                 style={{ marginTop: '10px', flexDirection: isRTL === 'rtl' ? 'row-reverse' : 'row' }}
                   control={
                     <Switch
                       checked={data?.disable_tips}
@@ -700,11 +700,11 @@ const GeneralSettings = (props) => {
                       color="primary"
                     />
                   }
-                  label={ <Typography className={classes.typography}>{t('disable_tips')}</Typography>}
+                  label={<Typography className={classes.typography}>{t('disable_tips')}</Typography>}
                 />
-                  <Typography component="h1" variant="h5" style={{ marginTop: '15px', textAlign: isRTL === 'rtl' ? 'right' : 'left', fontFamily:FONT_FAMILY }}>
-                {t('login_settings')}
-              </Typography>
+                <Typography component="h1" variant="h5" style={{ marginTop: '15px', textAlign: isRTL === 'rtl' ? 'right' : 'left', fontFamily: FONT_FAMILY }}>
+                  {t('login_settings')}
+                </Typography>
                 <FormControlLabel
                   style={{ flexDirection: isRTL === 'rtl' ? 'row-reverse' : 'row' }}
                   control={
@@ -715,7 +715,7 @@ const GeneralSettings = (props) => {
                       color="primary"
                     />
                   }
-                  label={ <Typography className={classes.typography}>{t('email_login')}</Typography>}
+                  label={<Typography className={classes.typography}>{t('email_login')}</Typography>}
                 />
                 <FormControlLabel
                   style={{ flexDirection: isRTL === 'rtl' ? 'row-reverse' : 'row' }}
@@ -727,7 +727,7 @@ const GeneralSettings = (props) => {
                       color="primary"
                     />
                   }
-                  label={ <Typography className={classes.typography}>{t('mobile_login')}</Typography>}
+                  label={<Typography className={classes.typography}>{t('mobile_login')}</Typography>}
 
                 />
                 <FormControlLabel
@@ -740,14 +740,14 @@ const GeneralSettings = (props) => {
                       color="primary"
                     />
                   }
-                  label={ <Typography className={classes.typography}>{t('social_login')}</Typography>}
+                  label={<Typography className={classes.typography}>{t('social_login')}</Typography>}
 
                 />
-                <Typography component="h1" variant="h5" style={{ marginTop: '15px', textAlign: isRTL === 'rtl' ? 'right' : 'left', fontFamily:FONT_FAMILY }}>
+                <Typography component="h1" variant="h5" style={{ marginTop: '15px', textAlign: isRTL === 'rtl' ? 'right' : 'left', fontFamily: FONT_FAMILY }}>
                   {t('driver_setting')}
                 </Typography>
                 <TextField
-                InputLabelProps={{ style: { fontFamily: FONT_FAMILY } }}
+                  InputLabelProps={{ style: { fontFamily: FONT_FAMILY } }}
                   className={isRTL === "rtl" ? classes.rootRtl : classes.textField}
                   variant="outlined"
                   margin="normal"
@@ -760,8 +760,8 @@ const GeneralSettings = (props) => {
                   value={data.driverRadius}
                 />
                 <DispatchSettings
-                    autoDispatch = {data.autoDispatch}
-                    onChange={handleSwitchChange}
+                  autoDispatch={data.autoDispatch}
+                  onChange={handleSwitchChange}
                 />
                 <FormControlLabel
                   style={{ flexDirection: isRTL === 'rtl' ? 'row-reverse' : 'row' }}
@@ -773,10 +773,10 @@ const GeneralSettings = (props) => {
                       color="primary"
                     />
                   }
-                  label={ <Typography className={classes.typography}>{t('negative_balance')}</Typography>}
+                  label={<Typography className={classes.typography}>{t('negative_balance')}</Typography>}
 
                 />
-                 <FormControlLabel
+                <FormControlLabel
                   style={{ flexDirection: isRTL === 'rtl' ? 'row-reverse' : 'row', }}
                   control={
                     <Switch
@@ -786,7 +786,7 @@ const GeneralSettings = (props) => {
                       color="primary"
                     />
                   }
-                  label={ <Typography className={classes.typography}>{t('realtime_drivers')}</Typography>}
+                  label={<Typography className={classes.typography}>{t('realtime_drivers')}</Typography>}
                 />
                 <FormControlLabel
                   style={{ flexDirection: isRTL === 'rtl' ? 'row-reverse' : 'row' }}
@@ -798,10 +798,10 @@ const GeneralSettings = (props) => {
                       color="primary"
                     />
                   }
-                  label={ <Typography className={classes.typography}>{t('bank_fields')}</Typography>}
+                  label={<Typography className={classes.typography}>{t('bank_fields')}</Typography>}
                 />
                 <FormControlLabel
-                  style={{flexDirection: isRTL === 'rtl' ? 'row-reverse' : 'row' }}
+                  style={{ flexDirection: isRTL === 'rtl' ? 'row-reverse' : 'row' }}
                   control={
                     <Switch
                       checked={data.showLiveRoute}
@@ -810,11 +810,11 @@ const GeneralSettings = (props) => {
                       color="primary"
                     />
                   }
-                  label={ <Typography className={classes.typography}>{t('show_live_route')}</Typography>}
+                  label={<Typography className={classes.typography}>{t('show_live_route')}</Typography>}
                 />
 
                 <FormControlLabel
-                  style={{flexDirection: isRTL === 'rtl' ? 'row-reverse' : 'row' }}
+                  style={{ flexDirection: isRTL === 'rtl' ? 'row-reverse' : 'row' }}
                   control={
                     <Switch
                       checked={data.carType_required}
@@ -823,11 +823,11 @@ const GeneralSettings = (props) => {
                       color="primary"
                     />
                   }
-                  label={ <Typography className={classes.typography}>{t('carType_required')}</Typography>}
+                  label={<Typography className={classes.typography}>{t('carType_required')}</Typography>}
                 />
 
                 <FormControlLabel
-                  style={{flexDirection: isRTL === 'rtl' ? 'row-reverse' : 'row' }}
+                  style={{ flexDirection: isRTL === 'rtl' ? 'row-reverse' : 'row' }}
                   className={classes.formControlLabel}
                   control={
                     <Switch
@@ -837,11 +837,11 @@ const GeneralSettings = (props) => {
                       color="primary"
                     />
                   }
-                  label={ <Typography className={classes.typography}>{t('term_required')}</Typography>}
+                  label={<Typography className={classes.typography}>{t('term_required')}</Typography>}
                 />
 
                 <FormControlLabel
-                  style={{flexDirection: isRTL === 'rtl' ? 'row-reverse' : 'row' }}
+                  style={{ flexDirection: isRTL === 'rtl' ? 'row-reverse' : 'row' }}
                   control={
                     <Switch
                       checked={data.license_image_required}
@@ -850,20 +850,20 @@ const GeneralSettings = (props) => {
                       color="primary"
                     />
                   }
-                  label={ <Typography className={classes.typography}>{t('license_image_required')}</Typography>}
+                  label={<Typography className={classes.typography}>{t('license_image_required')}</Typography>}
                 />
 
                 <PanicSettings
                   classes={classes}
-                  data={data} 
+                  data={data}
                   handleTextChange={handleTextChange}
                 />
                 <CustomerBidSettings
-                  data= {data}
+                  data={data}
                   classes={classes}
-                  handleSwitchChange= {handleSwitchChange}
+                  handleSwitchChange={handleSwitchChange}
                   handleChangeBidPriceType={handleChangeBidPriceType}
-                  handleCustomerPrice={handleCustomerPrice} 
+                  handleCustomerPrice={handleCustomerPrice}
                 />
               </Grid>
             </Grid>
@@ -876,13 +876,13 @@ const GeneralSettings = (props) => {
                   color="secondaryButton"
                   className={classes.buttonStyle}
                 >
-                  <Typography style={{fontFamily:FONT_FAMILY, wordBreak:"break-word",whiteSpace: 'normal',fontSize: '14px', textOverflow:"ellipsis"}}>{t('submit')}</Typography>
+                  <Typography style={{ fontFamily: FONT_FAMILY, wordBreak: "break-word", whiteSpace: 'normal', fontSize: '14px', textOverflow: "ellipsis" }}>{t('submit')}</Typography>
                 </Button>
 
               </Grid>
             </Grid>
           </div>
-          <AlertDialog open={settingsdata.error.flag && clicked} onClose={handleClose}>{ <Typography className={classes.typography}>{t('update_failed')}</Typography>}</AlertDialog>
+          <AlertDialog open={settingsdata.error.flag && clicked} onClose={handleClose}>{<Typography className={classes.typography}>{t('update_failed')}</Typography>}</AlertDialog>
         </Grid>
       </form>
       :

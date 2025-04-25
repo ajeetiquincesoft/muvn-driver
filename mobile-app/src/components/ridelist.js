@@ -271,7 +271,7 @@ export default function RideList(props) {
                             title={item.status == 'PAID' ? t('add_to_review') : item.status == 'PAYMENT_PENDING' ? t('paynow_button') : t('go_to_booking')}
                             loading={false}
                             loadingColor={{ color: colors.GREEN }}
-                            buttonStyle={[styles.textStyleBold, { color: colors.WHITE }]}
+                            buttonStyle={[styles.textStyleBold, { color: colors.BLACK }]}
                             style={{ backgroundColor: MAIN_COLOR, marginVertical: 10 }}
                             btnClick={() => { onPressAction(item, index) }}
                         />

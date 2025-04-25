@@ -69,7 +69,7 @@ export default function RideDetails(props) {
         }
     }
 
-    const onChatAction = () => { 
+    const onChatAction = () => {
         if (['PAYMENT_PENDING', 'NEW', 'ACCEPTED', 'ARRIVED', 'STARTED', 'REACHED', 'PENDING', 'COMPLETE'].indexOf(paramData.status) != -1) {
             props.navigation.navigate("onlineChat", { bookingId: paramData.id, status: paramData.status })
         } else {
@@ -148,7 +148,7 @@ export default function RideDetails(props) {
         <View style={[styles.mainView]}>
             <ScrollView>
                 <View style={styles.vew}>
-            
+
                     <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', flex: 1 }}>
                         <View style={{ flexDirection: 'column', width: width - 20 }}>
                             <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row' }}>
@@ -193,12 +193,12 @@ export default function RideDetails(props) {
 
                     <View style={{ flexDirection: 'column', flex: 1, minHeight: 60 }}>
                         <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', flex: 1, minHeight: 60 }}>
-                            <View style={[styles.details, { flexDirection: isRTL ? 'row-reverse' : 'row'}]}>
-                                <Text style={{ fontFamily:fonts.Bold, fontSize: 24, color: MAIN_COLOR, opacity: 0.7 }}>{settings.symbol}</Text>
-                                <Text style={styles.textStyleBold}>{paramData && paramData.deliveryWithBid && (['NEW','PAYMENT_PENDING'].indexOf(paramData.status) != -1) ? t('bid') : paramData && paramData.trip_cost > 0 ? parseFloat(paramData.trip_cost).toFixed(settings.decimal) : paramData && paramData.estimate ? parseFloat(paramData.estimate).toFixed(settings.decimal) : 0}</Text>
+                            <View style={[styles.details, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                                <Text style={{ fontFamily: fonts.Bold, fontSize: 24, color: MAIN_COLOR, opacity: 0.7 }}>{settings.symbol}</Text>
+                                <Text style={styles.textStyleBold}>{paramData && paramData.deliveryWithBid && (['NEW', 'PAYMENT_PENDING'].indexOf(paramData.status) != -1) ? t('bid') : paramData && paramData.trip_cost > 0 ? parseFloat(paramData.trip_cost).toFixed(settings.decimal) : paramData && paramData.estimate ? parseFloat(paramData.estimate).toFixed(settings.decimal) : 0}</Text>
                             </View>
                             <View style={[styles.hbox2, { minHeight: 5, width: 1, margin: 2 }]} />
-                            <View style={[styles.details, { flexDirection: isRTL ? 'row-reverse' : 'row'}]}>
+                            <View style={[styles.details, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
                                 <Fontisto name="map" size={26} color={MAIN_COLOR} style={{ opacity: 0.8 }} />
                                 <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row' }}>
                                     <Text style={styles.textStyleBold}>{paramData && paramData.distance > 0 ? parseFloat(paramData.distance).toFixed(settings.decimal) : 0}</Text>
@@ -216,33 +216,33 @@ export default function RideDetails(props) {
                                 </View>
                             </View>
                             <View style={[styles.hbox2, { minHeight: 5, width: 1, margin: 2 }]} />
-                            <View style={[styles.clock,{flexDirection: isRTL ? 'row-reverse' : 'row'}]}>
+                            <View style={[styles.clock, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
                                 {paramData && paramData.trip_start_time && paramData.trip_end_time ?
                                     <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row' }}>
-                                        <View style={[styles.section,{flexDirection: isRTL ? 'row-reverse' : 'row'}]}>
+                                        <View style={[styles.section, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
                                             <Ionicons name="location-outline" size={28} color={colors.GREEN} />
                                             <View>
                                                 <View style={{ flexDirection: 'row' }}>
                                                     <Text style={styles.textStyleBold}>{paramData && paramData.trip_start_time ? (paramData.trip_start_time).substring(0, ((paramData.trip_start_time).indexOf(":"))).length == 2 ? (paramData.trip_start_time).substring(0, ((paramData.trip_start_time).indexOf(":"))) : "0" + (paramData.trip_start_time).substring(0, ((paramData.trip_start_time).indexOf(":"))) : ""}</Text>
                                                     <Text style={styles.textStyleBold}>{paramData && paramData.trip_start_time ? (paramData.trip_start_time).substring(((paramData.trip_start_time).indexOf(":") + 1), ((paramData.trip_start_time).lastIndexOf(":"))).length == 2 ? (paramData.trip_start_time).substring(((paramData.trip_start_time).indexOf(":")), ((paramData.trip_start_time).lastIndexOf(":"))) : ":0" + (paramData.trip_start_time).substring(((paramData.trip_start_time).indexOf(":") + 1), ((paramData.trip_start_time).lastIndexOf(":"))) : ""}</Text>
                                                 </View>
-                                                <Text style={{ textAlign: isRTL ? "right" : "left", fontSize: 8,fontFamily:fonts.Regular }}>{paramData.startTime ? moment(paramData.startTime).format('ll') : ''}</Text>
+                                                <Text style={{ textAlign: isRTL ? "right" : "left", fontSize: 8, fontFamily: fonts.Regular }}>{paramData.startTime ? moment(paramData.startTime).format('ll') : ''}</Text>
                                             </View>
                                         </View>
-                                        <View style={[styles.section,{flexDirection: isRTL ? 'row-reverse' : 'row'}]}>
+                                        <View style={[styles.section, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
                                             <Ionicons name="location-outline" size={28} color={colors.RED} />
                                             <View>
                                                 <View style={{ flexDirection: 'row' }}>
                                                     <Text style={styles.textStyleBold}>{paramData && paramData.trip_end_time ? (paramData.trip_end_time).substring(0, ((paramData.trip_end_time).indexOf(":"))).length == 2 ? (paramData.trip_end_time).substring(0, ((paramData.trip_end_time).indexOf(":"))) : "0" + (paramData.trip_end_time).substring(0, ((paramData.trip_end_time).indexOf(":"))) : ""}</Text>
                                                     <Text style={styles.textStyleBold}>{paramData && paramData.trip_end_time ? (paramData.trip_end_time).substring(((paramData.trip_end_time).indexOf(":") + 1), ((paramData.trip_end_time).lastIndexOf(":"))).length == 2 ? (paramData.trip_end_time).substring(((paramData.trip_end_time).indexOf(":")), ((paramData.trip_end_time).lastIndexOf(":"))) : ":0" + (paramData.trip_end_time).substring(((paramData.trip_end_time).indexOf(":") + 1), ((paramData.trip_end_time).lastIndexOf(":"))) : ""}</Text>
                                                 </View>
-                                                <Text style={{ textAlign: isRTL ? "right" : "left", fontSize: 8,fontFamily:fonts.Regular }}>{paramData.endTime ? moment(paramData.endTime).format('ll') : ''}</Text>
+                                                <Text style={{ textAlign: isRTL ? "right" : "left", fontSize: 8, fontFamily: fonts.Regular }}>{paramData.endTime ? moment(paramData.endTime).format('ll') : ''}</Text>
                                             </View>
                                         </View>
                                     </View>
                                     : paramData && paramData.trip_start_time ?
                                         <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row' }}>
-                                            <View style={[styles.section,{flexDirection: isRTL ? 'row-reverse' : 'row'}]}>
+                                            <View style={[styles.section, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
                                                 <Ionicons name="location-outline" size={28} color={colors.GREEN} />
                                                 <View>
                                                     <View style={{ flexDirection: 'row' }}>
@@ -252,7 +252,7 @@ export default function RideDetails(props) {
                                                     <Text style={{ textAlign: isRTL ? "right" : "left", fontSize: 8 }}>{paramData.startTime ? moment(paramData.startTime).format('ll') : ''}</Text>
                                                 </View>
                                             </View>
-                                            <View style={[styles.section,{flexDirection: isRTL ? 'row-reverse' : 'row'}]}>
+                                            <View style={[styles.section, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
                                                 <Ionicons name="location-outline" size={28} color={colors.RED} />
                                                 <Image source={require('../../assets/images/clock.gif')} style={{ width: 25, height: 25, alignSelf: 'center', resizeMode: 'center' }} />
                                             </View>
@@ -267,7 +267,7 @@ export default function RideDetails(props) {
                     </View>
 
                     {paramData ?
-                        <View style={[styles.driverDetails,{flexDirection: isRTL ? 'row-reverse' : 'row'}]}>
+                        <View style={[styles.driverDetails, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
                             <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', alignItems: 'center', flex: 1 }}>
                                 {paramData ?
                                     (!(paramData.driver_image == '' || paramData.driver_image == null || paramData.driver_image == 'undefined') && auth.profile.usertype == 'customer') ?
@@ -277,29 +277,29 @@ export default function RideDetails(props) {
                                             source={{ uri: paramData.driver_image }}
                                             activeOpacity={0.7}
                                         />
-                                        : 
+                                        :
                                         (!(paramData.customer_image == '' || paramData.customer_image == null || paramData.customer_image == 'undefined') && auth.profile.usertype == 'driver') ?
-                                        <Avatar
-                                            size="medium"
-                                            rounded
-                                            source={{ uri: paramData.customer_image }}
-                                            activeOpacity={0.7}
-                                        />
-                                        : paramData.driver_name != '' ?
-
                                             <Avatar
                                                 size="medium"
                                                 rounded
-                                                source={require('../../assets/images/profilePic.png')}
+                                                source={{ uri: paramData.customer_image }}
                                                 activeOpacity={0.7}
-                                            /> : null
+                                            />
+                                            : paramData.driver_name != '' ?
+
+                                                <Avatar
+                                                    size="medium"
+                                                    rounded
+                                                    source={require('../../assets/images/profilePic.png')}
+                                                    activeOpacity={0.7}
+                                                /> : null
                                     : null}
                                 <View style={[styles.userView, { flex: 1, marginHorizontal: 5 }]}>
                                     {paramData && paramData.driver_name != '' && auth.profile.usertype == 'customer' ? <Text style={[styles.textStyleBold, { textAlign: isRTL ? 'right' : 'left' }]}>{paramData.driver_name ? paramData.driver_name : t('no_name')}</Text> : null}
 
-                                    {paramData && paramData.customer_name != '' &&  auth.profile.usertype == 'driver'  ? <Text style={[styles.textStyleBold, { textAlign: isRTL ? 'right' : 'left' }]}>{paramData.customer_name ? paramData.customer_name : t('no_name')}</Text> : null}
+                                    {paramData && paramData.customer_name != '' && auth.profile.usertype == 'driver' ? <Text style={[styles.textStyleBold, { textAlign: isRTL ? 'right' : 'left' }]}>{paramData.customer_name ? paramData.customer_name : t('no_name')}</Text> : null}
 
-                                    {paramData && paramData.rating > 0  && paramData.driver_name &&  auth.profile.usertype == 'customer' ?
+                                    {paramData && paramData.rating > 0 && paramData.driver_name && auth.profile.usertype == 'customer' ?
                                         <View>
                                             <StarRating
                                                 maxStars={5}
@@ -319,9 +319,9 @@ export default function RideDetails(props) {
                             </View>
                             {paramData && ((paramData.driver_contact || paramData.customer_contact)) ?
                                 <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', alignItems: 'center' }}>
-                                   <TouchableOpacity onPress={() => (['ACCEPTED', 'ARRIVED', 'STARTED', 'REACHED', 'PENDING'].indexOf(paramData.status) != -1) ? role == 'customer' ? 
-                                            onPressCall(paramData.driver_contact) : (paramData.otherPersonPhone && paramData.otherPersonPhone.length > 0 ? onPressCall(paramData.otherPersonPhone) : onPressCall(paramData.customer_contact)) : onAlert(paramData)} 
-                                            style={{ backgroundColor: MAIN_COLOR, height: 40, width: 40, borderRadius: 20, justifyContent: 'center', alignItems: 'center', margin: 3 }}>
+                                    <TouchableOpacity onPress={() => (['ACCEPTED', 'ARRIVED', 'STARTED', 'REACHED', 'PENDING'].indexOf(paramData.status) != -1) ? role == 'customer' ?
+                                        onPressCall(paramData.driver_contact) : (paramData.otherPersonPhone && paramData.otherPersonPhone.length > 0 ? onPressCall(paramData.otherPersonPhone) : onPressCall(paramData.customer_contact)) : onAlert(paramData)}
+                                        style={{ backgroundColor: MAIN_COLOR, height: 40, width: 40, borderRadius: 20, justifyContent: 'center', alignItems: 'center', margin: 3 }}>
                                         <Ionicons name="call" size={24} color={colors.WHITE} />
                                     </TouchableOpacity>
                                     <TouchableOpacity onPress={() => (['ACCEPTED', 'ARRIVED', 'STARTED', 'REACHED', 'PENDING', 'COMPLETE'].indexOf(paramData.status) != -1) ? onChatAction(paramData, paramData.id) : onChatAlert(paramData)} style={{ backgroundColor: MAIN_COLOR, height: 40, width: 40, borderRadius: 20, justifyContent: 'center', alignItems: 'center', margin: 3 }}>
@@ -330,81 +330,81 @@ export default function RideDetails(props) {
                                 </View>
                                 : null}
                         </View>
-                    : null}
+                        : null}
 
                     {paramData && paramData.otherPerson && paramData.otherPersonPhone ?
                         <View style={{ flexDirection: 'column', flex: 1 }}>
-                            <Text style={[styles.textStyleBold, { textAlign: isRTL ? 'right' : 'left',  }]}>{t('otherPerson_title')}</Text>
+                            <Text style={[styles.textStyleBold, { textAlign: isRTL ? 'right' : 'left', }]}>{t('otherPerson_title')}</Text>
                             <View style={{ flexDirection: 'column', flex: 1, marginBottom: 10, marginHorizontal: 2 }}>
                                 {paramData.vehicleModel ?
-                                    <View style={{alignItems:'center', flexDirection: isRTL ? 'row-reverse' : 'row', marginVertical: 0}}>
+                                    <View style={{ alignItems: 'center', flexDirection: isRTL ? 'row-reverse' : 'row', marginVertical: 0 }}>
                                         <Text style={[styles.textStyleBold, { textAlign: isRTL ? "right" : "left" }]}>{t('name')}</Text>
                                         <Text style={[styles.textStyleBold, { textAlign: isRTL ? "right" : "left" }]}> : </Text>
                                         <Text style={[styles.textStyle, { textAlign: isRTL ? "right" : "left" }]}>{paramData.otherPerson}</Text>
                                     </View>
-                                : null}
+                                    : null}
                                 {paramData.vehicleModel ?
-                                    <View style={{alignItems:'center', flexDirection: isRTL ? 'row-reverse' : 'row', marginVertical: 5}}>
+                                    <View style={{ alignItems: 'center', flexDirection: isRTL ? 'row-reverse' : 'row', marginVertical: 5 }}>
                                         <Text style={[styles.textStyleBold, { textAlign: isRTL ? "right" : "left" }]}>{t('phone')}</Text>
                                         <Text style={[styles.textStyleBold, { textAlign: isRTL ? "right" : "left" }]}> : </Text>
                                         <Text style={[styles.textStyle, { textAlign: isRTL ? "right" : "left" }]}>{paramData.otherPersonPhone}</Text>
                                     </View>
-                                : null}
+                                    : null}
                             </View>
                         </View>
-                    : null }
+                        : null}
 
                     {paramData && paramData.carType ?
-                    <View style={{ flexDirection: 'column', marginBottom: 10 }}>
-                        <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', flex: 1, alignItems: 'center' }}>
-                            <Text style={[styles.textStyleBold, { textAlign: isRTL ? 'right' : 'left',  }]}> {isRTL ? ": " : null}{t('car_details_title')} {isRTL ? null : " :"}</Text>
-                            <View style={{ alignItems: 'center', flexDirection: isRTL ? 'row-reverse' : 'row', marginHorizontal: 10}}>
-                                <Image source={paramData && paramData.carImage ? { uri: paramData.carImage } : require('../../assets/images/microBlackCar.png')} style={{ width: 40, height: 40, alignSelf: 'center', resizeMode: 'center', transform: [isRTL ? { scaleX: -1 } : { scaleX: 1 }] }} />
-                                {paramData.carType ?
-                                    <View style={{alignItems: 'center', marginHorizontal:10 }}>
-                                        <Text style={[styles.textStyleBold, { textAlign: isRTL ? "right" : "left" }]}>{t(getLangKey(paramData.carType))}</Text>
+                        <View style={{ flexDirection: 'column', marginBottom: 10 }}>
+                            <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', flex: 1, alignItems: 'center' }}>
+                                <Text style={[styles.textStyleBold, { textAlign: isRTL ? 'right' : 'left', }]}> {isRTL ? ": " : null}{t('car_details_title')} {isRTL ? null : " :"}</Text>
+                                <View style={{ alignItems: 'center', flexDirection: isRTL ? 'row-reverse' : 'row', marginHorizontal: 10 }}>
+                                    <Image source={paramData && paramData.carImage ? { uri: paramData.carImage } : require('../../assets/images/microBlackCar.png')} style={{ width: 40, height: 40, alignSelf: 'center', resizeMode: 'center', transform: [isRTL ? { scaleX: -1 } : { scaleX: 1 }] }} />
+                                    {paramData.carType ?
+                                        <View style={{ alignItems: 'center', marginHorizontal: 10 }}>
+                                            <Text style={[styles.textStyleBold, { textAlign: isRTL ? "right" : "left" }]}>{t(getLangKey(paramData.carType))}</Text>
+                                        </View>
+                                        : null}
+                                </View>
+                            </View>
+
+                            <View style={[styles.vehicleDetails, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                                {paramData.vehicleModel ?
+                                    <View style={{ width: width / 3.2, alignItems: 'center' }}>
+                                        <Text style={[styles.textStyleBold, { textAlign: isRTL ? "right" : "left" }]}>{t('vehicle_model')}</Text>
+                                        <Text style={[styles.textStyle, { textAlign: isRTL ? "right" : "left" }]}>{paramData.vehicleModel}</Text>
                                     </View>
-                                : null}
+                                    : null}
+
+                                {paramData.vehicleMake ?
+                                    <View style={[styles.hbox2, { minHeight: 35 }]} />
+                                    : null}
+                                {paramData.vehicleMake ?
+                                    <View style={{ width: width / 3.2, marginHorizontal: 3, alignItems: 'center' }}>
+                                        <Text style={[styles.textStyleBold, { textAlign: isRTL ? "right" : "left" }]}>{t('vehicle_make')}</Text>
+                                        <Text style={[styles.textStyle, { textAlign: isRTL ? "right" : "left" }]}>{paramData.vehicleMake}</Text>
+                                    </View>
+                                    : null}
+                                {paramData.vehicle_number ?
+                                    <View style={[styles.hbox2, { minHeight: 35 }]} />
+                                    : null}
+                                {paramData.vehicle_number ?
+                                    <View style={{ width: width / 3.2, marginHorizontal: 3, alignItems: 'center' }}>
+                                        <Text style={[styles.textStyleBold, { textAlign: isRTL ? "right" : "left" }]}>{t('vehicle_number')}</Text>
+                                        <Text style={[styles.textStyle, { textAlign: isRTL ? "right" : "left" }]}>{paramData.vehicle_number}</Text>
+                                    </View>
+                                    :
+                                    <View style={{ flex: 1 }}>
+                                        <Text style={[styles.textStyleBold, { textAlign: isRTL ? "right" : "left", marginBottom: 5 }]}> {t('car_no_not_found')}</Text>
+                                    </View>
+                                }
                             </View>
                         </View>
-
-                        <View style={[styles.vehicleDetails,{ flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
-                            {paramData.vehicleModel ?
-                                <View style={{ width: width / 3.2, alignItems:'center'}}>
-                                    <Text style={[styles.textStyleBold, { textAlign: isRTL ? "right" : "left" }]}>{t('vehicle_model')}</Text>
-                                    <Text style={[styles.textStyle, { textAlign: isRTL ? "right" : "left" }]}>{paramData.vehicleModel}</Text>
-                                </View>
-                            : null}
-
-                            {paramData.vehicleMake ?
-                                <View style={[styles.hbox2, { minHeight: 35 }]} />
-                            : null}
-                            {paramData.vehicleMake ?
-                                <View style={{ width: width / 3.2, marginHorizontal: 3, alignItems:'center'}}>
-                                    <Text style={[styles.textStyleBold, { textAlign: isRTL ? "right" : "left" }]}>{t('vehicle_make')}</Text>
-                                    <Text style={[styles.textStyle, { textAlign: isRTL ? "right" : "left" }]}>{paramData.vehicleMake}</Text>
-                                </View>
-                            : null}             
-                            {paramData.vehicle_number ?
-                                <View style={[styles.hbox2, { minHeight: 35 }]} />
-                            : null}
-                            {paramData.vehicle_number ?
-                                <View style={{ width: width / 3.2, marginHorizontal: 3, alignItems:'center'}}>
-                                    <Text style={[styles.textStyleBold, { textAlign: isRTL ? "right" : "left" }]}>{t('vehicle_number')}</Text>
-                                    <Text style={[styles.textStyle, { textAlign: isRTL ? "right" : "left" }]}>{paramData.vehicle_number}</Text>
-                                </View>
-                            :
-                                <View style={{ flex: 1}}>
-                                    <Text style={[styles.textStyleBold, { textAlign: isRTL ? "right" : "left" , marginBottom: 5}]}> {t('car_no_not_found')}</Text>
-                                </View>
-                            }
-                        </View>
-                    </View>
-                    : null}
+                        : null}
 
                     {paramData && ['PENDING', 'PAID', 'COMPLETE'].indexOf(paramData.status) != -1 ?
                         <View style={{ height: 'auto', marginTop: 10 }}>
-                            <View style={[styles.billDetails,{ flexDirection: isRTL ? "row-reverse" : "row" }]}>
+                            <View style={[styles.billDetails, { flexDirection: isRTL ? "row-reverse" : "row" }]}>
                                 <Text style={[styles.textStyleBold, { textAlign: isRTL ? 'right' : 'left' }]}>{t('bill_details_title')}</Text>
                                 {paramData && paramData.payment_mode && paramData.status ?
                                     <View style={{ flexDirection: isRTL ? "row-reverse" : "row" }}>
@@ -421,113 +421,113 @@ export default function RideDetails(props) {
                                     </View>
                                     : null}
                             </View>
-                            <View style={[styles.payRow,{ flexDirection: isRTL ? "row-reverse" : "row", marginTop: 10, paddingBottom: 5 }]}>
-                                <Text style={[styles.textStyle,{textAlign: isRTL ? "right" : "left", lineHeight: 50 }]}>{t("receipt")}</Text>
-                                <DownloadReceipt booking={paramData} settings={settings}/>
+                            <View style={[styles.payRow, { flexDirection: isRTL ? "row-reverse" : "row", marginTop: 10, paddingBottom: 5 }]}>
+                                <Text style={[styles.textStyle, { textAlign: isRTL ? "right" : "left", lineHeight: 50 }]}>{t("receipt")}</Text>
+                                <DownloadReceipt booking={paramData} settings={settings} />
                             </View>
-                            <View style={[styles.payRow,{ flexDirection: isRTL ? "row-reverse" : "row", marginTop: 10, paddingBottom: 5 }]}>
-                                <Text style={[styles.textStyle,{textAlign: isRTL ? "right" : "left", lineHeight: 50 }]} >{t("your_trip")}</Text>
-                                <Text style={[styles.textStyleBold,{textAlign: isRTL ? "right" : "left", lineHeight: 50 }]} >
-                                {settings && settings.swipe_symbol && settings.symbol ?
-                                    (parseFloat(paramData.trip_cost).toFixed(settings.decimal)) + " " + (settings.symbol)
-                                : 
-                                    (settings.symbol) + " " + (parseFloat(paramData.trip_cost).toFixed(settings.decimal))
-                                }
+                            <View style={[styles.payRow, { flexDirection: isRTL ? "row-reverse" : "row", marginTop: 10, paddingBottom: 5 }]}>
+                                <Text style={[styles.textStyle, { textAlign: isRTL ? "right" : "left", lineHeight: 50 }]} >{t("your_trip")}</Text>
+                                <Text style={[styles.textStyleBold, { textAlign: isRTL ? "right" : "left", lineHeight: 50 }]} >
+                                    {settings && settings.swipe_symbol && settings.symbol ?
+                                        (parseFloat(paramData.trip_cost).toFixed(settings.decimal)) + " " + (settings.symbol)
+                                        :
+                                        (settings.symbol) + " " + (parseFloat(paramData.trip_cost).toFixed(settings.decimal))
+                                    }
                                 </Text>
                             </View>
 
                             <View style={[styles.payRow, { flexDirection: isRTL ? "row-reverse" : "row" }]}>
-                                <View style={{ flexDirection: isRTL ? "row-reverse" : "row", alignItems: 'baseline', alignSelf:'center'}}>
+                                <View style={{ flexDirection: isRTL ? "row-reverse" : "row", alignItems: 'baseline', alignSelf: 'center' }}>
                                     <Text style={[styles.textStyle, { textAlign: isRTL ? 'right' : 'left' }]}>{t('discount')}</Text>
                                     <Text style={[styles.textStyle, { textAlign: isRTL ? 'right' : 'left', fontSize: 10 }]}> {t('promo_apply')}</Text>
                                 </View>
-                                <Text style={[styles.textStyleBold,{textAlign: isRTL ? "right" : "left", lineHeight: 50, color: colors.RED}]} >
-                                    {settings && settings.swipe_symbol && settings.symbol?
-                                        (isRTL ? '' : "-") + " " +(paramData && paramData.discount ? parseFloat(paramData.discount).toFixed(settings.decimal) : "0.00") + " " + (settings.symbol) + (isRTL ? "-" :'')
-                                    :
-                                        (isRTL ? '' : "-") +(settings.symbol) + " " +(paramData ? paramData.discount ? parseFloat(paramData.discount).toFixed(settings.decimal) : "0.00" : "0.00") + " " + (isRTL ? "-" :'')
-                                    } 
+                                <Text style={[styles.textStyleBold, { textAlign: isRTL ? "right" : "left", lineHeight: 50, color: colors.RED }]} >
+                                    {settings && settings.swipe_symbol && settings.symbol ?
+                                        (isRTL ? '' : "-") + " " + (paramData && paramData.discount ? parseFloat(paramData.discount).toFixed(settings.decimal) : "0.00") + " " + (settings.symbol) + (isRTL ? "-" : '')
+                                        :
+                                        (isRTL ? '' : "-") + (settings.symbol) + " " + (paramData ? paramData.discount ? parseFloat(paramData.discount).toFixed(settings.decimal) : "0.00" : "0.00") + " " + (isRTL ? "-" : '')
+                                    }
                                 </Text>
                             </View>
 
 
                             {paramData && paramData.cardPaymentAmount ? paramData.cardPaymentAmount > 0 ?
                                 <View style={[styles.payRow, { flexDirection: isRTL ? "row-reverse" : "row" }]}>
-                                    <Text style={[styles.textStyle,{textAlign: isRTL ? "right" : "left", lineHeight: 50 }]} >{t("CardPaymentAmount")}</Text>
-                                    <Text style={[styles.textStyleBold,{textAlign: isRTL ? "right" : "left", lineHeight: 50 }]} >
-                                    {settings && settings.swipe_symbol && settings.symbol ?
-                                        (parseFloat(paramData.cardPaymentAmount).toFixed(settings.decimal)) + " " + (settings.symbol)
-                                    : 
-                                        (settings.symbol) + " " + (parseFloat(paramData.cardPaymentAmount).toFixed(settings.decimal))
-                                    }
+                                    <Text style={[styles.textStyle, { textAlign: isRTL ? "right" : "left", lineHeight: 50 }]} >{t("CardPaymentAmount")}</Text>
+                                    <Text style={[styles.textStyleBold, { textAlign: isRTL ? "right" : "left", lineHeight: 50 }]} >
+                                        {settings && settings.swipe_symbol && settings.symbol ?
+                                            (parseFloat(paramData.cardPaymentAmount).toFixed(settings.decimal)) + " " + (settings.symbol)
+                                            :
+                                            (settings.symbol) + " " + (parseFloat(paramData.cardPaymentAmount).toFixed(settings.decimal))
+                                        }
                                     </Text>
                                 </View>
-                            : null : null}
+                                : null : null}
 
                             {paramData && paramData.cashPaymentAmount ? paramData.cashPaymentAmount > 0 ?
                                 <View style={[styles.payRow, { flexDirection: isRTL ? "row-reverse" : "row" }]}>
-                                    <Text style={[styles.textStyle,{textAlign: isRTL ? "right" : "left", lineHeight: 50 }]} >{t("CashPaymentAmount")}</Text>
-                                    <Text style={[styles.textStyleBold,{textAlign: isRTL ? "right" : "left", lineHeight: 50 }]} >
-                                    {settings && settings.swipe_symbol && settings.symbol ?
-                                        (parseFloat(paramData.cashPaymentAmount).toFixed(settings.decimal)) + " " + (settings.symbol)
-                                    : 
-                                        (settings.symbol) + " " + (parseFloat(paramData.cashPaymentAmount).toFixed(settings.decimal))
-                                    }
+                                    <Text style={[styles.textStyle, { textAlign: isRTL ? "right" : "left", lineHeight: 50 }]} >{t("CashPaymentAmount")}</Text>
+                                    <Text style={[styles.textStyleBold, { textAlign: isRTL ? "right" : "left", lineHeight: 50 }]} >
+                                        {settings && settings.swipe_symbol && settings.symbol ?
+                                            (parseFloat(paramData.cashPaymentAmount).toFixed(settings.decimal)) + " " + (settings.symbol)
+                                            :
+                                            (settings.symbol) + " " + (parseFloat(paramData.cashPaymentAmount).toFixed(settings.decimal))
+                                        }
                                     </Text>
                                 </View>
-                            : null : null}
+                                : null : null}
 
                             {paramData && paramData.usedWalletMoney ? paramData.usedWalletMoney > 0 ?
                                 <View style={[styles.payRow, { flexDirection: isRTL ? "row-reverse" : "row" }]}>
-                                    <Text style={[styles.textStyle,{textAlign: isRTL ? "right" : "left", lineHeight: 50 }]} >{t("WalletPayment")}</Text>
-                                    <Text style={[styles.textStyleBold,{textAlign: isRTL ? "right" : "left", lineHeight: 50 }]} >
-                                    {settings && settings.swipe_symbol && settings.symbol ?
-                                        (parseFloat(paramData.usedWalletMoney).toFixed(settings.decimal)) + " " + (settings.symbol)
-                                    : 
-                                        (settings.symbol) + " " + (parseFloat(paramData.usedWalletMoney).toFixed(settings.decimal))
-                                    }
+                                    <Text style={[styles.textStyle, { textAlign: isRTL ? "right" : "left", lineHeight: 50 }]} >{t("WalletPayment")}</Text>
+                                    <Text style={[styles.textStyleBold, { textAlign: isRTL ? "right" : "left", lineHeight: 50 }]} >
+                                        {settings && settings.swipe_symbol && settings.symbol ?
+                                            (parseFloat(paramData.usedWalletMoney).toFixed(settings.decimal)) + " " + (settings.symbol)
+                                            :
+                                            (settings.symbol) + " " + (parseFloat(paramData.usedWalletMoney).toFixed(settings.decimal))
+                                        }
                                     </Text>
                                 </View>
-                            : null : null} 
-                            <View style={[styles.payRow,{ flexDirection: isRTL ? "row-reverse" : "row", justifyContent: "space-between", marginHorizontal: 10 }]}>
-                                <Text style={[styles.textStyleBold,{textAlign: isRTL ? "right" : "left", lineHeight: 50 }]} >{t("Customer_paid")}</Text>
-                                <Text style={[styles.textStyleBold,{textAlign: isRTL ? "right" : "left", lineHeight: 50 }]} >
-                                {settings && settings.swipe_symbol && settings.symbol ?
-                                    <Text style={[styles.textStyleBold, { textAlign: isRTL ? 'right' : 'left' }]}>{paramData && paramData.customer_paid ? parseFloat(paramData.customer_paid).toFixed(settings.decimal) : null} {settings.symbol}</Text>
-                                :
-                                    <Text style={[styles.textStyleBold, { textAlign: isRTL ? 'right' : 'left' }]}>{settings.symbol} {paramData && paramData.customer_paid ? parseFloat(paramData.customer_paid).toFixed(settings.decimal) : null}</Text>
-                                }
-                                <Text style={[styles.textStyleBold, { textAlign: isRTL ? 'right' : 'left' }]}>
-                                </Text>
-                                </Text>
-                            </View>
-                            {paramData && paramData.tipamount ? 
-                                <View style={{ flexDirection: isRTL ? "row-reverse" : "row", justifyContent: "space-between", marginHorizontal: 10 }}>
-                                    <Text style={[styles.textStyleBold,{textAlign: isRTL ? "right" : "left", lineHeight: 50 }]} >{t("tipamount")}</Text>
-                                    <Text style={[styles.textStyleBold,{textAlign: isRTL ? "right" : "left", lineHeight: 50 }]} >
+                                : null : null}
+                            <View style={[styles.payRow, { flexDirection: isRTL ? "row-reverse" : "row", justifyContent: "space-between", marginHorizontal: 10 }]}>
+                                <Text style={[styles.textStyleBold, { textAlign: isRTL ? "right" : "left", lineHeight: 50 }]} >{t("Customer_paid")}</Text>
+                                <Text style={[styles.textStyleBold, { textAlign: isRTL ? "right" : "left", lineHeight: 50 }]} >
                                     {settings && settings.swipe_symbol && settings.symbol ?
-                                        <Text style={[styles.textStyleBold, { textAlign: isRTL ? 'right' : 'left' }]}>{paramData && paramData.tipamount ? parseFloat(paramData.customer_paid).toFixed(settings.decimal) : null} {settings.symbol}</Text>
-                                    :
-                                        <Text style={[styles.textStyleBold, { textAlign: isRTL ? 'right' : 'left' }]}>{settings.symbol} {paramData && paramData.tipamount ? parseFloat(paramData.tipamount).toFixed(settings.decimal) : null}</Text>
+                                        <Text style={[styles.textStyleBold, { textAlign: isRTL ? 'right' : 'left' }]}>{paramData && paramData.customer_paid ? parseFloat(paramData.customer_paid).toFixed(settings.decimal) : null} {settings.symbol}</Text>
+                                        :
+                                        <Text style={[styles.textStyleBold, { textAlign: isRTL ? 'right' : 'left' }]}>{settings.symbol} {paramData && paramData.customer_paid ? parseFloat(paramData.customer_paid).toFixed(settings.decimal) : null}</Text>
                                     }
                                     <Text style={[styles.textStyleBold, { textAlign: isRTL ? 'right' : 'left' }]}>
                                     </Text>
+                                </Text>
+                            </View>
+                            {paramData && paramData.tipamount ?
+                                <View style={{ flexDirection: isRTL ? "row-reverse" : "row", justifyContent: "space-between", marginHorizontal: 10 }}>
+                                    <Text style={[styles.textStyleBold, { textAlign: isRTL ? "right" : "left", lineHeight: 50 }]} >{t("tipamount")}</Text>
+                                    <Text style={[styles.textStyleBold, { textAlign: isRTL ? "right" : "left", lineHeight: 50 }]} >
+                                        {settings && settings.swipe_symbol && settings.symbol ?
+                                            <Text style={[styles.textStyleBold, { textAlign: isRTL ? 'right' : 'left' }]}>{paramData && paramData.tipamount ? parseFloat(paramData.customer_paid).toFixed(settings.decimal) : null} {settings.symbol}</Text>
+                                            :
+                                            <Text style={[styles.textStyleBold, { textAlign: isRTL ? 'right' : 'left' }]}>{settings.symbol} {paramData && paramData.tipamount ? parseFloat(paramData.tipamount).toFixed(settings.decimal) : null}</Text>
+                                        }
+                                        <Text style={[styles.textStyleBold, { textAlign: isRTL ? 'right' : 'left' }]}>
+                                        </Text>
                                     </Text>
                                 </View>
-                            : null}
+                                : null}
                         </View>
-                    : null}
+                        : null}
 
                     {paramData.feedback ?
-                        <View style={{flexDirection: isRTL ? 'row-reverse' : 'row'}}>
+                        <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row' }}>
                             <View>
-                                <Text style={[styles.textStyleBold, { textAlign: isRTL ? 'right' : 'left',  }]}> {isRTL ? ": " : null}{t('feedback')} {isRTL ? null : " :"}</Text>
+                                <Text style={[styles.textStyleBold, { textAlign: isRTL ? 'right' : 'left', }]}> {isRTL ? ": " : null}{t('feedback')} {isRTL ? null : " :"}</Text>
                             </View>
-                            <View style={{flex: 1}}>
+                            <View style={{ flex: 1 }}>
                                 <Text style={[styles.textStyle, isRTL ? { marginRight: 6, textAlign: 'right' } : { marginLeft: 6, textAlign: 'left' }]}>{paramData.feedback}</Text>
                             </View>
                         </View>
-                    :null }
+                        : null}
 
                     <View style={styles.mapView}>
                         <View style={styles.mapcontainer}>
@@ -545,7 +545,7 @@ export default function RideDetails(props) {
                                         coordinate={{ latitude: paramData ? (paramData.pickup.lat) : 0.00, longitude: paramData ? (paramData.pickup.lng) : 0.00 }}
                                         title={t('marker_title_1')}
                                         description={paramData ? paramData.pickup.add : null}>
-                                        <Image source={require("../../assets/images/green_pin.png")} style={{height: 35, width:35 }} />
+                                        <Image source={require("../../assets/images/green_pin.png")} style={{ height: 35, width: 35 }} />
                                     </Marker>
                                     {paramData.waypoints && paramData.waypoints.length > 0 ? paramData.waypoints.map((point, index) => {
                                         return (
@@ -555,24 +555,24 @@ export default function RideDetails(props) {
                                                 description={point.add}
                                                 key={index}
                                             >
-                                                 <Image source={require("../../assets/images/rsz_2red_pin.png")} style={{height: 35, width:35 }} />
+                                                <Image source={require("../../assets/images/rsz_2red_pin.png")} style={{ height: 35, width: 35 }} />
                                             </Marker>
                                         )
                                     })
                                         : null}
-                                           <Marker
+                                    <Marker
                                         coordinate={{ latitude: (paramData.drop.lat), longitude: (paramData.drop.lng) }}
                                         title={t('marker_title_2')}
                                         description={paramData.drop.add}>
-                                        <Image source={require("../../assets/images/rsz_2red_pin.png")} style={{height: 35, width:35 }} />
+                                        <Image source={require("../../assets/images/rsz_2red_pin.png")} style={{ height: 35, width: 35 }} />
                                     </Marker>
                                     {paramData.coords ?
-                                            <Polyline
-                                                coordinates={paramData.coords}
-                                                strokeWidth={4}
-                                                strokeColor={colors.INDICATOR_BLUE}
-                                                geodesic={true}
-                                            />
+                                        <Polyline
+                                            coordinates={paramData.coords}
+                                            strokeWidth={4}
+                                            strokeColor={colors.INDICATOR_BLUE}
+                                            geodesic={true}
+                                        />
                                         : null}
                                 </MapView>
                                 : null}
@@ -581,15 +581,15 @@ export default function RideDetails(props) {
                     {(paramData && paramData.status && auth.profile && auth.profile.uid &&
                         (((['PAYMENT_PENDING', 'NEW', 'ACCEPTED', 'ARRIVED', 'STARTED', 'REACHED', 'PENDING', 'PAID'].indexOf(paramData.status) != -1) && auth.profile.usertype == 'customer') ||
                             ((['ACCEPTED', 'ARRIVED', 'STARTED', 'REACHED'].indexOf(paramData.status) != -1) && auth.profile.usertype == 'driver'))) ?
-                            <Button
-                                title={paramData.status == 'PAID' ? t('add_to_review') : paramData.status == 'PAYMENT_PENDING' ? t('paynow_button') : t('go_to_booking')}
-                                loading={false}
-                                loadingColor={{ color: colors.GREEN }}
-                                buttonStyle={[styles.textStyleBold, { color: colors.WHITE }]}
-                                style={{ backgroundColor: MAIN_COLOR, marginTop: 10, height: 50}}
-                                btnClick={() => { goToBooking(paramData.id) }}
-                            />
-                    : null}
+                        <Button
+                            title={paramData.status == 'PAID' ? t('add_to_review') : paramData.status == 'PAYMENT_PENDING' ? t('paynow_button') : t('go_to_booking')}
+                            loading={false}
+                            loadingColor={{ color: colors.GREEN }}
+                            buttonStyle={[styles.textStyleBold, { color: colors.BLACK }]}
+                            style={{ backgroundColor: MAIN_COLOR, marginTop: 10, height: 50 }}
+                            btnClick={() => { goToBooking(paramData.id) }}
+                        />
+                        : null}
                 </View>
             </ScrollView>
             {UserInfoModal()}
@@ -687,7 +687,7 @@ const styles = StyleSheet.create({
     VehicleDetails: {
         width: "100%"
     },
-    callView:{
+    callView: {
         backgroundColor: MAIN_COLOR,
         height: 40,
         width: 40,
@@ -696,7 +696,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         margin: 3
     },
-    modalBtn:{
+    modalBtn: {
         flexDirection: 'row',
         alignSelf: 'center',
         borderWidth: 1,
@@ -705,43 +705,43 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 10
     },
-    details:{
+    details: {
         flex: 1,
         justifyContent: 'space-around',
         alignItems: 'center',
         borderBottomWidth: .6,
-        borderBottomColor: MAIN_COLOR 
+        borderBottomColor: MAIN_COLOR
     },
-    section:{
+    section: {
         flex: 1,
         justifyContent: 'space-evenly',
         alignItems: 'center'
     },
-    clock:{
-        flex: 1, 
+    clock: {
+        flex: 1,
         justifyContent: 'space-around',
         alignItems: 'center',
         minHeight: 60
     },
-    driverDetails:{
+    driverDetails: {
         flex: 1,
         alignItems: 'center',
         marginTop: 10,
-        paddingVertical: 10 
+        paddingVertical: 10
     },
-    vehicleDetails:{
+    vehicleDetails: {
         flex: 1,
         alignItems: 'center',
         borderBottomWidth: 1,
         borderBlockColor: colors.FOOTERTOP,
         paddingBottom: 10
     },
-    billDetails:{
+    billDetails: {
         justifyContent: 'space-between',
         alignItems: 'center',
         marginHorizontal: 10
     },
-    payRow:{
+    payRow: {
         justifyContent: "space-between",
         borderBottomWidth: 1,
         borderBottomColor: colors.FOOTERTOP,
