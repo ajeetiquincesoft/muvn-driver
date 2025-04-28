@@ -38,32 +38,32 @@ export default function EditProfilePage(props) {
     const [capturedIdImage, setCapturedIdImage] = useState(null);
     const [check, setCheck] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [updateCalled,setUpdateCalled] = useState(false);
+    const [updateCalled, setUpdateCalled] = useState(false);
     const [updateSuccess, setUpdateSuccess] = useState(false);
-    const fromPage  = props.route.params && props.route.params.fromPage ? props.route.params.fromPage: null;
-    
+    const fromPage = props.route.params && props.route.params.fromPage ? props.route.params.fromPage : null;
+
     const onPressBack = () => {
-        if(fromPage == 'DriverTrips' || fromPage == 'Map' || fromPage == 'Wallet'){
+        if (fromPage == 'DriverTrips' || fromPage == 'Map' || fromPage == 'Wallet') {
             props.navigation.replace('TabRoot', { screen: fromPage });
-        }else{
-            props.navigation.goBack() 
+        } else {
+            props.navigation.goBack()
         }
     }
 
     useEffect(() => {
         if (auth.profile && auth.profile.uid) {
             setProfileData({ ...auth.profile });
-    
+
             if (updateSuccess) {
                 setLoading(false);
                 Alert.alert(
                     t('alert'),
                     t('profile_updated'),
-                    [{ 
-                        text: t('ok'), 
-                        onPress: () => { 
+                    [{
+                        text: t('ok'),
+                        onPress: () => {
                             onPressBack();
-                        } 
+                        }
                     }],
                     { cancelable: true }
                 );
@@ -91,18 +91,18 @@ export default function EditProfilePage(props) {
                     style={{ width: '90%', alignSelf: 'center', paddingLeft: 20, paddingRight: 20, borderColor: colors.CONVERTDRIVER_TEXT, borderBottomWidth: 1, height: 60, alignItems: 'center', justifyContent: 'center' }}
                     onPress={() => { _pickImage('CAMERA', ImagePicker.launchCameraAsync) }}
                 >
-                    <Text style={{ color: colors.CAMERA_TEXT, fontFamily:fonts.Bold }}>{t('camera')}</Text>
+                    <Text style={{ color: colors.CAMERA_TEXT, fontFamily: fonts.Bold }}>{t('camera')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={{ width: '90%', alignSelf: 'center', paddingLeft: 20, paddingRight: 20, borderBottomWidth: 1, borderColor: colors.CONVERTDRIVER_TEXT, height: 60, alignItems: 'center', justifyContent: 'center' }}
                     onPress={() => { _pickImage('MEDIA', ImagePicker.launchImageLibraryAsync) }}
                 >
-                    <Text style={{ color: colors.CAMERA_TEXT, fontFamily:fonts.Bold }}>{t('medialibrary')}</Text>
+                    <Text style={{ color: colors.CAMERA_TEXT, fontFamily: fonts.Bold }}>{t('medialibrary')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={{ width: '90%', alignSelf: 'center', paddingLeft: 20, paddingRight: 20, height: 50, alignItems: 'center', justifyContent: 'center' }}
                     onPress={() => { actionSheetRef.current?.setModalVisible(false); }}>
-                    <Text style={{ color: 'red', fontFamily:fonts.Bold }}>{t('cancel')}</Text>
+                    <Text style={{ color: 'red', fontFamily: fonts.Bold }}>{t('cancel')}</Text>
                 </TouchableOpacity>
             </ActionSheet>
         )
@@ -202,14 +202,14 @@ export default function EditProfilePage(props) {
         if (capturedIdImage) {
             userData.verifyIdImage = state ? state.verifyIdImage : profileData.verifyIdImage ? profileData.verifyIdImage : null;
         }
-    
+
         await dispatch(updateProfile(userData));
-        
+
         setUpdateSuccess(true);
     };
-    
+
     const saveProfile = async () => {
-        if(((auth.profile.usertype == 'driver' && settings.bank_fields) || (auth.profile.usertype == 'customer' && settings.bank_fields && settings.RiderWithDraw)) && !(profileData.bankAccount && profileData.bankCode && profileData.bankName)){
+        if (((auth.profile.usertype == 'driver' && settings.bank_fields) || (auth.profile.usertype == 'customer' && settings.bank_fields && settings.RiderWithDraw)) && !(profileData.bankAccount && profileData.bankCode && profileData.bankName)) {
             Alert.alert(t('alert'), t('no_details_error'));
         }
         else {
@@ -220,12 +220,12 @@ export default function EditProfilePage(props) {
 
     const lCom = () => {
         return (
-          <TouchableOpacity style={{ marginLeft: 10}} onPress={onPressBack}>
-            <FontAwesome5 name="arrow-left" size={24} color={colors.WHITE} />
-          </TouchableOpacity>
+            <TouchableOpacity style={{ marginLeft: 10 }} onPress={onPressBack}>
+                <FontAwesome5 name="arrow-left" size={24} color={colors.WHITE} />
+            </TouchableOpacity>
         );
-      }
-    
+    }
+
     React.useEffect(() => {
         props.navigation.setOptions({
             headerLeft: lCom,
@@ -234,13 +234,13 @@ export default function EditProfilePage(props) {
 
 
     return (
-        <View style={{flex:1}}>
-                <View style={{position: 'absolute',backgroundColor: colors.TRANSPARENT, width: '100%', height:'100%'}}>
-                    <View style={styles.containerStyle}>
-                        <ScrollView style={styles.scrollViewStyle} showsVerticalScrollIndicator={false}>
-                            {(auth.profile.usertype == 'driver' && settings.bank_fields) || (auth.profile.usertype == 'customer' && settings.bank_fields && settings.RiderWithDraw) ?
+        <View style={{ flex: 1 }}>
+            <View style={{ position: 'absolute', backgroundColor: colors.TRANSPARENT, width: '100%', height: '100%' }}>
+                <View style={styles.containerStyle}>
+                    <ScrollView style={styles.scrollViewStyle} showsVerticalScrollIndicator={false}>
+                        {(auth.profile.usertype == 'driver' && settings.bank_fields) || (auth.profile.usertype == 'customer' && settings.bank_fields && settings.RiderWithDraw) ?
                             <View style={styles.textInputContainerStyle}>
-                                <Text style={[styles.text1,isRTL? {textAlign: 'right', marginRight: 30} : {textAlign: 'left', marginLeft: 7}]} >{t('bankName')}</Text>
+                                <Text style={[styles.text1, isRTL ? { textAlign: 'right', marginRight: 30 } : { textAlign: 'left', marginLeft: 7 }]} >{t('bankName')}</Text>
                                 <View style={[styles.textInputContainerStyle1, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
                                     <View style={styles.iconContainer}>
                                         <MaterialCommunityIcons name="bank-outline" size={24} color={colors.HEADER} />
@@ -264,9 +264,9 @@ export default function EditProfilePage(props) {
                                 </View>
                             </View>
                             : null}
-                            {(auth.profile.usertype == 'driver' && settings.bank_fields) || (auth.profile.usertype == 'customer' && settings.bank_fields && settings.RiderWithDraw) ?
+                        {(auth.profile.usertype == 'driver' && settings.bank_fields) || (auth.profile.usertype == 'customer' && settings.bank_fields && settings.RiderWithDraw) ?
                             <View style={styles.textInputContainerStyle}>
-                                <Text style={[styles.text1,isRTL? {textAlign: 'right', marginRight: 30} : {textAlign: 'left', marginLeft: 7}]} >{t('bankCode')}</Text>
+                                <Text style={[styles.text1, isRTL ? { textAlign: 'right', marginRight: 30 } : { textAlign: 'left', marginLeft: 7 }]} >{t('bankCode')}</Text>
                                 <View style={[styles.textInputContainerStyle1, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
                                     <Icon
                                         name='numeric'
@@ -294,9 +294,9 @@ export default function EditProfilePage(props) {
                                 </View>
                             </View>
                             : null}
-                            {(auth.profile.usertype == 'driver' && settings.bank_fields) || (auth.profile.usertype == 'customer' && settings.bank_fields && settings.RiderWithDraw) ?
+                        {(auth.profile.usertype == 'driver' && settings.bank_fields) || (auth.profile.usertype == 'customer' && settings.bank_fields && settings.RiderWithDraw) ?
                             <View style={styles.textInputContainerStyle}>
-                                <Text style={[styles.text1,isRTL? {textAlign: 'right', marginRight: 30} : {textAlign: 'left', marginLeft: 7}]} >{t('bankAccount')}</Text>
+                                <Text style={[styles.text1, isRTL ? { textAlign: 'right', marginRight: 30 } : { textAlign: 'left', marginLeft: 7 }]} >{t('bankAccount')}</Text>
                                 <View style={[styles.textInputContainerStyle1, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
                                     <Icon
                                         name='numeric'
@@ -325,10 +325,10 @@ export default function EditProfilePage(props) {
                             </View>
                             : null}
 
-                            {settings && settings.imageIdApproval ?
+                        {settings && settings.imageIdApproval ?
                             <View style={styles.textInputContainerStyle}>
-                                <Text style={[styles.text1,isRTL? {textAlign: 'right', marginRight: 35} : {textAlign: 'left', marginLeft: 10}]} >{t('verify_id')}</Text>
-                                <View style={[styles.textInputContainerStyle1, { flexDirection: isRTL ? 'row-reverse' : 'row'}]}>
+                                <Text style={[styles.text1, isRTL ? { textAlign: 'right', marginRight: 35 } : { textAlign: 'left', marginLeft: 10 }]} >{t('verify_id')}</Text>
+                                <View style={[styles.textInputContainerStyle1, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
                                     <View style={styles.iconContainer}>
                                         <MaterialCommunityIcons name="cellphone-information" size={24} color={colors.HEADER} />
                                     </View>
@@ -351,212 +351,212 @@ export default function EditProfilePage(props) {
                                     </View>
                                 </View>
                             </View>
-                            : null }
-                                   
-                            {settings && settings.imageIdApproval ?
-                                !auth.profile.verifyIdImage ?
-                                    capturedIdImage ?
-                                        <View style={styles.imagePosition}>
-                                            <TouchableOpacity style={styles.photoClick} onPress={cancelIdPhoto}>
-                                                <Image source={require('../../assets/images/cross.png')} resizeMode={'contain'} style={styles.imageStyle} />
+                            : null}
+
+                        {settings && settings.imageIdApproval ?
+                            !auth.profile.verifyIdImage ?
+                                capturedIdImage ?
+                                    <View style={styles.imagePosition}>
+                                        <TouchableOpacity style={styles.photoClick} onPress={cancelIdPhoto}>
+                                            <Image source={require('../../assets/images/cross.png')} resizeMode={'contain'} style={styles.imageStyle} />
+                                        </TouchableOpacity>
+                                        <Image source={{ uri: capturedIdImage }} style={styles.photoResult} resizeMode={'cover'} />
+                                    </View>
+                                    :
+                                    <View style={styles.capturePhoto}>
+                                        <View>
+                                            {
+                                                state.imageValid ?
+                                                    <Text style={styles.capturePhotoTitle}>{t('upload_verifyIdImage')}</Text>
+                                                    :
+                                                    <Text style={styles.errorPhotoTitle}>{t('upload_verifyIdImage')}</Text>
+                                            }
+
+                                        </View>
+                                        <View style={[styles.capturePicClick, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                                            <TouchableOpacity style={styles.flexView1} onPress={() => showActionSheet('2')}>
+                                                <View>
+                                                    <View style={styles.imageFixStyle}>
+                                                        <Image source={require('../../assets/images/camera.png')} resizeMode={'contain'} style={styles.imageStyle2} />
+                                                    </View>
+                                                </View>
                                             </TouchableOpacity>
+                                            <View style={styles.myView}>
+                                                <View style={styles.myView1} />
+                                            </View>
+                                            <View style={styles.myView2}>
+                                                <View style={styles.myView3}>
+                                                    <Text style={styles.textStyle}>{t('image_size_warning')}</Text>
+                                                </View>
+                                            </View>
+                                        </View>
+                                    </View>
+                                :
+                                <View style={styles.imagePosition}>
+                                    <View style={{ padding: 5, marginTop: 5 }}>
+                                        <Text style={styles.text}>{t('verifyid_image')}</Text>
+                                    </View>
+                                    {capturedIdImage ?
+                                        <TouchableOpacity style={styles.photoClick} onPress={cancelIdPhoto}>
+                                            <Image source={require('../../assets/images/cross.png')} resizeMode={'contain'} style={styles.imageStyle} />
+                                        </TouchableOpacity>
+                                        : null}
+
+                                    {capturedIdImage ?
+                                        <TouchableOpacity onPress={() => showActionSheet('2')}>
                                             <Image source={{ uri: capturedIdImage }} style={styles.photoResult} resizeMode={'cover'} />
-                                        </View>
+                                        </TouchableOpacity>
                                         :
-                                        <View style={styles.capturePhoto}>
-                                            <View>
-                                                {
-                                                    state.imageValid ?
-                                                        <Text style={styles.capturePhotoTitle}>{t('upload_verifyIdImage')}</Text>
-                                                        :
-                                                        <Text style={styles.errorPhotoTitle}>{t('upload_verifyIdImage')}</Text>
-                                                }
+                                        <TouchableOpacity onPress={() => showActionSheet('2')}>
+                                            <Image source={{ uri: auth.profile.verifyIdImage }} style={styles.photoResult} resizeMode={'cover'} />
+                                        </TouchableOpacity>
+                                    }
+                                </View>
+                            : null
+                        }
 
-                                            </View>
-                                            <View style={[styles.capturePicClick, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
-                                                <TouchableOpacity style={styles.flexView1} onPress={() => showActionSheet('2')}>
-                                                    <View>
-                                                        <View style={styles.imageFixStyle}>
-                                                            <Image source={require('../../assets/images/camera.png')} resizeMode={'contain'} style={styles.imageStyle2} />
-                                                        </View>
+                        {auth.profile.usertype == 'driver' && settings.license_image_required ?
+                            !auth.profile.licenseImage ?
+                                capturedImage ?
+                                    <View style={styles.imagePosition}>
+                                        <TouchableOpacity style={styles.photoClick} onPress={cancelPhoto}>
+                                            <Image source={require('../../assets/images/cross.png')} resizeMode={'contain'} style={styles.imageStyle} />
+                                        </TouchableOpacity>
+                                        <Image source={{ uri: capturedImage }} style={styles.photoResult} resizeMode={'cover'} />
+                                    </View>
+                                    :
+                                    <View style={styles.capturePhoto}>
+                                        <View>
+                                            {
+                                                state.imageValid ?
+                                                    <Text style={styles.capturePhotoTitle}>{t('upload_driving_license_front')}</Text>
+                                                    :
+                                                    <Text style={styles.errorPhotoTitle}>{t('upload_driving_license_front')}</Text>
+                                            }
+
+                                        </View>
+                                        <View style={[styles.capturePicClick, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                                            <TouchableOpacity style={styles.flexView1} onPress={() => showActionSheet('0')}>
+                                                <View>
+                                                    <View style={styles.imageFixStyle}>
+                                                        <Image source={require('../../assets/images/camera.png')} resizeMode={'contain'} style={styles.imageStyle2} />
                                                     </View>
-                                                </TouchableOpacity>
-                                                <View style={styles.myView}>
-                                                    <View style={styles.myView1} />
                                                 </View>
-                                                <View style={styles.myView2}>
-                                                    <View style={styles.myView3}>
-                                                        <Text style={styles.textStyle}>{t('image_size_warning')}</Text>
-                                                    </View>
+                                            </TouchableOpacity>
+                                            <View style={styles.myView}>
+                                                <View style={styles.myView1} />
+                                            </View>
+                                            <View style={styles.myView2}>
+                                                <View style={styles.myView3}>
+                                                    <Text style={styles.textStyle}>{t('image_size_warning')}</Text>
                                                 </View>
                                             </View>
                                         </View>
-                                    :
-                                    <View style={styles.imagePosition}>
-                                             <View style={{padding:5,marginTop:5}}>
-                                                <Text style={styles.text}>{t('verifyid_image')}</Text>
-                                             </View>
-                                        {capturedIdImage ?
-                                            <TouchableOpacity style={styles.photoClick} onPress={cancelIdPhoto}>
-                                                <Image source={require('../../assets/images/cross.png')} resizeMode={'contain'} style={styles.imageStyle} />
-                                            </TouchableOpacity>
-                                            : null}
-
-                                        {capturedIdImage ?
-                                            <TouchableOpacity onPress={() => showActionSheet('2')}>
-                                                <Image source={{ uri: capturedIdImage }} style={styles.photoResult} resizeMode={'cover'} />
-                                            </TouchableOpacity>
-                                            :
-                                            <TouchableOpacity onPress={() => showActionSheet('2')}>
-                                                <Image source={{ uri: auth.profile.verifyIdImage }} style={styles.photoResult} resizeMode={'cover'} />
-                                            </TouchableOpacity>
-                                        }
                                     </View>
-                                : null
-                            }
+                                :
+                                <View style={styles.imagePosition}>
+                                    <View style={{ padding: 5 }}>
+                                        <Text style={styles.text}>{t('driving_license_font')}</Text>
+                                    </View>
+                                    {capturedImage ?
+                                        <TouchableOpacity style={styles.photoClick} onPress={cancelPhoto}>
+                                            <Image source={require('../../assets/images/cross.png')} resizeMode={'contain'} style={styles.imageStyle} />
+                                        </TouchableOpacity>
+                                        : null}
 
-                            {auth.profile.usertype == 'driver' && settings.license_image_required ?
-                                !auth.profile.licenseImage ?
-                                    capturedImage ?
-                                        <View style={styles.imagePosition}>
-                                            <TouchableOpacity style={styles.photoClick} onPress={cancelPhoto}>
-                                                <Image source={require('../../assets/images/cross.png')} resizeMode={'contain'} style={styles.imageStyle} />
-                                            </TouchableOpacity>
+                                    {capturedImage ?
+                                        <TouchableOpacity onPress={() => showActionSheet('0')}>
                                             <Image source={{ uri: capturedImage }} style={styles.photoResult} resizeMode={'cover'} />
-                                        </View>
+                                        </TouchableOpacity>
                                         :
-                                        <View style={styles.capturePhoto}>
-                                            <View>
-                                                {
-                                                    state.imageValid ?
-                                                        <Text style={styles.capturePhotoTitle}>{t('upload_driving_license_front')}</Text>
-                                                        :
-                                                        <Text style={styles.errorPhotoTitle}>{t('upload_driving_license_front')}</Text>
-                                                }
+                                        <TouchableOpacity onPress={() => showActionSheet('0')}>
+                                            <Image source={{ uri: auth.profile.licenseImage }} style={styles.photoResult} resizeMode={'cover'} />
+                                        </TouchableOpacity>
+                                    }
+                                </View>
+                            : null
+                        }
 
-                                            </View>
-                                            <View style={[styles.capturePicClick, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
-                                                <TouchableOpacity style={styles.flexView1} onPress={() => showActionSheet('0')}>
-                                                    <View>
-                                                        <View style={styles.imageFixStyle}>
-                                                            <Image source={require('../../assets/images/camera.png')} resizeMode={'contain'} style={styles.imageStyle2} />
-                                                        </View>
+                        {auth.profile.usertype == 'driver' && settings.license_image_required ?
+                            !auth.profile.licenseImageBack ?
+                                capturedImageBack ?
+                                    <View style={styles.imagePosition}>
+                                        <TouchableOpacity style={styles.photoClick} onPress={cancelPhotoback}>
+                                            <Image source={require('../../assets/images/cross.png')} resizeMode={'contain'} style={styles.imageStyle} />
+                                        </TouchableOpacity>
+                                        <Image source={{ uri: capturedImageBack }} style={styles.photoResult} resizeMode={'cover'} />
+                                    </View>
+                                    :
+                                    <View style={styles.capturePhoto}>
+                                        <View>
+                                            {
+                                                state.imageValid ?
+                                                    <Text style={styles.capturePhotoTitle}>{t('upload_driving_license_back')}</Text>
+                                                    :
+                                                    <Text style={styles.errorPhotoTitle}>{t('upload_driving_license_back')}</Text>
+                                            }
+
+                                        </View>
+                                        <View style={[styles.capturePicClick, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                                            <TouchableOpacity style={styles.flexView1} onPress={() => showActionSheet('1')}>
+                                                <View>
+                                                    <View style={styles.imageFixStyle}>
+                                                        <Image source={require('../../assets/images/camera.png')} resizeMode={'contain'} style={styles.imageStyle2} />
                                                     </View>
-                                                </TouchableOpacity>
-                                                <View style={styles.myView}>
-                                                    <View style={styles.myView1} />
                                                 </View>
-                                                <View style={styles.myView2}>
-                                                    <View style={styles.myView3}>
-                                                        <Text style={styles.textStyle}>{t('image_size_warning')}</Text>
-                                                    </View>
+                                            </TouchableOpacity>
+                                            <View style={styles.myView}>
+                                                <View style={styles.myView1} />
+                                            </View>
+                                            <View style={styles.myView2}>
+                                                <View style={styles.myView3}>
+                                                    <Text style={styles.textStyle}>{t('image_size_warning')}</Text>
                                                 </View>
                                             </View>
                                         </View>
-                                    :
-                                    <View style={styles.imagePosition}>
-                                        <View style={{padding:5}}>
-                                       <Text style={styles.text}>{t('driving_license_font')}</Text>
-                                       </View>
-                                        {capturedImage ?
-                                            <TouchableOpacity style={styles.photoClick} onPress={cancelPhoto}>
-                                                <Image source={require('../../assets/images/cross.png')} resizeMode={'contain'} style={styles.imageStyle} />
-                                            </TouchableOpacity>
-                                            : null}
-
-                                        {capturedImage ?
-                                            <TouchableOpacity onPress={() => showActionSheet('0')}>
-                                                <Image source={{ uri: capturedImage }} style={styles.photoResult} resizeMode={'cover'} />
-                                            </TouchableOpacity>
-                                            :
-                                            <TouchableOpacity onPress={() => showActionSheet('0')}>
-                                                <Image source={{ uri: auth.profile.licenseImage }} style={styles.photoResult} resizeMode={'cover'} />
-                                            </TouchableOpacity>
-                                        }
                                     </View>
-                                : null
-                            }
+                                :
+                                <View style={styles.imagePosition}>
+                                    <View style={{ padding: 5, marginTop: 5 }}>
+                                        <Text style={styles.text}>{t('driving_license_back')}</Text>
+                                    </View>
+                                    {capturedImageBack ?
+                                        <TouchableOpacity style={styles.photoClick} onPress={cancelPhotoback}>
+                                            <Image source={require('../../assets/images/cross.png')} resizeMode={'contain'} style={styles.imageStyle} />
+                                        </TouchableOpacity>
+                                        : null}
 
-                            {auth.profile.usertype == 'driver' && settings.license_image_required ?
-                                !auth.profile.licenseImageBack ?
-                                    capturedImageBack ?
-                                        <View style={styles.imagePosition}>
-                                            <TouchableOpacity style={styles.photoClick} onPress={cancelPhotoback}>
-                                                <Image source={require('../../assets/images/cross.png')} resizeMode={'contain'} style={styles.imageStyle} />
-                                            </TouchableOpacity>
+                                    {capturedImageBack ?
+                                        <TouchableOpacity onPress={() => showActionSheet('1')}>
                                             <Image source={{ uri: capturedImageBack }} style={styles.photoResult} resizeMode={'cover'} />
-                                        </View>
+                                        </TouchableOpacity>
                                         :
-                                        <View style={styles.capturePhoto}>
-                                            <View>
-                                                {
-                                                    state.imageValid ?
-                                                        <Text style={styles.capturePhotoTitle}>{t('upload_driving_license_back')}</Text>
-                                                        :
-                                                        <Text style={styles.errorPhotoTitle}>{t('upload_driving_license_back')}</Text>
-                                                }
+                                        <TouchableOpacity onPress={() => showActionSheet('1')}>
+                                            <Image source={{ uri: auth.profile.licenseImageBack }} style={styles.photoResult} resizeMode={'cover'} />
+                                        </TouchableOpacity>
+                                    }
+                                </View>
+                            : null
+                        }
 
-                                            </View>
-                                            <View style={[styles.capturePicClick, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
-                                                <TouchableOpacity style={styles.flexView1} onPress={() => showActionSheet('1')}>
-                                                    <View>
-                                                        <View style={styles.imageFixStyle}>
-                                                            <Image source={require('../../assets/images/camera.png')} resizeMode={'contain'} style={styles.imageStyle2} />
-                                                        </View>
-                                                    </View>
-                                                </TouchableOpacity>
-                                                <View style={styles.myView}>
-                                                    <View style={styles.myView1} />
-                                                </View>
-                                                <View style={styles.myView2}>
-                                                    <View style={styles.myView3}>
-                                                        <Text style={styles.textStyle}>{t('image_size_warning')}</Text>
-                                                    </View>
-                                                </View>
-                                            </View>
-                                        </View>
-                                    :
-                                    <View style={styles.imagePosition}>
-                                            <View style={{padding:5,marginTop:5}}>
-                                                <Text style={styles.text}>{t('driving_license_back')}</Text>
-                                             </View>
-                                        {capturedImageBack ?
-                                            <TouchableOpacity style={styles.photoClick} onPress={cancelPhotoback}>
-                                                <Image source={require('../../assets/images/cross.png')} resizeMode={'contain'} style={styles.imageStyle} />
-                                            </TouchableOpacity>
-                                            : null}
-
-                                        {capturedImageBack ?
-                                            <TouchableOpacity onPress={() => showActionSheet('1')}>
-                                                <Image source={{ uri: capturedImageBack }} style={styles.photoResult} resizeMode={'cover'} />
-                                            </TouchableOpacity>
-                                            :
-                                            <TouchableOpacity onPress={() => showActionSheet('1')}>
-                                                <Image source={{ uri: auth.profile.licenseImageBack }} style={styles.photoResult} resizeMode={'cover'} />
-                                            </TouchableOpacity>
-                                        }
-                                    </View>
-                                : null
-                            }
-
-                            <View style={styles.buttonContainer}>
-                                <Button
-                                    loading={loading}
-                                    onPress={saveProfile}
-                                    title={t('update_button')}
-                                    titleStyle={styles.buttonTitle}
-                                    buttonStyle={[styles.registerButton, { backgroundColor: colors.GREEN }]}
-                                />
-                            </View>
-                            <View style={styles.gapView} />
-                        </ScrollView>
-                    </View>
+                        <View style={styles.buttonContainer}>
+                            <Button
+                                loading={loading}
+                                onPress={saveProfile}
+                                title={t('update_button')}
+                                titleStyle={styles.buttonTitle}
+                                buttonStyle={[styles.registerButton, { backgroundColor: colors.GREEN }]}
+                            />
+                        </View>
+                        <View style={styles.gapView} />
+                    </ScrollView>
                 </View>
-                {
-                    uploadImage()
-                }
+            </View>
+            {
+                uploadImage()
+            }
         </View>
-       
+
     );
 
 }
@@ -572,7 +572,7 @@ const styles = StyleSheet.create({
         margin: 10,
         borderBottomWidth: 0.5,
         borderBottomColor: colors.HEADER,
-        
+
     },
     container: {
         height: '100%',
@@ -603,7 +603,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 60,
         borderRadius: 10,
-        marginVertical:-3,
+        marginVertical: -3,
         backgroundColor: colors.WHITE,
         alignItems: 'center',
     },
@@ -639,18 +639,18 @@ const styles = StyleSheet.create({
         borderWidth: 0,
         marginTop: 30,
         borderRadius: 10,
-        padding:2
+        padding: 2
     },
     buttonTitle: {
         fontSize: 16,
-        fontFamily:fonts.Regular
+        fontFamily: fonts.Regular
 
     },
     inputTextStyle: {
         color: colors.HEADER,
         fontSize: 13,
         height: 32,
-        fontFamily:fonts.Regular
+        fontFamily: fonts.Regular
     },
     errorMessageStyle: {
         fontSize: 12,
@@ -719,14 +719,14 @@ const styles = StyleSheet.create({
         shadowRadius: 3,
         elevation: 3,
         backgroundColor: colors.WHITE,
-        padding:2
+        padding: 2
     },
     capturePhotoTitle: {
         color: colors.BLACK,
         fontSize: 14,
         textAlign: 'center',
         paddingBottom: 15,
-        fontFamily:fonts.Regular
+        fontFamily: fonts.Regular
 
     },
     errorPhotoTitle: {
@@ -734,7 +734,7 @@ const styles = StyleSheet.create({
         fontSize: 13,
         textAlign: 'center',
         paddingBottom: 15,
-        fontFamily:fonts.Regular
+        fontFamily: fonts.Regular
     },
     photoClick: {
         paddingRight: 48,
@@ -799,17 +799,17 @@ const styles = StyleSheet.create({
         fontSize: 17,
         left: 10,
         color: colors.PROFILE_PLACEHOLDER_CONTENT,
-        fontFamily:fonts.Bold,
+        fontFamily: fonts.Bold,
         marginTop: 5
     },
     text: {
         color: colors.BLACK,
         fontSize: 18,
         textAlign: 'center',
-        fontFamily:fonts.Bold
-        
+        fontFamily: fonts.Bold
+
     },
-    textStyle:{
-        fontFamily:fonts.Regular
+    textStyle: {
+        fontFamily: fonts.Regular
     }
 });

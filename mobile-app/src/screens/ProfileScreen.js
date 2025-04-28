@@ -67,22 +67,22 @@ export default function ProfileScreen(props) {
     const formatCountries = useMemo(() => {
         let arr = [];
         for (let i = 0; i < countries.length; i++) {
-            let txt = "(+" + countries[i].phone + ") " + countries[i].label ;
-            arr.push({ label: txt, value: txt, key: txt, inputLabel: " +" + countries[i].phone});
+            let txt = "(+" + countries[i].phone + ") " + countries[i].label;
+            arr.push({ label: txt, value: txt, key: txt, inputLabel: " +" + countries[i].phone });
         }
         return arr;
-    }, [countries]); 
+    }, [countries]);
 
     useEffect(() => {
         if (settings) {
             for (let i = 0; i < countries.length; i++) {
                 if (countries[i].label == settings.country) {
-                    setCountryCode("(+" + countries[i].phone + ") " + countries[i].label );
+                    setCountryCode("(+" + countries[i].phone + ") " + countries[i].label);
                     setUserMobile("")
                 }
             }
         }
-        
+
     }, [settings]);
 
 
@@ -213,13 +213,14 @@ export default function ProfileScreen(props) {
     const [loading, setLoading] = useState(false);
     const [dloading, setDLoading] = useState(false);
 
-    const [emailLoading,setEmailLoading] = useState(false)
-    const [mobileLoading,setmobileLoading] = useState(false)
+    const [emailLoading, setEmailLoading] = useState(false)
+    const [mobileLoading, setmobileLoading] = useState(false)
     useEffect(() => {
         if (auth.profile && auth.profile.uid) {
             setProfileData({ ...auth.profile });
             if (updateCalled) {
-            
+                console.log('fsdfsdf');
+
                 Alert.alert(
                     t('alert'),
                     t('profile_updated'),
@@ -286,7 +287,7 @@ export default function ProfileScreen(props) {
         setEditMobile(false);
     }
 
-    
+
 
     const saveProfile = async (set) => {
         // setLoading(true)
@@ -348,13 +349,13 @@ export default function ProfileScreen(props) {
                             const snapshot = await rnauth()
                                 .verifyPhoneNumber(profileData.mobile)
                                 .on('state_changed', (phoneAuthSnapshot) => {
-                                        if(phoneAuthSnapshot && phoneAuthSnapshot.state === "error"){
-                                            setLoading(false);
-                                            setEditMobile(false);
-                                            setEmailLoading(false);
-                                            setmobileLoading(false);
-                                            Alert.alert(t('alert'), t('email_or_mobile_issue'));
-                                        }
+                                    if (phoneAuthSnapshot && phoneAuthSnapshot.state === "error") {
+                                        setLoading(false);
+                                        setEditMobile(false);
+                                        setEmailLoading(false);
+                                        setmobileLoading(false);
+                                        Alert.alert(t('alert'), t('email_or_mobile_issue'));
+                                    }
                                 });
                             if (snapshot) {
                                 setConfirmCode(snapshot);
@@ -508,12 +509,12 @@ export default function ProfileScreen(props) {
                             </View>
                         }
                         {editName ?
-                            <View style={{ marginTop: -18,paddingLeft:isRTL?15:0, }}>
+                            <View style={{ marginTop: -18, paddingLeft: isRTL ? 15 : 0, }}>
                                 <Entypo name="cross" size={24} color={colors.RED} onPress={() => cancle(0)} />
                                 <MaterialIcons onPress={saveName} name="check" size={24} style={{ marginTop: 10 }} color={colors.SKY} />
                             </View>
                             :
-                            <TouchableOpacity onPress={() => setEditName(true)}  style={[{marginLeft:isRTL?20:0}]}>
+                            <TouchableOpacity onPress={() => setEditName(true)} style={[{ marginLeft: isRTL ? 20 : 0 }]}>
                                 <Feather name="edit-3" size={22} color={colors.CONVERTDRIVER_TEXT} style={{ marginTop: 10 }} />
                             </TouchableOpacity>
                         }
@@ -557,7 +558,7 @@ export default function ProfileScreen(props) {
                                 }
 
                                 {editEmail ?
-                                    <View style={[{marginLeft:isRTL?15:0,width:'auto'}]}>
+                                    <View style={[{ marginLeft: isRTL ? 15 : 0, width: 'auto' }]}>
                                         {emailLoading ?
                                             <ActivityIndicator color={colors.BLACK} size='small' />
                                             :
@@ -568,7 +569,7 @@ export default function ProfileScreen(props) {
                                         }
                                     </View>
                                     :
-                                    <TouchableOpacity onPress={() => setEditEmail(true)} style={[{marginLeft:isRTL?20:10}]}>
+                                    <TouchableOpacity onPress={() => setEditEmail(true)} style={[{ marginLeft: isRTL ? 20 : 10 }]}>
                                         <Feather name="edit-3" size={22} color={colors.CONVERTDRIVER_TEXT} />
                                     </TouchableOpacity>
                                 }
@@ -586,18 +587,18 @@ export default function ProfileScreen(props) {
                             />
 
                         </View>
-                        <View style={[styles.flexView1, { marginVertical:2 },[isRTL ? { marginRight: 15, width: width - 70 } : { width: width - 70 }]]}>
-                            
-                            <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', justifyContent: 'space-between', alignItems:"center", paddingRight: 15, marginVertical:3}}>
-                                {editMobile ?
-                                    <View style={{ width: width - 140, flexDirection: isRTL ? 'row-reverse' : 'row', alignItems:"center", justifyContent:"space-between" }}>
+                        <View style={[styles.flexView1, { marginVertical: 2 }, [isRTL ? { marginRight: 15, width: width - 70 } : { width: width - 70 }]]}>
 
-                                        <View style={{ width: "35%", height:"100%", flexDirection: "column", justifyContent:"space-around" }}>
-                                            <Text style={[styles.text1, isRTL ? { textAlign: 'right' } : { textAlign: 'left' }, {fontSize:12}]}>{t('select_country')}</Text>
-                                            <TouchableOpacity activeOpacity={0.5} style={[styles.RnpickerBox, { flexDirection: isRTL ? 'row-reverse' : "row",               justifyContent:'space-between', }]} 
+                            <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', justifyContent: 'space-between', alignItems: "center", paddingRight: 15, marginVertical: 3 }}>
+                                {editMobile ?
+                                    <View style={{ width: width - 140, flexDirection: isRTL ? 'row-reverse' : 'row', alignItems: "center", justifyContent: "space-between" }}>
+
+                                        <View style={{ width: "35%", height: "100%", flexDirection: "column", justifyContent: "space-around" }}>
+                                            <Text style={[styles.text1, isRTL ? { textAlign: 'right' } : { textAlign: 'left' }, { fontSize: 12 }]}>{t('select_country')}</Text>
+                                            <TouchableOpacity activeOpacity={0.5} style={[styles.RnpickerBox, { flexDirection: isRTL ? 'row-reverse' : "row", justifyContent: 'space-between', }]}
                                                 disabled={settings.AllowCountrySelection}
-                                                >
-                                                <View style={{ overflow: "hidden", height: '100%', width: "100%",}} >
+                                            >
+                                                <View style={{ overflow: "hidden", height: '100%', width: "100%", }} >
                                                     <RNPickerSelect
                                                         numberOfLines={1}
                                                         pickerRef={pickerRef2}
@@ -625,31 +626,31 @@ export default function ProfileScreen(props) {
                                                                 : styles.pickerStyle]
                                                         }}
                                                         onTap={() => {
-                                                                if(settings){
-                                                                    if(settings.AllowCountrySelection){
+                                                            if (settings) {
+                                                                if (settings.AllowCountrySelection) {
 
-                                                                        pickerRef2.current.focus() 
-                                                                    }
-                                                                }    
-                                                                
-                                                                
+                                                                    pickerRef2.current.focus()
+                                                                }
+                                                            }
+
+
                                                         }}
                                                         onValueChange={(text) => { upDateCountry(text); }}
                                                         items={formatCountries}
                                                         disabled={settings.AllowCountrySelection ? false : true}
-                                                        Icon={() => { return <Ionicons name="arrow-down" size={18} color={colors.CONVERTDRIVER_TEXT} style={[isRTL ? { marginLeft: -(width - 80) } : { marginRight: Platform.OS == "ios" ? -8 : 8  }, {margin:5}]} />; }}
+                                                        Icon={() => { return <Ionicons name="arrow-down" size={18} color={colors.CONVERTDRIVER_TEXT} style={[isRTL ? { marginLeft: -(width - 80) } : { marginRight: Platform.OS == "ios" ? -8 : 8 }, { margin: 5 }]} />; }}
                                                     />
 
                                                 </View>
                                             </TouchableOpacity>
                                         </View>
 
-                                        <View style={{ width: "60%", height:"100%", flexDirection: "column", justifyContent:"space-around",  }}>
-                                            <Text style={[styles.text1, isRTL ? { textAlign: 'right' } : { textAlign: 'left' }, {fontSize:12}]}>{t('mobile')}</Text>
+                                        <View style={{ width: "60%", height: "100%", flexDirection: "column", justifyContent: "space-around", }}>
+                                            <Text style={[styles.text1, isRTL ? { textAlign: 'right' } : { textAlign: 'left' }, { fontSize: 12 }]}>{t('mobile')}</Text>
                                             <TextInput
                                                 style={[
-                                                    styles.text2, 
-                                                    { borderBottomColor: colors.BUTTON, borderBottomWidth: 1, width:"100%" }, 
+                                                    styles.text2,
+                                                    { borderBottomColor: colors.BUTTON, borderBottomWidth: 1, width: "100%" },
                                                     isRTL ? { textAlign: 'right', fontSize: 16 } : { textAlign: 'left', fontSize: 16 }
                                                 ]}
                                                 placeholder={t('mobile')}
@@ -674,18 +675,18 @@ export default function ProfileScreen(props) {
                                     </View>
                                 }
                                 {editMobile ?
-                                    <TouchableOpacity onPress={() => saveProfile(2)} style={[{marginLeft:isRTL?15:0}]}>
+                                    <TouchableOpacity onPress={() => saveProfile(2)} style={[{ marginLeft: isRTL ? 15 : 0 }]}>
                                         {mobileLoading ?
                                             <ActivityIndicator color={colors.BLACK} size='small' />
                                             :
-                                            <View style={{  }}>
+                                            <View style={{}}>
                                                 <Entypo name="cross" size={24} color={colors.RED} onPress={() => cancle(2)} />
                                                 <MaterialIcons onPress={() => saveProfile(2)} name="check" size={24} style={{ marginTop: 10 }} color={colors.SKY} />
                                             </View>
                                         }
                                     </TouchableOpacity>
                                     :
-                                    <TouchableOpacity onPress={() => setEditMobile(true)}  style={[{marginLeft:isRTL?20:0}]}>
+                                    <TouchableOpacity onPress={() => setEditMobile(true)} style={[{ marginLeft: isRTL ? 20 : 0 }]}>
                                         <Feather name="edit-3" size={22} color={colors.CONVERTDRIVER_TEXT} />
                                     </TouchableOpacity>
                                 }
@@ -882,12 +883,12 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         color: colors.PROFILE_PLACEHOLDER_CONTENT,
-        fontFamily:fonts.Bold
+        fontFamily: fonts.Bold
     },
     bonusAmount: {
         right: 20,
         fontSize: 16,
-        fontFamily:fonts.Bold
+        fontFamily: fonts.Bold
     },
     viewStyle: {
         alignItems: 'center',
@@ -957,14 +958,14 @@ const styles = StyleSheet.create({
     emailStyle: {
         fontSize: 17,
         color: colors.BLACK,
-        fontFamily:fonts.Bold,
+        fontFamily: fonts.Bold,
         textAlign: 'center',
         marginVertical: 5
     },
     emailAdressStyle: {
         fontSize: 15,
         color: colors.PROFILE_PLACEHOLDER_CONTENT,
-        fontFamily:fonts.Regular
+        fontFamily: fonts.Regular
     },
     mainIconView: {
         flex: 1,
@@ -981,7 +982,7 @@ const styles = StyleSheet.create({
     text2: {
         fontSize: 15,
         color: colors.PROFILE_PLACEHOLDER_CONTENT,
-        fontFamily:fonts.Regular,
+        fontFamily: fonts.Regular,
         // backgroundColor:'red',
 
     },
@@ -1032,7 +1033,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         height: 30,
         fontWeight: 'bold',
-        padding:2
+        padding: 2
 
     },
     pickerStyle1: {
@@ -1040,7 +1041,7 @@ const styles = StyleSheet.create({
         width: width - 80,
         fontSize: 15,
         height: 30,
-        fontFamily:fonts.Bold
+        fontFamily: fonts.Bold
     },
     vew: {
         width: '40%',
@@ -1048,7 +1049,7 @@ const styles = StyleSheet.create({
     },
     errorMessageStyle: {
         fontSize: 12,
-        fontFamily:fonts.Bold,
+        fontFamily: fonts.Bold,
         marginLeft: 0
     },
     containerStyle: {
@@ -1062,18 +1063,18 @@ const styles = StyleSheet.create({
         color: colors.HEADER,
         fontSize: 13,
         height: 32,
-        fontFamily:fonts.Regular
+        fontFamily: fonts.Regular
     },
     RnpickerBox: {
         width: "100%",
-        height:"50%",
+        height: "50%",
         overflow: 'hidden',
         flexDirection: 'row',
         borderWidth: 1,
         borderColor: colors.CONVERTDRIVER_TEXT,
         borderRadius: 10,
         alignItems: 'center',
-        marginRight:5,
-        paddingHorizontal:5
+        marginRight: 5,
+        paddingHorizontal: 5
     },
 });
