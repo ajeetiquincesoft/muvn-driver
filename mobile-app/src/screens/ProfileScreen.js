@@ -219,7 +219,6 @@ export default function ProfileScreen(props) {
         if (auth.profile && auth.profile.uid) {
             setProfileData({ ...auth.profile });
             if (updateCalled) {
-                console.log('fsdfsdf');
 
                 Alert.alert(
                     t('alert'),
