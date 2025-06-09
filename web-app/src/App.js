@@ -47,19 +47,19 @@ import EditCar from "views/EditCar.js";
 import EditCarType from "views/EditCarType.js";
 import EditUser from "views/EditUser.js";
 import PaymentSettings from "views/PaymentSettings.js";
-const libraries = ['geometry','drawing','places'];
+const libraries = ['geometry', 'drawing', 'places'];
 
 i18n
-.use(initReactI18next) 
-.init({
+  .use(initReactI18next)
+  .init({
     resources: {},
     fallbackLng: "en",
     ns: ["translations"],
     defaultNS: "translations",
     interpolation: {
-        escapeValue: false
+      escapeValue: false
     }
-});
+  });
 
 function App() {
 
@@ -73,58 +73,58 @@ function App() {
 
   return (
     <HelmetProvider>
-    <Provider store={store}>
-      <FirebaseProvider config={FirebaseConfig}>
-        <GoogleOAuthProvider clientId={webClientId}>
-        <ThemeProvider theme={theme}>
-          <AuthLoading>
-          <BrowserRouter future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
-              <Routes>
-                <Route path="/dashboard" element={<ProtectedRoute permit={"admin,fleetadmin"}><Dashboard /></ProtectedRoute>}/>
-                <Route path="/bookings" element={<ProtectedRoute permit={"customer,admin,driver,fleetadmin"}><BookingHistory /></ProtectedRoute>}/>
-                <Route path="/bookings/bookingdetails/:id" element={<ProtectedRoute permit={"customer,admin,driver,fleetadmin"}><BookingDetails /></ProtectedRoute>}/>
-                <Route path="/profile" element={<ProtectedRoute permit={"customer,admin,driver,fleetadmin"}><MyProfile /></ProtectedRoute>}/>
-                <Route path="/cartypes" element={<ProtectedRoute permit={"admin"}><CarTypes /></ProtectedRoute>}/>
-                <Route path="/cars" element={<ProtectedRoute permit={"admin,fleetadmin,driver"}><CarsList /></ProtectedRoute>}/>
-                <Route path="/addbookings" element={<ProtectedRoute permit={"admin,fleetadmin,customer"}><AddBookings /></ProtectedRoute>}/>
-                <Route path="/promos" element={<ProtectedRoute permit={"admin"}><Promos /></ProtectedRoute>}/>
-                <Route path="/users/:id" element={<ProtectedRoute permit={"admin,fleetadmin"}><Users /></ProtectedRoute>}/>
-                <Route path="/users/customerdetails/:id" element={<ProtectedRoute permit={"admin,fleetadmin"}><CustomerDetails/></ProtectedRoute>}/>
-                <Route path="/users/driverdetails/:id" element={<ProtectedRoute permit={"admin,fleetadmin"}><DriverDetails/></ProtectedRoute>}/>
-                <Route path="/users/userdocuments/:rId/:id" element={<ProtectedRoute permit={"admin,fleetadmin"}><UserDocuments/></ProtectedRoute>} />  
-                <Route path="/notifications" element={<ProtectedRoute permit={"admin"}><Notifications /></ProtectedRoute>}/>
-                <Route path="/addtowallet" element={<ProtectedRoute permit={"admin"}><AddMoney /></ProtectedRoute>}/>
-                <Route path="/userwallet" element={<ProtectedRoute permit={"customer,driver,fleetadmin"}><UserWallet /></ProtectedRoute>}/>
-                <Route path="/withdraws" element={<ProtectedRoute permit={"admin"}><Withdraws /></ProtectedRoute>}/>
-                <Route path="/sos" element={<ProtectedRoute permit={"admin"}><Sos /></ProtectedRoute>}/>
-                <Route path="/complain" element={<ProtectedRoute permit={"admin"}><Complain /></ProtectedRoute>}/>
-                <Route path="/allreports" element={<ProtectedRoute permit={"admin,fleetadmin"}><AllReports /></ProtectedRoute>}/>
-                <Route path="/settings" element={<ProtectedRoute permit={"admin"}><Settings /></ProtectedRoute>}/>
-                <Route path="/paymentsettings" element={<ProtectedRoute permit={"admin"}><PaymentSettings /></ProtectedRoute>}/>
-                <Route path="/contact-us" element={<ContactUs />} />
-                <Route path="/about-us" element={<AboutUs />} />
-                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-                <Route path="/term-condition" element={<TermCondition />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/users/edituser/:usertype" element={<ProtectedRoute permit={"admin,fleetadmin"}><EditUser/></ProtectedRoute>}/>
-                <Route path="/users/edituser/:usertype/:id" element={<ProtectedRoute permit={"admin,fleetadmin"}><EditUser/></ProtectedRoute>}/>
-                <Route path="/notifications/addnotifications" element={<ProtectedRoute permit={"admin"}><AddNotifications/></ProtectedRoute>}/>
-                <Route path="/cars/editcar" element={<ProtectedRoute permit={"admin,fleetadmin,driver"}><EditCar/></ProtectedRoute>}/>
-                <Route path="/cars/editcar/:id" element={<ProtectedRoute permit={"admin,fleetadmin,driver"}><EditCar/></ProtectedRoute>}/>
-                <Route path="/promos/editpromo" element={<ProtectedRoute permit={"admin"}><EditPromo/></ProtectedRoute>}/>
-                <Route path="/promos/editpromo/:id" element={<ProtectedRoute permit={"admin"}><EditPromo/></ProtectedRoute>}/>
-                <Route path="/contact-us" element={<ContactUs />} />
-                <Route path="/cartypes/editcartype" element={<ProtectedRoute permit={"admin,fleetadmin,driver"} ><EditCarType/></ProtectedRoute>} />
-                <Route path="/cartypes/editcartype/:id" element={<ProtectedRoute permit={"admin,fleetadmin,driver"}><EditCarType/></ProtectedRoute>}/>
-                <Route path="/*" element={<Error/>} />
-                <Route path="/" element={<LandingPage />} />
-              </Routes>
-            </BrowserRouter>
-          </AuthLoading>
-        </ThemeProvider>
-        </GoogleOAuthProvider>
-      </FirebaseProvider>
-    </Provider>
+      <Provider store={store}>
+        <FirebaseProvider config={FirebaseConfig}>
+          <GoogleOAuthProvider clientId={webClientId}>
+            <ThemeProvider theme={theme}>
+              <AuthLoading>
+                <BrowserRouter future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
+                  <Routes>
+                    <Route path="/dashboard" element={<ProtectedRoute permit={"admin,fleetadmin"}><Dashboard /></ProtectedRoute>} />
+                    <Route path="/bookings" element={<ProtectedRoute permit={"customer,admin,driver,fleetadmin"}><BookingHistory /></ProtectedRoute>} />
+                    <Route path="/bookings/bookingdetails/:id" element={<ProtectedRoute permit={"customer,admin,driver,fleetadmin"}><BookingDetails /></ProtectedRoute>} />
+                    <Route path="/profile" element={<ProtectedRoute permit={"customer,admin,driver,fleetadmin"}><MyProfile /></ProtectedRoute>} />
+                    <Route path="/cartypes" element={<ProtectedRoute permit={"admin"}><CarTypes /></ProtectedRoute>} />
+                    <Route path="/cars" element={<ProtectedRoute permit={"admin,fleetadmin,driver"}><CarsList /></ProtectedRoute>} />
+                    <Route path="/addbookings" element={<ProtectedRoute permit={"admin,fleetadmin,customer"}><AddBookings /></ProtectedRoute>} />
+                    <Route path="/promos" element={<ProtectedRoute permit={"admin"}><Promos /></ProtectedRoute>} />
+                    <Route path="/users/:id" element={<ProtectedRoute permit={"admin,fleetadmin"}><Users /></ProtectedRoute>} />
+                    <Route path="/users/customerdetails/:id" element={<ProtectedRoute permit={"admin,fleetadmin"}><CustomerDetails /></ProtectedRoute>} />
+                    <Route path="/users/driverdetails/:id" element={<ProtectedRoute permit={"admin,fleetadmin"}><DriverDetails /></ProtectedRoute>} />
+                    <Route path="/users/userdocuments/:rId/:id" element={<ProtectedRoute permit={"admin,fleetadmin"}><UserDocuments /></ProtectedRoute>} />
+                    <Route path="/notifications" element={<ProtectedRoute permit={"admin"}><Notifications /></ProtectedRoute>} />
+                    <Route path="/addtowallet" element={<ProtectedRoute permit={"admin"}><AddMoney /></ProtectedRoute>} />
+                    <Route path="/userwallet" element={<ProtectedRoute permit={"customer,driver,fleetadmin"}><UserWallet /></ProtectedRoute>} />
+                    <Route path="/withdraws" element={<ProtectedRoute permit={"admin"}><Withdraws /></ProtectedRoute>} />
+                    <Route path="/sos" element={<ProtectedRoute permit={"admin"}><Sos /></ProtectedRoute>} />
+                    <Route path="/complain" element={<ProtectedRoute permit={"admin"}><Complain /></ProtectedRoute>} />
+                    <Route path="/allreports" element={<ProtectedRoute permit={"admin,fleetadmin"}><AllReports /></ProtectedRoute>} />
+                    <Route path="/settings" element={<ProtectedRoute permit={"admin"}><Settings /></ProtectedRoute>} />
+                    <Route path="/paymentsettings" element={<ProtectedRoute permit={"admin"}><PaymentSettings /></ProtectedRoute>} />
+                    <Route path="/contact-us" element={<ContactUs />} />
+                    <Route path="/about-us" element={<AboutUs />} />
+                    <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                    <Route path="/term-condition" element={<TermCondition />} />
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/users/edituser/:usertype" element={<ProtectedRoute permit={"admin,fleetadmin"}><EditUser /></ProtectedRoute>} />
+                    <Route path="/users/edituser/:usertype/:id" element={<ProtectedRoute permit={"admin,fleetadmin"}><EditUser /></ProtectedRoute>} />
+                    <Route path="/notifications/addnotifications" element={<ProtectedRoute permit={"admin"}><AddNotifications /></ProtectedRoute>} />
+                    <Route path="/cars/editcar" element={<ProtectedRoute permit={"admin,fleetadmin,driver"}><EditCar /></ProtectedRoute>} />
+                    <Route path="/cars/editcar/:id" element={<ProtectedRoute permit={"admin,fleetadmin,driver"}><EditCar /></ProtectedRoute>} />
+                    <Route path="/promos/editpromo" element={<ProtectedRoute permit={"admin"}><EditPromo /></ProtectedRoute>} />
+                    <Route path="/promos/editpromo/:id" element={<ProtectedRoute permit={"admin"}><EditPromo /></ProtectedRoute>} />
+                    <Route path="/contact-us" element={<ContactUs />} />
+                    <Route path="/cartypes/editcartype" element={<ProtectedRoute permit={"admin,fleetadmin,driver"} ><EditCarType /></ProtectedRoute>} />
+                    <Route path="/cartypes/editcartype/:id" element={<ProtectedRoute permit={"admin,fleetadmin,driver"}><EditCarType /></ProtectedRoute>} />
+                    <Route path="/*" element={<Error />} />
+                    <Route path="/" element={<LandingPage />} />
+                  </Routes>
+                </BrowserRouter>
+              </AuthLoading>
+            </ThemeProvider>
+          </GoogleOAuthProvider>
+        </FirebaseProvider>
+      </Provider>
     </HelmetProvider>
   );
 }

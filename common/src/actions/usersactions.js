@@ -38,12 +38,12 @@ export const fetchUsers = () => (dispatch) => {
       const locations = locationdata.val();
       const data = snapshot.val();
       const arr = Object.keys(data)
-      .filter(i => data[i].usertype!='admin')
-      .map(i => {
-        data[i].id = i;
-        data[i].location = locations && locations[i] ? locations[i] : null;
-        return data[i];
-      });
+        .filter(i => data[i].usertype != 'admin')
+        .map(i => {
+          data[i].id = i;
+          data[i].location = locations && locations[i] ? locations[i] : null;
+          return data[i];
+        });
       dispatch({
         type: FETCH_ALL_USERS_SUCCESS,
         payload: arr
@@ -75,11 +75,11 @@ export const fetchUsersOnce = () => (dispatch) => {
       const locations = locationdata.val();
       const data = snapshot.val();
       const arr = Object.keys(data)
-      .map(i => {
-        data[i].id = i;
-        data[i].location = locations && locations[i] ? locations[i] : null;
-        return data[i];
-      });
+        .map(i => {
+          data[i].id = i;
+          data[i].location = locations && locations[i] ? locations[i] : null;
+          return data[i];
+        });
       dispatch({
         type: FETCH_ALL_USERS_STATIC_SUCCESS,
         payload: arr
@@ -90,8 +90,8 @@ export const fetchUsersOnce = () => (dispatch) => {
         payload: "No users available."
       });
     }
-  },{onlyOnce: true});
-  
+  }, { onlyOnce: true });
+
 };
 export const clearFetchDrivers = () => (dispatch) => {
   const {
@@ -102,7 +102,7 @@ export const clearFetchDrivers = () => (dispatch) => {
   off(allLocationsRef);
 }
 
-export const fetchDrivers = (appType) => async(dispatch) => {
+export const fetchDrivers = (appType) => async (dispatch) => {
 
   const {
     driversRef,
@@ -120,36 +120,36 @@ export const fetchDrivers = (appType) => async(dispatch) => {
 
   onValue(driversRef, snapshot => {
     if (snapshot.val()) {
-      onValue(allLocationsRef, locres=>{
+      onValue(allLocationsRef, locres => {
         const locations = locres.val();
-          const data = snapshot.val();
-          const arr = Object.keys(data)
-          .filter(i => data && data[i].approved == true && data[i].driverActiveStatus == true && locations && locations[i] && ( (data[i].licenseImage && settings.license_image_required) || !settings.license_image_required)
-                      && (((data[i].carApproved && settings.carType_required) || !settings.carType_required) || !settings.carType_required) && ((data[i].term && settings.term_required) || !settings.term_required) ) 
+        const data = snapshot.val();
+        const arr = Object.keys(data)
+          .filter(i => data && data[i].approved == true && data[i].driverActiveStatus == true && locations && locations[i] && ((data[i].licenseImage && settings.license_image_required) || !settings.license_image_required)
+            && (((data[i].carApproved && settings.carType_required) || !settings.carType_required) || !settings.carType_required) && ((data[i].term && settings.term_required) || !settings.term_required))
           .map(i => {
             return {
               id: i,
-              location: locations && locations[i] ? locations[i]:null,
+              location: locations && locations[i] ? locations[i] : null,
               carType: data[i].carType ? data[i].carType : null,
-              vehicleNumber:  data[i].vehicleNumber ? data[i].vehicleNumber : null,
-              fleetadmin:  data[i].fleetadmin ? data[i].fleetadmin : null,
+              vehicleNumber: data[i].vehicleNumber ? data[i].vehicleNumber : null,
+              fleetadmin: data[i].fleetadmin ? data[i].fleetadmin : null,
               firstName: data[i].firstName,
               lastName: data[i].lastName,
               queue: data[i].queue
             };
           });
-          dispatch({
-            type: FETCH_ALL_DRIVERS_SUCCESS,
-            payload: arr
-          });
-        }, appType === 'app' ? {onlyOnce: true} : settings && settings.realtime_drivers ? null : {onlyOnce: true})
+        dispatch({
+          type: FETCH_ALL_DRIVERS_SUCCESS,
+          payload: arr
+        });
+      }, appType === 'app' ? { onlyOnce: true } : settings && settings.realtime_drivers ? null : { onlyOnce: true })
     } else {
       dispatch({
         type: FETCH_ALL_DRIVERS_FAILED,
         payload: "No users available."
       });
     }
-  },appType === 'app'? {onlyOnce: true}: settings && settings.realtime_drivers ? null : {onlyOnce: true});
+  }, appType === 'app' ? { onlyOnce: true } : settings && settings.realtime_drivers ? null : { onlyOnce: true });
 };
 
 export const addUser = (userdata) => (dispatch) => {
@@ -200,9 +200,9 @@ export const updateUserCar = (id, data) => (dispatch) => {
 
   dispatch({
     type: EDIT_USER,
-    payload: data  
+    payload: data
   });
-  update(singleUserRef(id),data);
+  update(singleUserRef(id), data);
 }
 
 export const updateLicenseImage = (uid, imageBlob, imageType) => async (dispatch) => {
@@ -215,22 +215,22 @@ export const updateLicenseImage = (uid, imageBlob, imageType) => async (dispatch
   } = firebase;
 
   let profile = {};
-  if(imageType === 'licenseImage'){
-    await uploadBytesResumable(driverDocsRef(uid),imageBlob);
+  if (imageType === 'licenseImage') {
+    await uploadBytesResumable(driverDocsRef(uid), imageBlob);
     let image = await getDownloadURL(driverDocsRef(uid));
     profile.licenseImage = image;
   }
-  if(imageType === 'licenseImageBack'){
-    await uploadBytesResumable(driverDocsRefBack(uid),imageBlob);
+  if (imageType === 'licenseImageBack') {
+    await uploadBytesResumable(driverDocsRefBack(uid), imageBlob);
     let image1 = await getDownloadURL(driverDocsRefBack(uid));
     profile.licenseImageBack = image1;
   }
-  if(imageType === 'verifyIdImage'){
-    await uploadBytesResumable(verifyIdImageRef(uid),imageBlob);
+  if (imageType === 'verifyIdImage') {
+    await uploadBytesResumable(verifyIdImageRef(uid), imageBlob);
     let image1 = await getDownloadURL(verifyIdImageRef(uid));
     profile.verifyIdImage = image1;
   }
-  update(singleUserRef(uid),profile);
+  update(singleUserRef(uid), profile);
   dispatch({
     type: EDIT_USER,
     payload: uid
@@ -261,18 +261,18 @@ export const deleteUser = (uid) => (dispatch) => {
 
   onValue(singleUserRef(uid), userdata => {
     const profile = userdata.val();
-    if(profile.usertype === 'driver'){
+    if (profile.usertype === 'driver') {
       onValue(carsRef(uid, profile.usertype), carssnapshot => {
         let cars = carssnapshot.val();
         if (cars) {
           const arr = Object.keys(cars);
-          for(let i = 0; i < arr.length; i++){
+          for (let i = 0; i < arr.length; i++) {
             remove(carEditRef(arr[i]));
           }
         }
       });
-    } 
-    
+    }
+
     remove(singleUserRef(uid)).then(() => {
       if (auth.currentUser.uid === uid) {
         signOut(auth);
@@ -294,5 +294,5 @@ export const deleteUser = (uid) => (dispatch) => {
         });
       }
     });
-  },{onlyOnce:true});
+  }, { onlyOnce: true });
 }

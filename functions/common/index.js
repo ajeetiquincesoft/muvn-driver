@@ -10,9 +10,9 @@ const RequestPushMsg = async (token, data) => {
                 for (let ukey in users) {
                     admin.database().ref('/userNotifications/' + ukey).push(
                         {
-                             dated: new Date().getTime(), 
-                             title: data.title, 
-                             msg: data.msg
+                            dated: new Date().getTime(),
+                            title: data.title,
+                            msg: data.msg
                         }
                     )
                 }
@@ -20,11 +20,11 @@ const RequestPushMsg = async (token, data) => {
         });
     }
 
-    if(Array.isArray(token)){
-        for(let i=0; i<token.length;i++){
+    if (Array.isArray(token)) {
+        for (let i = 0; i < token.length; i++) {
             savePushMsg(token[i], data);
         }
-    }else{
+    } else {
         savePushMsg(token, data);
     }
 
@@ -58,8 +58,8 @@ const RequestPushMsg = async (token, data) => {
 
 module.exports.RequestPushMsg = RequestPushMsg;
 
-const addToWallet = async (uid,amount,description,transaction_id) =>{
-    let snapshot =  await admin.database().ref("users/" + uid).once("value");
+const addToWallet = async (uid, amount, description, transaction_id) => {
+    let snapshot = await admin.database().ref("users/" + uid).once("value");
     if (snapshot.val()) {
         const pushToken = snapshot.val().pushToken;
         let walletBalance = parseFloat(snapshot.val().walletBalance);
@@ -69,31 +69,31 @@ const addToWallet = async (uid,amount,description,transaction_id) =>{
             amount: amount,
             date: new Date().getTime(),
             txRef: description,
-            transaction_id: transaction_id? transaction_id : ''
+            transaction_id: transaction_id ? transaction_id : ''
         }
         await admin.database().ref("users/" + uid + "/walletBalance").set(walletBalance);
         await admin.database().ref("walletHistory/" + uid).push(details);
-        if(pushToken){
+        if (pushToken) {
             const language = Object.values((await admin.database().ref("languages").orderByChild("default").equalTo(true).once('value')).val())[0].keyValuePairs;
             RequestPushMsg(
-                pushToken, 
+                pushToken,
                 {
-                    title: language.notification_title, 
+                    title: language.notification_title,
                     msg: language.wallet_updated,
                     screen: 'Wallet'
                 }
             );
-        }  
+        }
         return true;
-    }else{
+    } else {
         return false;
     }
 }
 
 module.exports.addToWallet = addToWallet;
 
-const deductFromWallet = async (uid,amount,description) =>{
-    let snapshot =  await admin.database().ref("users/" + uid).once("value");
+const deductFromWallet = async (uid, amount, description) => {
+    let snapshot = await admin.database().ref("users/" + uid).once("value");
     if (snapshot.val()) {
         const pushToken = snapshot.val().pushToken;
         let walletBalance = parseFloat(snapshot.val().walletBalance);
@@ -107,19 +107,19 @@ const deductFromWallet = async (uid,amount,description) =>{
         }
         await admin.database().ref("users/" + uid + "/walletBalance").set(walletBalance);
         await admin.database().ref("walletHistory/" + uid).push(details);
-        if(pushToken){
+        if (pushToken) {
             const language = Object.values((await admin.database().ref("languages").orderByChild("default").equalTo(true).once('value')).val())[0].keyValuePairs;
             RequestPushMsg(
-                pushToken, 
+                pushToken,
                 {
-                    title: language.notification_title, 
+                    title: language.notification_title,
                     msg: language.wallet_updated,
                     screen: 'Wallet'
                 }
             );
-        }  
+        }
         return true;
-    }else{
+    } else {
         return false;
     }
 }

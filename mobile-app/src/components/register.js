@@ -41,7 +41,8 @@ export default function Registration(props) {
         email: '',
         password: '',
         mobile: '',
-        referralId: ''
+        referralId: '',
+        vehicleType: 'Driver'
     });
     const dispatch = useDispatch();
     const [countryCode, setCountryCode] = useState();
@@ -66,6 +67,12 @@ export default function Registration(props) {
     const radio_props = [
         { label: t('customer'), value: 0 },
         { label: t('driver'), value: 1 }
+    ];
+
+    const vehicleTypeOptions = [
+        { label: 'A Rider', value: 'Driver' },
+        { label: 'Okada', value: 'Okada' },
+        { label: 'Courier', value: 'Courier' },
     ];
 
     const formatCountries = useMemo(() => {
@@ -134,8 +141,9 @@ export default function Registration(props) {
                     if (mobileWithoutCountry && mobileWithoutCountry.length > 6) {
                         const userData = { ...state };
                         if (userData.usertype == 'customer') delete userData.carType;
-
+                        console.log("dddd" + JSON.stringify(userData));
                         onPressRegister(userData);
+
 
                     } else {
                         Alert.alert(t('alert'), t('mobile_no_blank_error'));
@@ -192,14 +200,44 @@ export default function Registration(props) {
                                         buttonOuterSize={35}
                                         buttonStyle={{}}
                                         onPress={(value) => {
-                                            if (value == 0) {
-                                                setState({ ...state, usertype: 'customer' });
-                                            } else {
-                                                setState({ ...state, usertype: 'driver' });
-                                            }
+                                            setState({
+                                                ...state,
+                                                usertype: value === 0 ? 'customer' : 'driver',
+                                                vehicleType: value === 0 ? '' : state.vehicleType, // Clear vehicleType if customer
+                                            });
                                         }}
                                     />
                                     {/* <Radioform/> */}
+                                </View>
+
+                                <View style={[styles.textInputContainerStyle, { justifyContent: 'flex-start' }, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+
+                                    {/* Conditional Vehicle Type Radio Buttons */}
+                                    {state.usertype === 'driver' && (
+                                        <>
+
+                                            <RadioForm
+                                                radio_props={vehicleTypeOptions}
+                                                initial={0}
+                                                animation={false}
+                                                formHorizontal={true}
+                                                labelHorizontal={true}
+                                                buttonColor={MAIN_COLOR}
+                                                labelColor={colors.HEADER}
+                                                labelStyle={[isRTL ? { marginRight: 10 } : { marginRight: 10 }, { fontFamily: fonts.Regular }]}
+                                                selectedButtonColor={MAIN_COLOR}
+                                                selectedLabelColor={colors.HEADER}
+                                                buttonSize={25}
+                                                buttonOuterSize={35}
+                                                buttonStyle={{}}
+                                                onPress={(value) => {
+
+                                                    setState({ ...state, vehicleType: value });
+                                                }}
+                                            />
+                                        </>
+                                    )}
+
                                 </View>
                                 <View style={[styles.textInputBoxStyle, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
                                     <TextInput

@@ -66,9 +66,10 @@
             ".write": "root.child('users').child(auth.uid).child('usertype').val() === 'admin' || root.child('users').child(auth.uid).child('usertype').val() === 'fleetadmin'",
             "$uid": {
                 ".write": "auth != null && auth.uid===$uid",
-                "$usernode": {
-                    ".write": "$usernode==='approved' || $usernode==='rating' || $usernode==='driverActiveStatus' || $usernode==='queue' || $usernode==='savedAddresses'"
+               "$usernode": {
+                ".write": "$usernode==='approved' || $usernode==='rating' || $usernode==='driverActiveStatus' || $usernode==='queue' || $usernode==='savedAddresses' || $usernode==='vehicleType'"
                 }
+
             },
             ".indexOn": [
                 "queue",

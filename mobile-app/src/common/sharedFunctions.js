@@ -1,5 +1,5 @@
 import { React } from 'react';
-import { View, Text, TouchableOpacity, Image, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Dimensions, Modal, TextInput, Button } from 'react-native';
 import { colors } from './theme';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import i18n from 'i18n-js';
@@ -125,37 +125,149 @@ export const CarVertical = (props) => {
     const { t } = i18n;
     const isRTL = i18n.locale.indexOf('he') === 0 || i18n.locale.indexOf('ar') === 0;
     const { onPress, carData, settings, styles } = props;
+    const [modalVisible, setModalVisible] = useState(false);
+    const [inputText, setInputText] = useState('');
+    const [inputError, setInputError] = useState(false);
+
+    const handlePress = () => {
+        if (carData.name.toLowerCase() === 'courier') {
+            setModalVisible(true);
+        } else {
+            onPress && onPress();
+        }
+    };
+
+    const handleModalClose = () => {
+        if (!inputText.trim()) {
+            carData.active = false; // unselect car type
+        }
+        setModalVisible(false);
+        setInputError(false);
+    };
+
+    const handleSubmit = () => {
+        if (!inputText.trim()) {
+            setInputError(true);
+            return;
+        }
+        carData.courierNote = inputText.trim();
+        setModalVisible(false);
+        setInputError(false);
+        onPress && onPress();
+    };
+
     return (
-        <TouchableOpacity
-            style={[styles.carContainer, { borderWidth: 1, borderColor: carData.active == true ? colors.TAXIPRIMARY : colors.WHITE, flexDirection: isRTL ? 'row-reverse' : 'row', }]}
-            onPress={onPress}
-        >
-            <Image
-                source={carData.image ? { uri: carData.image } : require('../../assets/images/microBlackCar.png')}
-                resizeMode="contain"
-                style={styles.cardItemImagePlace}
-            ></Image>
-            <View style={[styles.bodyContent, { flexDirection: 'column', }]}>
-                <Text style={[styles.titleStyles, { textAlign: isRTL ? 'right' : 'left' }]}>{t(getLangKey(carData.name.toUpperCase()))}</Text>
-                <View style={{ flexDirection: isRTL ? 'row-reverse' : 'column', }}>
-                    {settings.swipe_symbol === false ?
-                        <Text style={[styles.text2, { fontFamily: fonts.Bold, color: colors.MAP_TEXT }]}>{settings.symbol}{carData.rate_per_unit_distance} / {settings.convert_to_mile ? t('mile') : t('km')} </Text>
-                        :
-                        <Text style={[styles.text2, { fontFamily: fonts.Bold, color: colors.MAP_TEXT }]}>{carData.rate_per_unit_distance}{settings.symbol} / {settings.convert_to_mile ? t('mile') : t('km')} </Text>
-                    }
-                    {carData.extra_info && carData.extra_info != '' ?
-                        <View style={{ justifyContent: 'space-around', marginLeft: 3, width: width - 180 }}>
-                            {
-                                carData.extra_info.split().map((ln) => <Text key={ln} style={[styles.text2, { fontFamily: fonts.Bold, color: colors.MAP_TEXT, textAlign: isRTL ? 'right' : 'left' }]} >{ln}</Text>)
-                            }
-                        </View>
-                        : null}
+        <>
+            <TouchableOpacity
+                style={[styles.carContainer, {
+                    borderWidth: 1,
+                    borderColor: carData.active == true ? colors.TAXIPRIMARY : colors.WHITE,
+                    flexDirection: isRTL ? 'row-reverse' : 'row'
+                }]}
+                onPress={handlePress}
+            >
+                <Image
+                    source={carData.image ? { uri: carData.image } : require('../../assets/images/microBlackCar.png')}
+                    resizeMode="contain"
+                    style={styles.cardItemImagePlace}
+                />
+                <View style={[styles.bodyContent, { flexDirection: 'column' }]}>
+                    <Text style={[styles.titleStyles, { textAlign: isRTL ? 'right' : 'left' }]}>
+                        {t(getLangKey(carData.name.toUpperCase()))}
+                    </Text>
+                    <View style={{ flexDirection: isRTL ? 'row-reverse' : 'column' }}>
+                        <Text style={[styles.text2, { fontFamily: fonts.Bold, color: colors.MAP_TEXT }]}>
+                            {settings.swipe_symbol === false ?
+                                `${settings.symbol}${carData.rate_per_unit_distance}` :
+                                `${carData.rate_per_unit_distance}${settings.symbol}`
+                            } / {settings.convert_to_mile ? t('mile') : t('km')}
+                        </Text>
+                        {carData.extra_info &&
+                            <View style={{ justifyContent: 'space-around', marginLeft: 3, width: Dimensions.get('window').width - 180 }}>
+                                {carData.extra_info.split(',').map((ln, index) => (
+                                    <Text key={index} style={[styles.text2, { fontFamily: fonts.Bold, color: colors.MAP_TEXT, textAlign: isRTL ? 'right' : 'left' }]}>
+                                        {ln}
+                                    </Text>
+                                ))}
+                            </View>
+                        }
+                    </View>
+                    <Text style={[styles.text2, { textAlign: isRTL ? 'right' : 'left' }]}>
+                        ({carData.minTime !== '' ? carData.minTime : t('not_available')})
+                    </Text>
                 </View>
-                <Text style={[styles.text2, { textAlign: isRTL ? 'right' : 'left' }]}>({carData.minTime != '' ? carData.minTime : t('not_available')})</Text>
-            </View>
-        </TouchableOpacity>
-    )
-}
+            </TouchableOpacity>
+
+            <Modal
+                visible={modalVisible}
+                transparent={true}
+                animationType="slide"
+                onRequestClose={() => { }} // Disable Android back button from closing
+            >
+                <View style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: 'rgba(0,0,0,0.5)'
+                }}>
+                    <View style={{
+                        width: '85%',
+                        backgroundColor: 'white',
+                        borderRadius: 10,
+                        padding: 20
+                    }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <Text style={{ fontSize: 16, marginBottom: 10 }}>Enter courier details</Text>
+                            <TouchableOpacity onPress={handleModalClose}>
+                                <Icon name="close" size={24} />
+                            </TouchableOpacity>
+                        </View>
+
+                        <TextInput
+                            value={inputText}
+                            onChangeText={(val) => {
+                                setInputText(val);
+                                if (val.trim()) setInputError(false);
+                            }}
+                            placeholder='Type something...'
+                            multiline={true}
+                            numberOfLines={4} // optional, controls visible height
+                            style={{
+                                borderWidth: 1,
+                                borderColor: inputError ? 'red' : '#ccc',
+                                padding: 10,
+                                borderRadius: 5,
+                                marginBottom: 10,
+                                textAlignVertical: 'top' // makes sure text starts from top-left
+                            }}
+                        />
+                        {inputError &&
+                            <Text style={{ color: 'red', marginBottom: 10 }}>Input is required</Text>
+                        }
+
+                        <TouchableOpacity
+                            onPress={handleSubmit}
+                            style={{
+                                backgroundColor: MAIN_COLOR,
+                                borderRadius: 10,
+                                height: 50,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                marginVertical: 5,
+                            }}
+                        >
+                            <Text style={{ color: 'black', fontSize: 16, fontWeight: 'bold' }}>
+                                Submit
+                            </Text>
+                        </TouchableOpacity>
+
+                    </View>
+                </View>
+            </Modal >
+        </>
+    );
+};
+
 
 export const validateBookingObj = async (t, addBookingObj, instructionData, settings, bookingType, roundTrip, tripInstructions, tripdata, drivers, otherPerson) => {
     const {

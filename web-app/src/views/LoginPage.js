@@ -25,7 +25,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from 'react-router-dom';
 import DialogActions from '@mui/material/DialogActions';
 import { GoogleLogin } from '@react-oauth/google';
-import {MAIN_COLOR, FONT_FAMILY} from "../common/sharedFunctions.js"
+import { MAIN_COLOR, FONT_FAMILY } from "../common/sharedFunctions.js"
 import { colors } from 'components/Theme/WebTheme.js';
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -41,7 +41,7 @@ const useStyles = makeStyles(styles);
 
 export default function LoginPage(props) {
   const { authRef, RecaptchaVerifier, signInWithPhoneNumber } = useContext(FirebaseContext);
-  const { t, i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
   const {
     googleLogin,
     clearLoginError,
@@ -63,8 +63,8 @@ export default function LoginPage(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [verifier, setVerifier] = useState(null);
   const [mobileWithoutCountry, setMobileWithoutCountry] = useState('');
-  const[showSignUp, setShowSignUp] = useState(false);
-  const [message,setMessage] = useState(false)
+  const [showSignUp, setShowSignUp] = useState(false);
+  const [message, setMessage] = useState(false)
   const [showPassword, setShowPassword] = useState(true)
   const [showConfirmPassword, setShowConfirmPassword] = useState(true);
   const isRTL = i18n.dir();
@@ -74,15 +74,15 @@ export default function LoginPage(props) {
     confirmpassword: "",
     country: "",
     contact: '',
-    mobile:"",
+    mobile: "",
     password: '',
     otp: '',
     verificationId: null,
     firstName: '',
     lastName: '',
-    selectedcountry:null,
-    usertype:'customer',
-    referralId:'',
+    selectedcountry: null,
+    usertype: 'customer',
+    referralId: '',
     entryType: null
   });
 
@@ -95,29 +95,29 @@ export default function LoginPage(props) {
 
 
   useEffect(() => {
-    if(settings){
-        for (let i = 0; i < countries.length; i++) {
-            if(countries[i].label === settings.country){
-                setData({
-                  country: countries[i].phone,
-                  selectedcountry:countries[i],
-                });
-            }
+    if (settings) {
+      for (let i = 0; i < countries.length; i++) {
+        if (countries[i].label === settings.country) {
+          setData({
+            country: countries[i].phone,
+            selectedcountry: countries[i],
+          });
         }
+      }
     }
-  }, [settings,countries]);
+  }, [settings, countries]);
 
   useEffect(() => {
-    if(!window.recaptchaVerifier){
+    if (!window.recaptchaVerifier) {
       setCapatchaReady(true);
     }
     if (auth.profile) {
-      if(auth.profile.uid){
+      if (auth.profile.uid) {
         let role = auth.profile.usertype;
-        if(role==='admin' || role==='fleetadmin'){
+        if (role === 'admin' || role === 'fleetadmin') {
           navigate('/dashboard');
         }
-        else if (role==='driver'){
+        else if (role === 'driver') {
           navigate('/bookings');
         }
         else {
@@ -126,28 +126,28 @@ export default function LoginPage(props) {
       }
     }
     if (auth.error && auth.error.flag && auth.error.msg.message !== t('not_logged_in')) {
-      if (auth.error.msg.message === t('require_approval')){
+      if (auth.error.msg.message === t('require_approval')) {
         setCommonAlert({ open: true, msg: t('require_approval') })
-      } else if(auth.error.msg.message === "Firebase: Error (auth/invalid-verification-code)."){
+      } else if (auth.error.msg.message === "Firebase: Error (auth/invalid-verification-code).") {
         setCommonAlert({ open: true, msg: t('login_error') })
         setIsLoading(false);
-      } else{
-        if(data.contact && (data.contact === '' ||  !(!data.contact))){
+      } else {
+        if (data.contact && (data.contact === '' || !(!data.contact))) {
           setCommonAlert({ open: true, msg: t('login_error') })
           setIsLoading(false);
         }
       }
     }
-    if(auth.verificationId && otpCalled){
+    if (auth.verificationId && otpCalled) {
       setOtpCalled(false);
       setData({ ...data, verificationId: auth.verificationId });
     }
-  }, [auth.profile, auth.error, auth.verificationId, navigate, data, data.email, data.contact, capatchaReady,RecaptchaVerifier,t, setData, otpCalled, setOtpCalled]);
+  }, [auth.profile, auth.error, auth.verificationId, navigate, data, data.email, data.contact, capatchaReady, RecaptchaVerifier, t, setData, otpCalled, setOtpCalled]);
 
 
   const handleGoogleLogin = (credentialResponse) => {
-    if(credentialResponse && credentialResponse.credential){
-      dispatch(googleLogin(credentialResponse.credential,null))
+    if (credentialResponse && credentialResponse.credential) {
+      dispatch(googleLogin(credentialResponse.credential, null))
     } else {
       setCommonAlert({ open: true, msg: t('login_error') })
       setIsLoading(false);
@@ -158,7 +158,7 @@ export default function LoginPage(props) {
     e.preventDefault();
     setCommonAlert({ open: false, msg: '' });
     if (auth.error.flag) {
-      setData({...data,email:'',pass:''});
+      setData({ ...data, email: '', pass: '' });
       dispatch(clearLoginError());
     }
   };
@@ -170,67 +170,67 @@ export default function LoginPage(props) {
   const handleGetOTP = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    if(data.country){
-      if(data.contact){
+    if (data.country) {
+      if (data.contact) {
         if (isNaN(data.contact)) {
-          setData({...data, entryType: 'email'});
+          setData({ ...data, entryType: 'email' });
           const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-          if(re.test(data.contact)){
+          if (re.test(data.contact)) {
             await dispatch(verifyEmailPassword(
               data.contact,
               data.otp
             ));
-          }else{
-              setCommonAlert({ open: true, msg: t('proper_email')})
-              setIsLoading(false);
-          }
-        } else{
-          setData({...data, entryType: 'mobile'});
-          if(settings.AllowCriticalEditsAdmin){
-          let formattedNum = data.contact.replace(/ /g, '');
-          const phoneNumber = "+" + data.country + formattedNum;
-          if (formattedNum.length > 6) {
-            if(settings.customMobileOTP){
-              dispatch(requestMobileOtp(phoneNumber));
-              setData({...data, verificationId: true})
-              setIsLoading(false)
-            } else {
-              if(!window.recaptchaVerifier || verifier===null){
-                window.recaptchaVerifier = await new RecaptchaVerifier(authRef(),'sign-in-button', {
-                  'size': 'invisible',
-                  'callback': function(response) {
-                    setCapatchaReady(true);
-                  }
-                });
-              }
-              const appVerifier = window.recaptchaVerifier;
-              setVerifier(appVerifier);
-              await signInWithPhoneNumber(authRef(), phoneNumber, appVerifier)
-                .then(res => {
-                    setData({...data, verificationId: res.verificationId})
-                    setIsLoading(false)
-                    window.recaptchaVerifier.clear();
-                })
-                .catch(error => {
-                    setCommonAlert({ open: true, msg: error.code + ": " + error.message});
-                    setIsLoading(false);
-              });
-            }
           } else {
-              setCommonAlert({ open: true, msg: t('mobile_no_blank_error')})
-              setIsLoading(false);
+            setCommonAlert({ open: true, msg: t('proper_email') })
+            setIsLoading(false);
           }
         } else {
-          setCommonAlert({ open: true, msg: t('in_demo_mobile_login')})
-          setIsLoading(false);
-      }
+          setData({ ...data, entryType: 'mobile' });
+          if (settings.AllowCriticalEditsAdmin) {
+            let formattedNum = data.contact.replace(/ /g, '');
+            const phoneNumber = "+" + data.country + formattedNum;
+            if (formattedNum.length > 6) {
+              if (settings.customMobileOTP) {
+                dispatch(requestMobileOtp(phoneNumber));
+                setData({ ...data, verificationId: true })
+                setIsLoading(false)
+              } else {
+                if (!window.recaptchaVerifier || verifier === null) {
+                  window.recaptchaVerifier = await new RecaptchaVerifier(authRef(), 'sign-in-button', {
+                    'size': 'invisible',
+                    'callback': function (response) {
+                      setCapatchaReady(true);
+                    }
+                  });
+                }
+                const appVerifier = window.recaptchaVerifier;
+                setVerifier(appVerifier);
+                await signInWithPhoneNumber(authRef(), phoneNumber, appVerifier)
+                  .then(res => {
+                    setData({ ...data, verificationId: res.verificationId })
+                    setIsLoading(false)
+                    window.recaptchaVerifier.clear();
+                  })
+                  .catch(error => {
+                    setCommonAlert({ open: true, msg: error.code + ": " + error.message });
+                    setIsLoading(false);
+                  });
+              }
+            } else {
+              setCommonAlert({ open: true, msg: t('mobile_no_blank_error') })
+              setIsLoading(false);
+            }
+          } else {
+            setCommonAlert({ open: true, msg: t('in_demo_mobile_login') })
+            setIsLoading(false);
+          }
         }
-      }else{
-        setCommonAlert({ open: true, msg: t('contact_input_error')})
+      } else {
+        setCommonAlert({ open: true, msg: t('contact_input_error') })
         setIsLoading(false);
       }
-    }else{
-      setCommonAlert({ open: true, msg: t('country_blank_error')})
+    } else {
+      setCommonAlert({ open: true, msg: t('country_blank_error') })
       setIsLoading(false);
     }
   }
@@ -239,23 +239,23 @@ export default function LoginPage(props) {
   const handleVerifyOTP = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    if(data.otp && data.otp.length === 6){
-      if(settings.customMobileOTP){
+    if (data.otp && data.otp.length === 6) {
+      if (settings.customMobileOTP) {
         let formattedNum = data.contact.replace(/ /g, '');
         const phoneNumber = "+" + data.country + formattedNum;
         dispatch(verifyMobileOtp(
           phoneNumber,
           data.otp
         ));
-      } else{
+      } else {
         await dispatch(mobileSignIn(
           data.verificationId,
           data.otp
         ));
       }
       setIsLoading(false);
-    }else{
-      setCommonAlert({ open: true, msg: t('otp_validate_error')})
+    } else {
+      setCommonAlert({ open: true, msg: t('otp_validate_error') })
       setIsLoading(false);
     }
   }
@@ -271,159 +271,159 @@ export default function LoginPage(props) {
 
   const onCountryChange = (object, value) => {
     if (value && value.phone) {
-      setData({ ...data, country: value.phone, selectedcountry:value });
+      setData({ ...data, country: value.phone, selectedcountry: value });
       setMobileWithoutCountry("")
     }
   };
 
   const forgotPassword = async (e) => {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    if(re.test(data.contact)){
+    if (re.test(data.contact)) {
       await dispatch(sendResetMail(data.contact));
       setCommonAlert({ open: true, msg: t('email_send') });
-    }else{
+    } else {
       setCommonAlert({ open: true, msg: t('proper_email') });
     }
   };
 
-  const handleShowSignup = ()=>{
-    setData({...data, email:"", firstName:"", lastName:"", password:"", confirmpassword:"",usertype:"customer",referralId:""})
+  const handleShowSignup = () => {
+    setData({ ...data, email: "", firstName: "", lastName: "", password: "", confirmpassword: "", usertype: "customer", referralId: "" })
     setMobileWithoutCountry("")
     setShowSignUp(!showSignUp)
   }
 
-  const mobileInputChange = (e)=>{
+  const mobileInputChange = (e) => {
     const val = e.target.value;
     setMobileWithoutCountry(val)
     let formattedNum = val.replace(/ /g, '');
     const phoneNumber = "+" + data.country + formattedNum;
-      setData({ ...data, mobile: phoneNumber })
+    setData({ ...data, mobile: phoneNumber })
   }
 
   const handleChangeUser = (event) => {
     setData({ ...data, usertype: event.target.value });
   };
   const checkPasswordValidity = value => {
-    if (value !== data.confirmpassword){
-        return(t('confirm_password_not_match_err'));
+    if (value !== data.confirmpassword) {
+      return (t('confirm_password_not_match_err'));
     }
-  
+
     const isNonWhiteSpace = /^\S*$/;
     if (!isNonWhiteSpace.test(value)) {
-    return(t('password_must_not_contain_whitespaces'));
+      return (t('password_must_not_contain_whitespaces'));
     }
-  
+
     const isContainsUppercase = /^(?=.*[A-Z]).*$/;
     if (!isContainsUppercase.test(value)) {
-    return(t('password_must_have_at_least_one_uppercase_character'));
+      return (t('password_must_have_at_least_one_uppercase_character'));
     }
-  
+
     const isContainsLowercase = /^(?=.*[a-z]).*$/;
     if (!isContainsLowercase.test(value)) {
-    return(t('password_must_have_at_least_one_lowercase_character'));
+      return (t('password_must_have_at_least_one_lowercase_character'));
     }
-  
+
     const isContainsNumber = /^(?=.*[0-9]).*$/;
     if (!isContainsNumber.test(value)) {
-    return(t('password_must_contain_at_least_one_digit'));
+      return (t('password_must_contain_at_least_one_digit'));
     }
-  
+
     const isValidLength = /^.{8,16}$/;
     if (!isValidLength.test(value)) {
-    return(t('password_must_be_8-16_characters_long'));
+      return (t('password_must_be_8-16_characters_long'));
     }
-  
+
     return null;
   }
 
   const validateMobile = () => {
     let mobileValid = true;
     if (mobileWithoutCountry.length < 6) {
-        mobileValid = false;
-        setCommonAlert({open:true, msg:t('mobile_no_blank_error')})
+      mobileValid = false;
+      setCommonAlert({ open: true, msg: t('mobile_no_blank_error') })
     }
     return mobileValid;
-}
+  }
 
 
-  const handleSignUp = (e)=>{
+  const handleSignUp = (e) => {
     e.preventDefault();
-    new Promise((resolve,reject) => {
-    setIsLoading(true)
-    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    const validatePassword = checkPasswordValidity(data.password);
-    if(re.test(data.email)){
-      if (/\S/.test(data.firstName) && data.firstName.length > 0 && /\S/.test(data.lastName) && data.lastName.length > 0){
-          if(!validatePassword){
+    new Promise((resolve, reject) => {
+      setIsLoading(true)
+      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      const validatePassword = checkPasswordValidity(data.password);
+      if (re.test(data.email)) {
+        if (/\S/.test(data.firstName) && data.firstName.length > 0 && /\S/.test(data.lastName) && data.lastName.length > 0) {
+          if (!validatePassword) {
             if (validateMobile()) {
               const userData = { ...data };
               if (userData.usertype === 'customer') delete userData.carType
-                delete userData.confirmpassword;
-                delete userData.pass;
-                checkUserExists(userData).then((res) => {
-                  if(res.users && res.users.length > 0){
-                    setCommonAlert({open:true, msg:t('user_exists')})
-                    setIsLoading(false);
-                  }else{
-              if (userData.referralId && userData.referralId.length > 0){
-                validateReferer(userData.referralId).then((referralInfo)=>{
-                  if (referralInfo.uid) {
+              delete userData.confirmpassword;
+              delete userData.pass;
+              checkUserExists(userData).then((res) => {
+                if (res.users && res.users.length > 0) {
+                  setCommonAlert({ open: true, msg: t('user_exists') })
+                  setIsLoading(false);
+                } else {
+                  if (userData.referralId && userData.referralId.length > 0) {
+                    validateReferer(userData.referralId).then((referralInfo) => {
+                      if (referralInfo.uid) {
+                        delete userData.country;
+                        mainSignUp({ ...userData, signupViaReferral: referralInfo.uid }).then((res) => {
+                          if (res.uid) {
+                            setData({ ...data, email: "", firstName: "", lastName: "", password: "", confirmpassword: "", usertype: "customer", referralId: "" })
+                            setMobileWithoutCountry("")
+                            setMessage(true)
+                            setIsLoading(false);
+                            resolve();
+                          } else {
+                            setCommonAlert({ open: true, msg: t('reg_error') })
+                            setIsLoading(false);
+                          }
+                        })
+                      } else {
+                        setCommonAlert({ open: true, msg: t('referer_not_found') })
+                        setIsLoading(false);
+                      }
+                    }).catch((error) => {
+                      setCommonAlert({ open: true, msg: t('referer_not_found') })
+                      setIsLoading(false);
+                    });
+                  } else {
                     delete userData.country;
-                    mainSignUp({...userData, signupViaReferral: referralInfo.uid}).then((res)=>{
-                      if(res.uid){
-                        setData({...data, email:"", firstName:"", lastName:"", password:"", confirmpassword:"",usertype:"customer",referralId:""})
+                    mainSignUp(userData).then((res) => {
+                      if (res.uid) {
+                        setData({ ...data, email: "", firstName: "", lastName: "", password: "", confirmpassword: "", usertype: "customer", referralId: "" })
                         setMobileWithoutCountry("")
                         setMessage(true)
                         setIsLoading(false);
                         resolve();
-                      }else{
-                        setCommonAlert({open:true, msg:t('reg_error')})
+                      } else {
+                        setCommonAlert({ open: true, msg: t('reg_error') })
                         setIsLoading(false);
                       }
                     })
-                  }else{
-                    setCommonAlert({open:true, msg:t('referer_not_found')})
-                    setIsLoading(false);
                   }
-                }).catch((error)=>{
-                  setCommonAlert({open:true, msg:t('referer_not_found')})
-                  setIsLoading(false);
-                });
-              }else{
-                delete userData.country;
-                mainSignUp(userData).then((res)=>{
-                  if(res.uid){
-                    setData({...data, email:"", firstName:"", lastName:"", password:"", confirmpassword:"",usertype:"customer",referralId:""})
-                    setMobileWithoutCountry("")
-                    setMessage(true)
-                    setIsLoading(false);
-                    resolve();
-                  }else{
-                    setCommonAlert({open:true, msg:t('reg_error')})
-                    setIsLoading(false);
-                  }
-                })
-              }
-            }
-          })
-            }else{
-              setCommonAlert({open:true, msg:t('mobile_no_blank_error')})
+                }
+              })
+            } else {
+              setCommonAlert({ open: true, msg: t('mobile_no_blank_error') })
               reject();
             }
-          }else{
-            setCommonAlert({open:true, msg:validatePassword})
+          } else {
+            setCommonAlert({ open: true, msg: validatePassword })
             reject();
           }
-      }else{
-        setCommonAlert({open:true, msg:t('proper_input_name')})
+        } else {
+          setCommonAlert({ open: true, msg: t('proper_input_name') })
+          reject();
+        }
+      } else {
+        setCommonAlert({ open: true, msg: t('proper_email') })
         reject();
       }
-    }else{
-      setCommonAlert({open:true, msg:t('proper_email')})
-      reject();
-    }
-  }).catch(()=>{})
-  .finally(()=>{setIsLoading(false)})
+    }).catch(() => { })
+      .finally(() => { setIsLoading(false) })
   }
 
   return (
@@ -440,15 +440,15 @@ export default function LoginPage(props) {
           backgroundImage: "url(" + image + ")",
           backgroundSize: "cover",
           backgroundPosition: "top center",
-          display:'flex'
+          display: 'flex'
         }}
       >
-      {showSignUp ? 
+        {showSignUp ?
           <div className={classes.container}>
-          <GridContainer justifyContent="center">
-            <GridItem xs={12} sm={12} md={8}>
-              <Card>
-                <form className={classes.form}>
+            <GridContainer justifyContent="center">
+              <GridItem xs={12} sm={12} md={8}>
+                <Card>
+                  <form className={classes.form}>
                     <CardHeader
                       style={{
                         backgroundColor: MAIN_COLOR,
@@ -456,427 +456,429 @@ export default function LoginPage(props) {
                       }}
                       className={classes.cardHeader}
                     >
-                      <h4 style={{ color: colors.WHITE, fontSize:20, fontFamily:FONT_FAMILY }}>{t("signup")}</h4>
+                      <h4 style={{ color: colors.WHITE, fontSize: 20, fontFamily: FONT_FAMILY }}>{t("signup")}</h4>
                     </CardHeader>
-                  <CardBody>
-                    <GridContainer
-                      spacing={2}
-                      sx={{
-                        display: "flex",
-                        gridTemplateColumns: "50%",
-                      }}
-                    >
-                      <GridItem  xs={12} sm={12} md={12} lg={6} xl={6}>
-                        <CustomInput
-                          labelText={t("first_name")}
-                          id="firstName"
-                          formControlProps={{
-                            fullWidth: true,
-                          }}
-                          inputProps={{
-                            required: true,
-                            endAdornment: (
-                              <InputAdornment position="start">
-                                <AccountBoxIcon
-                                  className={classes.inputIconsColor}
-                                />
-                              </InputAdornment>
-                            ),
-                          }}
-                          onChange={onInputChange}
-                          value={data.firstName}
-                        />
-                      </GridItem>
-                      <GridItem  xs={12} sm={12} md={12} lg={6} xl={6}>
-                        <CustomInput
-                          labelText={t("last_name")}
-                          id="lastName"
-                          formControlProps={{
-                            fullWidth: true,
-                          }}
-                          inputProps={{
-                            required: true,
-                            endAdornment: (
-                              <InputAdornment position="start">
-                                <AccountBoxIcon
-                                  className={classes.inputIconsColor}
-                                />
-                              </InputAdornment>
-                            ),
-                          }}
-                          onChange={onInputChange}
-                          value={data.lastName}
-                        />
-                      </GridItem>
-                      <GridItem xs={12} sm={12} md={12} lg={6} xl={6}>
-                      {data.selectedcountry && countries && countries.length>0? 
-                      <CountrySelect
-                        countries={countries}
-                        label={t('select_country')}
-                        value={data.selectedcountry}
-                        onChange={onCountryChange}
-                        style={{paddingTop:20}}
-                        disabled={ data.verificationId ? true : false}
-                        readOnly={!settings.AllowCountrySelection}
-                      />
-                      : null}
-                      </GridItem>
-                      <GridItem  xs={12} sm={12} md={12} lg={6} xl={6}>
-                        <CustomInput
-                          labelText={t("phone")}
-                          id="mobileWithoutCountry"
-                          formControlProps={{
-                            fullWidth: true,
-                          }}
-                          inputProps={{
-                            required: true,
-                            endAdornment: (
-                              <InputAdornment position="start">
-                                <LocalPhoneIcon
-                                  className={classes.inputIconsColor}
-                                />
-                              </InputAdornment>
-                            ),
-                          }}
-                          onChange={mobileInputChange}
-                          value={mobileWithoutCountry}
-                        />
-                      </GridItem>
-                      <GridItem xs={12} sm={12} md={12} lg={6} xl={6}
-                        style={{
+                    <CardBody>
+                      <GridContainer
+                        spacing={2}
+                        sx={{
                           display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
+                          gridTemplateColumns: "50%",
                         }}
                       >
-                        <FormControl variant="standard" fullWidth>
-                          <InputLabel
-                            id="demo-simple-select-label"
-                          >
-                            <Typography fontFamily={FONT_FAMILY}>{t("User Type")}</Typography>
-                          </InputLabel>
-                          <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={data.usertype || ""}
-                            label={t("approved")}
-                            onChange={handleChangeUser}
-                            className={classes.selectField}
-                            aria-label="userType"
-                          >
-                            <MenuItem value={"customer"}>
-                              <Typography fontFamily={FONT_FAMILY}>{t("customer")}</Typography>
-                              </MenuItem>
-                            <MenuItem value={"driver"}>
-                            <Typography fontFamily={FONT_FAMILY}>{t("driver")}</Typography>
-                              </MenuItem>
-                          </Select>
-                        </FormControl>
-                      </GridItem>
-                      <GridItem  xs={12} sm={12} md={12} lg={6} xl={6}>
-                        <CustomInput
-                          labelText={t("email")}
-                          id="email"
-                          formControlProps={{
-                            fullWidth: true,
+                        <GridItem xs={12} sm={12} md={12} lg={6} xl={6}>
+                          <CustomInput
+                            labelText={t("first_name")}
+                            id="firstName"
+                            formControlProps={{
+                              fullWidth: true,
+                            }}
+                            inputProps={{
+                              required: true,
+                              endAdornment: (
+                                <InputAdornment position="start">
+                                  <AccountBoxIcon
+                                    className={classes.inputIconsColor}
+                                  />
+                                </InputAdornment>
+                              ),
+                            }}
+                            onChange={onInputChange}
+                            value={data.firstName}
+                          />
+                        </GridItem>
+                        <GridItem xs={12} sm={12} md={12} lg={6} xl={6}>
+                          <CustomInput
+                            labelText={t("last_name")}
+                            id="lastName"
+                            formControlProps={{
+                              fullWidth: true,
+                            }}
+                            inputProps={{
+                              required: true,
+                              endAdornment: (
+                                <InputAdornment position="start">
+                                  <AccountBoxIcon
+                                    className={classes.inputIconsColor}
+                                  />
+                                </InputAdornment>
+                              ),
+                            }}
+                            onChange={onInputChange}
+                            value={data.lastName}
+                          />
+                        </GridItem>
+                        <GridItem xs={12} sm={12} md={12} lg={6} xl={6}>
+                          {data.selectedcountry && countries && countries.length > 0 ?
+                            <CountrySelect
+                              countries={countries}
+                              label={t('select_country')}
+                              value={data.selectedcountry}
+                              onChange={onCountryChange}
+                              style={{ paddingTop: 20 }}
+                              disabled={data.verificationId ? true : false}
+                              readOnly={!settings.AllowCountrySelection}
+                            />
+                            : null}
+                        </GridItem>
+                        <GridItem xs={12} sm={12} md={12} lg={6} xl={6}>
+                          <CustomInput
+                            labelText={t("phone")}
+                            id="mobileWithoutCountry"
+                            formControlProps={{
+                              fullWidth: true,
+                            }}
+                            inputProps={{
+                              required: true,
+                              endAdornment: (
+                                <InputAdornment position="start">
+                                  <LocalPhoneIcon
+                                    className={classes.inputIconsColor}
+                                  />
+                                </InputAdornment>
+                              ),
+                            }}
+                            onChange={mobileInputChange}
+                            value={mobileWithoutCountry}
+                          />
+                        </GridItem>
+                        <GridItem xs={12} sm={12} md={12} lg={6} xl={6}
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
                           }}
-                          inputProps={{
-                            required: true,
-                            endAdornment: (
-                              <InputAdornment position="start">
-                                <EmailIcon
-                                  className={classes.inputIconsColor}
-                                />
-                              </InputAdornment>
-                            ),
-                          }}
-                          onChange={onInputChange}
-                          value={data.email}
-                        />
-                      </GridItem>
+                        >
+                          <FormControl variant="standard" fullWidth>
+                            <InputLabel
+                              id="demo-simple-select-label"
+                            >
+                              <Typography fontFamily={FONT_FAMILY}>{t("User Type")}</Typography>
+                            </InputLabel>
+                            <Select
+                              labelId="demo-simple-select-label"
+                              id="demo-simple-select"
+                              value={data.usertype || ""}
+                              label={t("approved")}
+                              onChange={handleChangeUser}
+                              className={classes.selectField}
+                              aria-label="userType"
+                            >
+                              <MenuItem value={"customer"}>
+                                <Typography fontFamily={FONT_FAMILY}>{t("customer")}</Typography>
+                              </MenuItem>
+                              <MenuItem value={"driver"}>
+                                <Typography fontFamily={FONT_FAMILY}>{t("driver")}</Typography>
+                              </MenuItem>
+                            </Select>
+                          </FormControl>
+                        </GridItem>
+                        <GridItem xs={12} sm={12} md={12} lg={6} xl={6}>
+                          <CustomInput
+                            labelText={t("email")}
+                            id="email"
+                            formControlProps={{
+                              fullWidth: true,
+                            }}
+                            inputProps={{
+                              required: true,
+                              endAdornment: (
+                                <InputAdornment position="start">
+                                  <EmailIcon
+                                    className={classes.inputIconsColor}
+                                  />
+                                </InputAdornment>
+                              ),
+                            }}
+                            onChange={onInputChange}
+                            value={data.email}
+                          />
+                        </GridItem>
 
-                      <GridItem  xs={12} sm={12} md={12} lg={6} xl={6}>
-                        <CustomInput
-                          labelText={t("password")}
-                          id="password"
-                          formControlProps={{
-                            fullWidth: true,
-                          }}
-                          inputProps={{
-                            required: true,
-                            type:!showPassword? "text" : "password",
-                            endAdornment: (
-                              <InputAdornment position="start">
-                              {!showPassword ? (
+                        <GridItem xs={12} sm={12} md={12} lg={6} xl={6}>
+                          <CustomInput
+                            labelText={t("password")}
+                            id="password"
+                            formControlProps={{
+                              fullWidth: true,
+                            }}
+                            inputProps={{
+                              required: true,
+                              type: !showPassword ? "text" : "password",
+                              endAdornment: (
+                                <InputAdornment position="start">
+                                  {!showPassword ? (
                                     <VisibilityIcon
                                       className={classes.inputIconsColor}
-                                      onClick={() => setShowPassword(!showPassword)} sx={{cursor:'pointer'}}
+                                      onClick={() => setShowPassword(!showPassword)} sx={{ cursor: 'pointer' }}
                                     />
                                   ) : (
                                     <VisibilityOffIcon
                                       className={classes.inputIconsColor}
-                                      onClick={() => setShowPassword(!showPassword)} sx={{cursor:'pointer'}}
+                                      onClick={() => setShowPassword(!showPassword)} sx={{ cursor: 'pointer' }}
                                     />
                                   )}
-                              </InputAdornment>
-                            ),
-                          }}
-                          onChange={onInputChange}
-                          value={data.password}
-                        />
-                      </GridItem>
-                      <GridItem  xs={12} sm={12} md={12} lg={6} xl={6}>
-                        <CustomInput
-                          labelText={t("confirm_password")}
-                          id="confirmpassword"
-                          formControlProps={{
-                            fullWidth: true,
-                          }}
-                          inputProps={{
-                            required: true,
-                            type:!showConfirmPassword? "text" : "password",
-                            endAdornment: (
-                              <InputAdornment position="start">
+                                </InputAdornment>
+                              ),
+                            }}
+                            onChange={onInputChange}
+                            value={data.password}
+                          />
+                        </GridItem>
+                        <GridItem xs={12} sm={12} md={12} lg={6} xl={6}>
+                          <CustomInput
+                            labelText={t("confirm_password")}
+                            id="confirmpassword"
+                            formControlProps={{
+                              fullWidth: true,
+                            }}
+                            inputProps={{
+                              required: true,
+                              type: !showConfirmPassword ? "text" : "password",
+                              endAdornment: (
+                                <InputAdornment position="start">
                                   {!showConfirmPassword ? (
-                                      <VisibilityIcon
-                                      className={classes.inputIconsColor} sx={{cursor:'pointer'}}
-                                      onClick={()=>setShowConfirmPassword(!showConfirmPassword)}
+                                    <VisibilityIcon
+                                      className={classes.inputIconsColor} sx={{ cursor: 'pointer' }}
+                                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                                     />
-                                      ) : (
-                                        <VisibilityOffIcon
-                                        className={classes.inputIconsColor} sx={{cursor:'pointer'}}
-                                      onClick={()=>setShowConfirmPassword(!showConfirmPassword)}
-                                        />
-                                      )}
-                                  </InputAdornment>
-                            ),
-                          }}
-                          onChange={onInputChange}
-                          value={data.confirmpassword}
-                        />
-                      </GridItem>
-                      <GridItem  xs={12} sm={12} md={12} lg={12} xl={12}>
-                        <CustomInput
-                          labelText={t("referralId")}
-                          id="referralId"
-                          formControlProps={{
-                            fullWidth: true,
-                          }}
-                          inputProps={{
-                            endAdornment: (
-                              <InputAdornment position="start">
-                                <AccountBoxIcon
-                                  className={classes.inputIconsColor}
-                                />
-                              </InputAdornment>
-                            ),
-                          }}
-                          onChange={onInputChange}
-                          value={data.referralId}
-                        />
-                      </GridItem>
-                      
-                    </GridContainer>
-                  </CardBody>
-                  <CardFooter className={classes.cardFooter}>
-                {message ? (
-                    <div style={{display:"flex", flexDirection:"column", gap:5}}>
-                    <Typography style={{ color: colors.GREEN, fontWeight:"bold" }}>{t("account_create_successfully")}</Typography>
-                    <Button className={classes.normalButton} simple color="info" onClick={() => { setShowSignUp(false) }}>
-                    <Typography fontFamily={FONT_FAMILY}>{t('signIn')}</Typography>
-                   </Button>
-                    </div>
-                       ) : isLoading ? (
+                                  ) : (
+                                    <VisibilityOffIcon
+                                      className={classes.inputIconsColor} sx={{ cursor: 'pointer' }}
+                                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                    />
+                                  )}
+                                </InputAdornment>
+                              ),
+                            }}
+                            onChange={onInputChange}
+                            value={data.confirmpassword}
+                          />
+                        </GridItem>
+                        <GridItem xs={12} sm={12} md={12} lg={12} xl={12}>
+                          <CustomInput
+                            labelText={t("referralId")}
+                            id="referralId"
+                            formControlProps={{
+                              fullWidth: true,
+                            }}
+                            inputProps={{
+                              endAdornment: (
+                                <InputAdornment position="start">
+                                  <AccountBoxIcon
+                                    className={classes.inputIconsColor}
+                                  />
+                                </InputAdornment>
+                              ),
+                            }}
+                            onChange={onInputChange}
+                            value={data.referralId}
+                          />
+                        </GridItem>
+
+                      </GridContainer>
+                    </CardBody>
+                    <CardFooter className={classes.cardFooter}>
+                      {message ? (
+                        <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+                          <Typography style={{ color: colors.GREEN, fontWeight: "bold" }}>{t("account_create_successfully")}</Typography>
+                          <Button className={classes.normalButton} simple color="info" onClick={() => { setShowSignUp(false) }}>
+                            <Typography fontFamily={FONT_FAMILY}>{t('signIn')}</Typography>
+                          </Button>
+                        </div>
+                      ) : isLoading ? (
                         <DialogActions
-                            style={{
+                          style={{
                             justifyContent: "center",
                             alignContent: "center",
-                            }}
-                            >
-                      <CircularProgress />
+                          }}
+                        >
+                          <CircularProgress />
                         </DialogActions>
-                    ) : (
-                  <>
-                  <Button className={classes.normalButton} simple color="info" size="lg" type="submit" onClick={handleSignUp}>
-                  <Typography fontFamily={FONT_FAMILY}>{t('signup')}</Typography>
-                  </Button>
-                  <Button className={classes.normalButton} simple color="info" size="lg" onClick={handleShowSignup}>
-                  <Typography fontFamily={FONT_FAMILY}>{t('login')}</Typography>
-                  </Button>
-                </>
-                    )}
-                </CardFooter>
-                </form>
-              </Card>
-            </GridItem>
-          </GridContainer>
-        </div> 
-        :
-        <>
-        <div id="sign-in-button" />
-        <div className={classes.container}>
-          <GridContainer justifyContent="center">
-            <GridItem xs={12} sm={12} md={4}>
-              <Card>
-                <form className={classes.form}>
-                {settings && settings.socialLogin ?
-                  <CardHeader style={{
-                        backgroundColor: MAIN_COLOR,
-                        borderRadius: 10,
-                      }} className={classes.cardHeader}>
-                    <h4 style={{color:colors.WHITE, fontSize:20, fontFamily:FONT_FAMILY}}>{t('login')}</h4>
-                    <div className={classes.socialLine} style={{alignItems: 'center', justifyContent:'center', alignContent:'center' }}>
-                    <div className={classes.socialLine}>
-                      <Button
-                        justIcon
-                        href="#pablo"
-                        target="_blank"
-                        color="transparent"
-                      >
-                       <GoogleLogin
-                          onSuccess={handleGoogleLogin}
-                          onError={handleGoogleLogin}
-                        />
-                      </Button>
-                    </div>
-                    </div>
-                  </CardHeader>
-                  :null}
-                  <CardBody>
-        
-                  {data.selectedcountry && settings.mobileLogin && countries && countries.length>0?
-                      <CountrySelect
-                        countries={countries}
-                        label={t('select_country')}
-                        value={data.selectedcountry}
-                        onChange={onCountryChange}
-                        style={{paddingTop:20}}
-                        disabled={data.verificationId  ? true : false}
-                        readOnly={!settings.AllowCountrySelection}
-                        
-                      />
-                      : null}
-                 
-                      <CustomInput
-                        labelText={settings.emailLogin && settings.mobileLogin ? t('contact_placeholder'):settings.emailLogin && !settings.mobileLogin ? t('email_id'): t('mobile_number')}
-                        id="contact"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          required: true,
-                          disabled: data.verificationId ? true : false,
-                          endAdornment: (
-                            <InputAdornment position="start">
-                              <AccountBoxIcon className={classes.inputIconsColor} />
-                            </InputAdornment>
-                          )
-                        }}
-                        onChange={onInputChange}
-                        value={data.contact}
-                      />
-                    {(data.contact && isNaN(data.contact)) || (settings.emailLogin && !settings.mobileLogin) ?
-                      <CustomInput
-                      labelText={((data.contact && isNaN(data.contact)) || (settings.emailLogin && !settings.mobileLogin)) ? t('password') : t('otp_here')}
-                        id="otp"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          type: "password",
-                          required: true,
-                          endAdornment: (
-                            <InputAdornment position="start">
-                              <Icon className={classes.inputIconsColor}>
-                                lock_outline
-                            </Icon>
-                            </InputAdornment>
-                          ),
-                          autoComplete: "off"
-                        }}
-                        onChange={onInputChange}
-                        value={data.otp}
-                      />
-                    :null}
+                      ) : (
+                        <>
+                          <Button className={classes.normalButton} simple color="info" size="lg" type="submit" onClick={handleSignUp}>
+                            <Typography fontFamily={FONT_FAMILY}>{t('signup')}</Typography>
+                          </Button>
+                          <Button className={classes.normalButton} simple color="info" size="lg" onClick={handleShowSignup}>
+                            <Typography fontFamily={FONT_FAMILY}>{t('login')}</Typography>
+                          </Button>
+                        </>
+                      )}
+                    </CardFooter>
+                  </form>
+                </Card>
+              </GridItem>
+            </GridContainer>
+          </div>
+          :
+          <>
+            <div id="sign-in-button" />
+            <div className={classes.container}>
+              <GridContainer justifyContent="center">
+                <GridItem xs={12} sm={12} md={4}>
+                  <Card>
+                    <form className={classes.form}>
+                      {settings && settings.socialLogin ?
+                        <CardHeader style={{
+                          backgroundColor: MAIN_COLOR,
+                          borderRadius: 10,
+                        }} className={classes.cardHeader}>
+                          <h4 style={{ color: colors.WHITE, fontSize: 20, fontFamily: FONT_FAMILY }}>{t('login')}</h4>
+                          <div className={classes.socialLine} style={{ alignItems: 'center', justifyContent: 'center', alignContent: 'center' }}>
+                            <div className={classes.socialLine}>
+                              <Button
+                                justIcon
+                                href="#pablo"
+                                target="_blank"
+                                color="transparent"
+                              >
+                                <GoogleLogin
+                                  onSuccess={handleGoogleLogin}
+                                  onError={handleGoogleLogin}
+                                />
+                              </Button>
+                            </div>
+                          </div>
+                        </CardHeader>
+                        : null}
+                      <CardBody>
 
-                      {data.verificationId ?   
+                        {data.selectedcountry && settings.mobileLogin && countries && countries.length > 0 ?
+                          <CountrySelect
+                            countries={countries}
+                            label={t('select_country')}
+                            value={data.selectedcountry}
+                            onChange={onCountryChange}
+                            style={{ paddingTop: 20 }}
+                            disabled={data.verificationId ? true : false}
+                            readOnly={!settings.AllowCountrySelection}
+
+                          />
+                          : null}
+
                         <CustomInput
-                          labelText={t('otp')}
-                          id="otp"
+                          labelText={settings.emailLogin && settings.mobileLogin ? t('contact_placeholder') : settings.emailLogin && !settings.mobileLogin ? t('email_id') : t('mobile_number')}
+                          id="contact"
                           formControlProps={{
                             fullWidth: true
                           }}
                           inputProps={{
-                            type: "password",
                             required: true,
+                            disabled: data.verificationId ? true : false,
                             endAdornment: (
                               <InputAdornment position="start">
-                                <Icon className={classes.inputIconsColor}>
-                                  lock_outline
-                              </Icon>
+                                <AccountBoxIcon className={classes.inputIconsColor} />
                               </InputAdornment>
-                            ),
-                            autoComplete: "off"
+                            )
                           }}
                           onChange={onInputChange}
-                          value={data.otp}
+                          value={data.contact}
                         />
-                        : null}
+                        {(data.contact && isNaN(data.contact)) || (settings.emailLogin && !settings.mobileLogin) ?
+                          <CustomInput
+                            labelText={((data.contact && isNaN(data.contact)) || (settings.emailLogin && !settings.mobileLogin)) ? t('password') : t('otp_here')}
+                            id="otp"
+                            formControlProps={{
+                              fullWidth: true
+                            }}
+                            inputProps={{
+                              type: "password",
+                              required: true,
+                              endAdornment: (
+                                <InputAdornment position="start">
+                                  <Icon className={classes.inputIconsColor}>
+                                    lock_outline
+                                  </Icon>
+                                </InputAdornment>
+                              ),
+                              autoComplete: "off"
+                            }}
+                            onChange={onInputChange}
+                            value={data.otp}
+                          />
+                          : null}
 
-                  </CardBody>
-                  <CardFooter className={classes.cardFooter}>
-                  {isLoading ? 
-                  <DialogActions style={{justifyContent:'center', alignContent:'center'}}>
-                    <CircularProgress/>
-                  </DialogActions> 
-                  :
-                    !data.verificationId ?
-                    <div>
-                      <Button className={classes.normalButton} simple color="primary" size="lg" type="submit" onClick={handleGetOTP}>
-                      <Typography fontFamily={FONT_FAMILY}>{settings.mobileLogin ? data.contact && isNaN(data.contact) ? t('login') : t('login_otp') : t('login')}</Typography>
-                      </Button>
-                      {data.contact && isNaN(data.contact) ? 
-                        <Button className={classes.normalButton} simple color="primary" size="lg" onClick={()=>forgotPassword()}>
-                          <Typography fontFamily={FONT_FAMILY}>{t('forgot_password')}</Typography>
+                        {data.verificationId ?
+                          <CustomInput
+                            labelText={t('otp')}
+                            id="otp"
+                            formControlProps={{
+                              fullWidth: true
+                            }}
+                            inputProps={{
+                              type: "password",
+                              required: true,
+                              endAdornment: (
+                                <InputAdornment position="start">
+                                  <Icon className={classes.inputIconsColor}>
+                                    lock_outline
+                                  </Icon>
+                                </InputAdornment>
+                              ),
+                              autoComplete: "off"
+                            }}
+                            onChange={onInputChange}
+                            value={data.otp}
+                          />
+                          : null}
+
+                      </CardBody>
+                      <CardFooter className={classes.cardFooter}>
+                        {isLoading ?
+                          <DialogActions style={{ justifyContent: 'center', alignContent: 'center' }}>
+                            <CircularProgress />
+                          </DialogActions>
+                          :
+                          !data.verificationId ?
+                            <div>
+                              <Button className={classes.normalButton} simple color="primary" size="lg" type="submit" onClick={handleGetOTP}>
+                                <Typography fontFamily={FONT_FAMILY}>{settings.mobileLogin ? data.contact && isNaN(data.contact) ? t('login') : t('login_otp') : t('login')}</Typography>
+                              </Button>
+                              {data.contact && isNaN(data.contact) ?
+                                <Button className={classes.normalButton} simple color="primary" size="lg" onClick={() => forgotPassword()}>
+                                  <Typography fontFamily={FONT_FAMILY}>{t('forgot_password')}</Typography>
+                                </Button>
+                                : null}
+                            </div>
+                            :
+                            <div>
+                              <Button className={classes.normalButton} simple color="primary" size="lg" type="submit" onClick={handleVerifyOTP}>
+                                <Typography fontFamily={FONT_FAMILY}>{t('verify_otp')}</Typography>
+                              </Button>
+                              <Button className={classes.normalButton} simple color="primary" size="lg" onClick={handleCancel}>
+                                <Typography fontFamily={FONT_FAMILY}>{t('cancel')}</Typography>
+                              </Button>
+                            </div>
+                        }
+                      </CardFooter>
+                    </form>
+                    {
+                      !isLoading ?
+                        <Button className={classes.normalButton} simple color="primary" type="submit" size="lg" onClick={handleShowSignup}>
+                          <Typography fontFamily={FONT_FAMILY}>{t('signup')}</Typography>
                         </Button>
-                      :null}
-                    </div>
-                  :
-                    <div>
-                      <Button className={classes.normalButton} simple color="primary" size="lg" type="submit" onClick={handleVerifyOTP}>
-                      <Typography fontFamily={FONT_FAMILY}>{t('verify_otp')}</Typography>
-                      </Button>
-                      <Button className={classes.normalButton} simple color="primary" size="lg" onClick={handleCancel}>
-                      <Typography fontFamily={FONT_FAMILY}>{t('cancel')}</Typography>
-                      </Button>
-                    </div>
-                  }
-                  </CardFooter>
-                </form>
-                {
-                  !isLoading ? 
-                  <Button className={classes.normalButton} simple color="primary"  type="submit" size="lg" onClick={handleShowSignup}>
-                    <Typography fontFamily={FONT_FAMILY}>{t('signup')}</Typography>
-                  </Button>
-                      :null
-                }
-                {
-                  !settings.AllowCriticalEditsAdmin  ? 
-                  <Card style={{  borderRadius: 50,shadowOffset: { width: 0, height:0 },
-                  shadowOpacity: 0.5,
-                  shadowRadius: 10,bottom:25}}>
-                  <div style={{alignSelf:'center'}}>
-                 <p  className={isRTL === "rtl" ? classes.rtlDescription : classes.ltrDescription} style={{ color: 'black', fontSize: 18, }}>{t('Email Id')} : support@exicube.com</p>
-                 <p  className={isRTL === "rtl" ? classes.rtlDescription : classes.ltrDescription} style={{ color: 'black', fontSize: 18,  }}>{t('Password')} : Admin@123</p>
-                 </div>
-                 </Card>
-                 :null
-                }
-              </Card>
-            </GridItem>
-          </GridContainer>
-        </div>
-        </>
+                        : null
+                    }
+                    {
+                      !settings.AllowCriticalEditsAdmin ?
+                        <Card style={{
+                          borderRadius: 50, shadowOffset: { width: 0, height: 0 },
+                          shadowOpacity: 0.5,
+                          shadowRadius: 10, bottom: 25
+                        }}>
+                          <div style={{ alignSelf: 'center' }}>
+                            <p className={isRTL === "rtl" ? classes.rtlDescription : classes.ltrDescription} style={{ color: 'black', fontSize: 18, }}>{t('Email Id')} : support@exicube.com</p>
+                            <p className={isRTL === "rtl" ? classes.rtlDescription : classes.ltrDescription} style={{ color: 'black', fontSize: 18, }}>{t('Password')} : Admin@123</p>
+                          </div>
+                        </Card>
+                        : null
+                    }
+                  </Card>
+                </GridItem>
+              </GridContainer>
+            </div>
+          </>
         }
         <Footer whiteFont />
         <AlertDialog open={commonAlert.open} onClose={handleCommonAlertClose}>{commonAlert.msg}</AlertDialog>

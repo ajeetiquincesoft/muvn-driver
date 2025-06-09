@@ -148,6 +148,35 @@ export default function RideDetails(props) {
         <View style={[styles.mainView]}>
             <ScrollView>
                 <View style={styles.vew}>
+                    {paramData.courierNote ? (
+                        <View style={{
+                            flexDirection: isRTL ? 'row-reverse' : 'row',
+                            flex: 1,
+                            marginBottom: 10,
+                            paddingLeft: 10,
+                            alignItems: 'flex-start',
+                            flexWrap: 'wrap'
+                        }}>
+                            <Text style={[styles.textStyleBold, { textAlign: isRTL ? 'right' : 'left', marginTop: 2 }]}>
+                                {isRTL ? ": " : ""}Courier Details{isRTL ? "" : " :"}
+                            </Text>
+                            <View style={{
+                                flexDirection: isRTL ? 'row-reverse' : 'row',
+                                marginHorizontal: 10,
+                                flex: 1,
+                                flexWrap: 'wrap'
+                            }}>
+                                <Text style={[{
+                                    textAlign: isRTL ? 'right' : 'left',
+                                    flex: 1,
+                                    flexWrap: 'wrap'
+                                }]}>
+                                    {paramData.courierNote}
+                                </Text>
+                            </View>
+                        </View>
+                    ) : null}
+
 
                     <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', flex: 1 }}>
                         <View style={{ flexDirection: 'column', width: width - 20 }}>
@@ -190,6 +219,8 @@ export default function RideDetails(props) {
                             </View>
                         </View>
                     </View>
+
+
 
                     <View style={{ flexDirection: 'column', flex: 1, minHeight: 60 }}>
                         <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', flex: 1, minHeight: 60 }}>
@@ -266,8 +297,10 @@ export default function RideDetails(props) {
                         </View>
                     </View>
 
+
                     {paramData ?
                         <View style={[styles.driverDetails, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+
                             <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', alignItems: 'center', flex: 1 }}>
                                 {paramData ?
                                     (!(paramData.driver_image == '' || paramData.driver_image == null || paramData.driver_image == 'undefined') && auth.profile.usertype == 'customer') ?
@@ -317,6 +350,8 @@ export default function RideDetails(props) {
                                         : null}
                                 </View>
                             </View>
+
+
                             {paramData && ((paramData.driver_contact || paramData.customer_contact)) ?
                                 <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', alignItems: 'center' }}>
                                     <TouchableOpacity onPress={() => (['ACCEPTED', 'ARRIVED', 'STARTED', 'REACHED', 'PENDING'].indexOf(paramData.status) != -1) ? role == 'customer' ?
@@ -354,8 +389,12 @@ export default function RideDetails(props) {
                         </View>
                         : null}
 
+                    {console.log("cccc" + JSON.stringify(paramData.courierNote))}
+
                     {paramData && paramData.carType ?
-                        <View style={{ flexDirection: 'column', marginBottom: 10 }}>
+                        <View style={{ flexDirection: 'column', marginBottom: 10, marginTop: 10 }}>
+
+
                             <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', flex: 1, alignItems: 'center' }}>
                                 <Text style={[styles.textStyleBold, { textAlign: isRTL ? 'right' : 'left', }]}> {isRTL ? ": " : null}{t('car_details_title')} {isRTL ? null : " :"}</Text>
                                 <View style={{ alignItems: 'center', flexDirection: isRTL ? 'row-reverse' : 'row', marginHorizontal: 10 }}>

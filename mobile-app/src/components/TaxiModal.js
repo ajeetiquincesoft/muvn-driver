@@ -28,7 +28,7 @@ export const SECONDORY_COLOR = colors.TAXISECONDORY;
 export default function TaxiModal(props) {
     const { t } = i18n;
     const isRTL = i18n.locale.indexOf('he') === 0 || i18n.locale.indexOf('ar') === 0;
-    const { settings, tripdata, estimate, bookingModalStatus, onPressCancel, bookNow, payment_mode, setPaymentMode, radioProps, profileData, setProfileData, auth, bookModelLoading, instructionData, setInstructionData, otherPerson, setOtherPerson  } = props;
+    const { settings, tripdata, estimate, bookingModalStatus, onPressCancel, bookNow, payment_mode, setPaymentMode, radioProps, profileData, setProfileData, auth, bookModelLoading, instructionData, setInstructionData, otherPerson, setOtherPerson } = props;
 
     const mapRef = useRef(null);
 
@@ -101,32 +101,32 @@ export default function TaxiModal(props) {
                             </MapView>
                             : null}
                     </View>
-                    {tripdata.drop && tripdata.drop.waypoints && tripdata.drop.waypoints.length > 0 ? 
-                        <View style={[styles.addressBarMul, { flexDirection: isRTL ? 'row-reverse' : 'row', height:tripdata.drop.waypoints.length == 1 ? 100 : 120}]}>
+                    {tripdata.drop && tripdata.drop.waypoints && tripdata.drop.waypoints.length > 0 ?
+                        <View style={[styles.addressBarMul, { flexDirection: isRTL ? 'row-reverse' : 'row', height: tripdata.drop.waypoints.length == 1 ? 100 : 120 }]}>
                             {tripdata && tripdata.pickup && tripdata.drop ?
                                 <ScrollView style={[styles.contentStyleMul]} showsVerticalScrollIndicator={false} >
 
-                                    <View style={{flexDirection: isRTL ? 'row-reverse' : 'row', alignItems:'center', marginTop: 10}}>
+                                    <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', alignItems: 'center', marginTop: 10 }}>
                                         <View style={styles.hbox1} />
                                         <Text numberOfLines={1} style={[styles.textStyle, { flexDirection: isRTL ? "row-reverse" : "row", marginHorizontal: 5 }]}>{tripdata.pickup.add}</Text>
                                     </View>
                                     {tripdata.drop && tripdata.drop.waypoints && tripdata.drop.waypoints.length > 0 ? tripdata.drop.waypoints.map((item, index) => {
                                         return (
-                                            <View key={"key" + index} style={{ flexDirection: isRTL ? 'row-reverse' : 'row', alignItems: 'center', marginTop:10 }}>
+                                            <View key={"key" + index} style={{ flexDirection: isRTL ? 'row-reverse' : 'row', alignItems: 'center', marginTop: 10 }}>
                                                 <View style={styles.hboxMul} />
                                                 <Text numberOfLines={1} style={[styles.textStyle, { textAlign: isRTL ? 'right' : 'left', marginHorizontal: 5 }]}>{item.add}</Text>
                                             </View>
-                                        ) 
-                                        })
-                                    : null}
-                                    <View style={{flexDirection: isRTL ? 'row-reverse' : 'row', alignItems:'center', marginTop: 10, marginBottom: 10}}>
+                                        )
+                                    })
+                                        : null}
+                                    <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', alignItems: 'center', marginTop: 10, marginBottom: 10 }}>
                                         <View style={styles.hbox3} />
                                         <Text numberOfLines={1} style={[styles.textStyle, { flexDirection: isRTL ? "row-reverse" : "row", marginHorizontal: 5 }]}>{tripdata.drop.add}</Text>
                                     </View>
                                 </ScrollView>
-                            : null}
+                                : null}
                         </View>
-                    :
+                        :
                         <View style={[styles.addressBar, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
                             <View style={styles.ballandsquare}>
                                 <View style={styles.hbox1} /><View style={styles.hbox2} /><View style={styles.hbox3} />
@@ -153,10 +153,10 @@ export default function TaxiModal(props) {
                             />
                         </TouchableOpacity>
                     </View>
-                    <ScrollView style={{ height: (auth && auth.profile && auth.profile.firstName && auth.profile.lastName && auth.profile.email ? 250 : (auth.profile.firstName && auth.profile.lastName) ? 350 : auth.profile.email ? 350 : 400) + (otherPerson ? 75 : 10)}} showsVerticalScrollIndicator={false}>
+                    <ScrollView style={{ height: (auth && auth.profile && auth.profile.firstName && auth.profile.lastName && auth.profile.email ? 250 : (auth.profile.firstName && auth.profile.lastName) ? 350 : auth.profile.email ? 350 : 400) + (otherPerson ? 75 : 10) }} showsVerticalScrollIndicator={false}>
                         {auth && auth.profile && !(auth.profile.firstName && auth.profile.lastName && auth.profile.email) ?
                             <View style={styles.vew}>
-                                <Text style={{ textAlign: 'center', fontFamily:fonts.Bold }}>{t('no_details_error')}</Text>
+                                <Text style={{ textAlign: 'center', fontFamily: fonts.Bold }}>{t('no_details_error')}</Text>
                                 <View style={{ flexDirection: 'row', width: '100%' }}>
                                     {auth && auth.profile && !auth.profile.firstName ?
                                         <View style={{ width: '50%' }}>
@@ -182,7 +182,7 @@ export default function TaxiModal(props) {
                                                 placeholderTextColor={colors.DRIVER_TRIPS_TEXT}
                                                 value={profileData.lastName}
                                                 keyboardType={'email-address'}
-                                                inputStyle={[styles.inputTextStyle, { textAlign: isRTL ? "right" : 'left', fontSize: 15, fontFamily:fonts.Regular }]}
+                                                inputStyle={[styles.inputTextStyle, { textAlign: isRTL ? "right" : 'left', fontSize: 15, fontFamily: fonts.Regular }]}
                                                 onChangeText={(text) => { setProfileData({ ...profileData, lastName: text }) }}
                                                 inputContainerStyle={styles.inputContainerStyle}
                                             />
@@ -197,7 +197,7 @@ export default function TaxiModal(props) {
                                         placeholderTextColor={colors.DRIVER_TRIPS_TEXT}
                                         value={profileData.email}
                                         keyboardType={'email-address'}
-                                        inputStyle={[styles.inputTextStyle, { textAlign: isRTL ? "right" : 'left', fontSize: 15, fontFamily:fonts.Regular }]}
+                                        inputStyle={[styles.inputTextStyle, { textAlign: isRTL ? "right" : 'left', fontSize: 15, fontFamily: fonts.Regular }]}
                                         onChangeText={(text) => { setProfileData({ ...profileData, email: text }) }}
                                         inputContainerStyle={styles.inputContainerStyle}
                                         autoCapitalize='none'
@@ -205,17 +205,17 @@ export default function TaxiModal(props) {
                                     : null}
 
                             </View>
-                        : null}
+                            : null}
 
                         <OtherPerson
-                            otherPerson = {otherPerson}
+                            otherPerson={otherPerson}
                             setOtherPerson={setOtherPerson}
                             setInstructionData={setInstructionData}
                             instructionData={instructionData}
                             auth={auth}
                         />
 
-                        <View style={[auth && auth.profile && (auth.profile.firstName && auth.profile.lastName && auth.profile.email) ? styles.bottomContainer : styles.bottomContainer1, {marginTop: - 10}]}>
+                        <View style={[auth && auth.profile && (auth.profile.firstName && auth.profile.lastName && auth.profile.email) ? styles.bottomContainer : styles.bottomContainer1, { marginTop: - 10 }]}>
                             <View style={styles.offerContainer}>
                                 <TouchableOpacity >
                                     <Text style={styles.offerText}> {t('estimate_fare_text')}</Text>
@@ -300,9 +300,9 @@ export default function TaxiModal(props) {
                                     title={t('confirm')}
                                     loading={bookModelLoading}
                                     loadingProps={{ size: "large", color: colors.BUTTON_LOADING }}
-                                    titleStyle={{ color: colors.WHITE, fontFamily:fonts.Bold, fontSize: 16 }}
+                                    titleStyle={{ color: colors.BLACK, fontFamily: fonts.Bold, fontSize: 16 }}
                                     onPress={bookNow}
-                                    buttonStyle={{ height: '100%', backgroundColor:MAIN_COLOR, borderRadius: 10, }}
+                                    buttonStyle={{ height: '100%', backgroundColor: MAIN_COLOR, borderRadius: 10, }}
                                     containerStyle={styles.buttonStyle}
                                 />
                             </View>
@@ -330,9 +330,9 @@ const styles = StyleSheet.create({
         padding: 10,
         shadowColor: 'black',
         shadowOffset: { width: 0, height: -4 },
-        shadowOpacity:Platform.OS == 'ios'? 0.1: 0.8,
+        shadowOpacity: Platform.OS == 'ios' ? 0.1 : 0.8,
         shadowRadius: 3,
-        elevation:Platform.OS == 'ios'? 2: 8,
+        elevation: Platform.OS == 'ios' ? 2 : 8,
         marginTop: 5
     },
     square: {
@@ -364,14 +364,14 @@ const styles = StyleSheet.create({
         shadowRadius: 5,
         elevation: 8
     },
-    offerContainer: { height: 30, width: width, justifyContent: 'center', borderBottomColor:MAIN_COLOR, borderBottomWidth: Platform.OS == 'ios' ? 1 : 0 },
-    offerText: { alignSelf: 'center', fontSize: 14, fontFamily:fonts.Regular },
+    offerContainer: { height: 30, width: width, justifyContent: 'center', borderBottomColor: MAIN_COLOR, borderBottomWidth: Platform.OS == 'ios' ? 1 : 0 },
+    offerText: { alignSelf: 'center', fontSize: 14, fontFamily: fonts.Regular },
     priceDetailsContainer: { backgroundColor: colors.WHITE, flexDirection: 'row', position: 'relative', zIndex: 1, },
     priceDetailsLeft: { flex: 19, height: 90 },
     priceDetailsMiddle: { flex: 2, height: 50, width: 1, alignItems: 'center' },
     priceDetails: { flex: 1, flexDirection: 'row' },
     totalFareContainer: { flex: 8, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', },
-    totalFareText: { color: colors.MAP_TEXT, fontFamily:fonts.Bold, fontSize: 15, marginLeft: 40 },
+    totalFareText: { color: colors.MAP_TEXT, fontFamily: fonts.Bold, fontSize: 15, marginLeft: 40 },
     infoIcon: { flex: 2, alignItems: 'center', justifyContent: 'center' },
     priceText: { alignSelf: 'center', color: colors.BUTTON, fontFamily: fonts.Bold, fontSize: 20 },
     triangle: {
@@ -432,7 +432,7 @@ const styles = StyleSheet.create({
     addressBar: {
         position: 'absolute',
         marginHorizontal: 20,
-        top: Platform.OS == 'android' ? (__DEV__ ? 60 : (hasNotch? 50: 40)) : (hasNotch ? 70 : 60),
+        top: Platform.OS == 'android' ? (__DEV__ ? 60 : (hasNotch ? 50 : 40)) : (hasNotch ? 70 : 60),
         height: 100,
         width: width - 40,
         flexDirection: 'row',
@@ -517,9 +517,9 @@ const styles = StyleSheet.create({
         width: 50,
         justifyContent: 'center',
     },
-    radioText:{
+    radioText: {
         fontSize: 16,
         color: colors.BLACK,
-        fontFamily:fonts.Bold
+        fontFamily: fonts.Bold
     }
 });

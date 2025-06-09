@@ -516,6 +516,8 @@ export default function MapScreen(props) {
     }
 
     const selectCarType = (value, key) => {
+
+        console.log(value);
         let carTypes = allCarTypes;
         for (let i = 0; i < carTypes.length; i++) {
             carTypes[i].active = false;
@@ -686,6 +688,7 @@ export default function MapScreen(props) {
     };
 
     const onPressBook = async () => {
+
         if (parseFloat(profile.walletBalance) >= 0) {
             setCheckType(true);
             setBookLoading(true);

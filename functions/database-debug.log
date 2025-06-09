@@ -1,24 +1,33 @@
-11:59:53.520 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
-11:59:53.615 [main] INFO com.firebase.server.forge.App$ - Listening at 127.0.0.1:9000
-11:59:57.900 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO com.firebase.core.namespace.NamespaceActor - fake-server successfully activated FBKV (SurveyIdle(0)) wait: 65ms, init: 0ms
-11:59:57.929 [NamespaceSystem-blocking-namespace-operation-dispatcher-6] INFO com.firebase.core.namespace.StateManager - Namespace fake-server status Active to Active
-11:59:57.945 [NamespaceSystem-blocking-namespace-operation-dispatcher-6] INFO com.firebase.core.namespace.StateManager - Namespace fake-server status Active to Active
-11:59:57.950 [NamespaceSystem-blocking-namespace-operation-dispatcher-6] INFO com.firebase.core.namespace.StateManager - Namespace fake-server status Active to Active
-11:59:57.956 [NamespaceSystem-blocking-namespace-operation-dispatcher-6] INFO com.firebase.core.namespace.StateManager - Namespace fake-server status Active to Active
-11:59:57.961 [FirebaseWorkerPool-1-2] WARN com.firebase.core.persistence.backend.dummy.EmulatorMetadataPersistence - Multiple projectIds are not recommended in single project mode. Requested 
-namespace muvnghana-default-rtdb, but the emulator is configured for fake-server. To 
+14:43:29.427 [NamespaceSystem-akka.actor.default-dispatcher-6] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
+14:43:29.519 [main] INFO com.firebase.server.forge.App$ - Listening at 127.0.0.1:9000
+14:43:34.662 [NamespaceSystem-akka.actor.default-dispatcher-6] INFO com.firebase.core.namespace.NamespaceActor - fake-server successfully activated FBKV (SurveyIdle(0)) wait: 62ms, init: 0ms
+14:43:34.687 [NamespaceSystem-blocking-namespace-operation-dispatcher-9] INFO com.firebase.core.namespace.StateManager - Namespace fake-server status Active to Active
+14:43:34.705 [NamespaceSystem-blocking-namespace-operation-dispatcher-9] INFO com.firebase.core.namespace.StateManager - Namespace fake-server status Active to Active
+14:43:34.710 [NamespaceSystem-blocking-namespace-operation-dispatcher-9] INFO com.firebase.core.namespace.StateManager - Namespace fake-server status Active to Active
+14:43:34.716 [NamespaceSystem-blocking-namespace-operation-dispatcher-9] INFO com.firebase.core.namespace.StateManager - Namespace fake-server status Active to Active
+14:43:34.722 [FirebaseWorkerPool-1-2] WARN com.firebase.core.persistence.backend.dummy.EmulatorMetadataPersistence - Multiple projectIds are not recommended in single project mode. Requested 
+namespace muvnghanaproject-default-rtdb, but the emulator is configured for fake-server. To 
 opt-out of single project mode add/set the singleProjectMode: false property in 
 the firebase.json emulators config. 
-11:59:57.963 [NamespaceSystem-akka.actor.default-dispatcher-7] INFO com.firebase.core.namespace.NamespaceActor - muvnghana-default-rtdb successfully activated FBKV (SurveyIdle(0)) wait: 1ms, init: 0ms
-11:59:57.989 [NamespaceSystem-blocking-namespace-operation-dispatcher-6] INFO com.firebase.core.namespace.StateManager - Namespace muvnghana-default-rtdb status Active to Active
-12:01:39.232 [FirebaseWorkerPool-1-4] WARN com.firebase.core.persistence.backend.dummy.EmulatorMetadataPersistence - Multiple projectIds are not recommended in single project mode. Requested 
-namespace muvnghana, but the emulator is configured for fake-server,muvnghana-default-rtdb. To 
+14:43:34.725 [NamespaceSystem-akka.actor.default-dispatcher-7] INFO com.firebase.core.namespace.NamespaceActor - muvnghanaproject-default-rtdb successfully activated FBKV (SurveyIdle(0)) wait: 1ms, init: 0ms
+14:43:34.750 [NamespaceSystem-blocking-namespace-operation-dispatcher-9] INFO com.firebase.core.namespace.StateManager - Namespace muvnghanaproject-default-rtdb status Active to Active
+14:44:02.102 [FirebaseWorkerPool-1-3] WARN com.firebase.core.persistence.backend.dummy.EmulatorMetadataPersistence - Multiple projectIds are not recommended in single project mode. Requested 
+namespace muvnghanaproject, but the emulator is configured for muvnghanaproject-default-rtdb,fake-server. To 
 opt-out of single project mode add/set the singleProjectMode: false property in 
 the firebase.json emulators config. 
-12:01:39.241 [NamespaceSystem-akka.actor.default-dispatcher-11] INFO com.firebase.core.namespace.NamespaceActor - muvnghana successfully activated FBKV (SurveyIdle(0)) wait: 4ms, init: 0ms
-12:05:25.956 [Thread-0] INFO com.firebase.server.forge.App$ - Attempting graceful shutdown.
-12:05:25.966 [NamespaceSystem-akka.actor.default-dispatcher-7] INFO com.firebase.core.namespace.Terminator$Terminator - 3 actors left to terminate: muvnghana, muvnghana-default-rtdb, fake-server
-12:05:25.971 [NamespaceSystem-akka.actor.default-dispatcher-16] INFO com.firebase.core.namespace.NamespaceActor - stopped namespace actor for muvnghana-default-rtdb
-12:05:25.971 [NamespaceSystem-akka.actor.default-dispatcher-17] INFO com.firebase.core.namespace.NamespaceActor - stopped namespace actor for fake-server
-12:05:25.971 [NamespaceSystem-akka.actor.default-dispatcher-7] INFO com.firebase.core.namespace.NamespaceActor - stopped namespace actor for muvnghana
-12:05:25.975 [Thread-0] INFO com.firebase.server.forge.App$ - Graceful shutdown complete.
+14:44:02.109 [NamespaceSystem-akka.actor.default-dispatcher-7] INFO com.firebase.core.namespace.NamespaceActor - muvnghanaproject successfully activated FBKV (SurveyIdle(0)) wait: 4ms, init: 0ms
+15:14:13.989 [NamespaceSystem-blocking-namespace-operation-dispatcher-32] INFO com.firebase.core.namespace.StateManager - Namespace muvnghanaproject-default-rtdb status Active to Active
+15:14:14.453 [NamespaceSystem-blocking-namespace-operation-dispatcher-32] INFO com.firebase.core.namespace.StateManager - Namespace muvnghanaproject-default-rtdb status Active to Active
+15:14:14.553 [NamespaceSystem-blocking-namespace-operation-dispatcher-32] INFO com.firebase.core.namespace.StateManager - Namespace muvnghanaproject-default-rtdb status Active to Active
+15:16:11.063 [NamespaceSystem-blocking-namespace-operation-dispatcher-34] INFO com.firebase.core.namespace.StateManager - Namespace muvnghanaproject-default-rtdb status Active to Active
+15:16:17.796 [NamespaceSystem-blocking-namespace-operation-dispatcher-36] INFO com.firebase.core.namespace.StateManager - Namespace muvnghanaproject-default-rtdb status Active to Active
+15:16:18.187 [NamespaceSystem-blocking-namespace-operation-dispatcher-36] INFO com.firebase.core.namespace.StateManager - Namespace muvnghanaproject-default-rtdb status Active to Active
+15:16:18.287 [NamespaceSystem-blocking-namespace-operation-dispatcher-36] INFO com.firebase.core.namespace.StateManager - Namespace muvnghanaproject-default-rtdb status Active to Active
+15:16:51.058 [NamespaceSystem-blocking-namespace-operation-dispatcher-37] INFO com.firebase.core.namespace.StateManager - Namespace muvnghanaproject-default-rtdb status Active to Active
+15:16:51.667 [NamespaceSystem-blocking-namespace-operation-dispatcher-37] INFO com.firebase.core.namespace.StateManager - Namespace muvnghanaproject-default-rtdb status Active to Active
+15:16:51.758 [NamespaceSystem-blocking-namespace-operation-dispatcher-37] INFO com.firebase.core.namespace.StateManager - Namespace muvnghanaproject-default-rtdb status Active to Active
+15:16:51.872 [NamespaceSystem-blocking-namespace-operation-dispatcher-37] INFO com.firebase.core.namespace.StateManager - Namespace muvnghanaproject-default-rtdb status Active to Active
+15:16:52.027 [NamespaceSystem-blocking-namespace-operation-dispatcher-37] INFO com.firebase.core.namespace.StateManager - Namespace muvnghanaproject-default-rtdb status Active to Active
+15:19:37.151 [NamespaceSystem-blocking-namespace-operation-dispatcher-40] INFO com.firebase.core.namespace.StateManager - Namespace muvnghanaproject-default-rtdb status Active to Active
+15:19:37.518 [NamespaceSystem-blocking-namespace-operation-dispatcher-40] INFO com.firebase.core.namespace.StateManager - Namespace muvnghanaproject-default-rtdb status Active to Active
+15:19:37.621 [NamespaceSystem-blocking-namespace-operation-dispatcher-40] INFO com.firebase.core.namespace.StateManager - Namespace muvnghanaproject-default-rtdb status Active to Active

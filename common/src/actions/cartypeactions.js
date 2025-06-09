@@ -6,7 +6,7 @@ import {
 } from "../store/types";
 import store from '../store/store';
 import { firebase } from '../config/configureFirebase';
-import { onValue, set ,remove, push } from "firebase/database";
+import { onValue, set, remove, push } from "firebase/database";
 import { uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 export const fetchCarTypes = () => (dispatch) => {
@@ -41,7 +41,7 @@ export const fetchCarTypes = () => (dispatch) => {
 
 export const editCarType = (cartype, method) => async (dispatch) => {
   const {
-    carTypesRef, 
+    carTypesRef,
     carTypesEditRef,
     carDocImage
   } = firebase;
@@ -56,11 +56,11 @@ export const editCarType = (cartype, method) => async (dispatch) => {
   } else if (method === 'UpdateImage') {
     await uploadBytesResumable(carDocImage(cartype.id), cartype.image);
     let image = await getDownloadURL(carDocImage(cartype.id));
-      let data = cartype;
-      data.image = image;
+    let data = cartype;
+    data.image = image;
     set(carTypesEditRef(cartype.id), data);
   }
-   else {
+  else {
     set(carTypesEditRef(cartype.id), cartype);
   }
 }

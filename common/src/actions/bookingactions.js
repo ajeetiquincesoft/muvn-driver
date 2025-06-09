@@ -19,7 +19,7 @@ export const clearBooking = () => (dispatch) => {
 
 export const addBooking = (bookingData) => async (dispatch) => {
 
-    const   {
+    const {
         bookingRef,
         settingsRef,
         singleUserRef
@@ -35,14 +35,14 @@ export const addBooking = (bookingData) => async (dispatch) => {
 
     let data = await formatBookingObject(bookingData, settings);
 
-    if(bookingData.requestedDrivers){
+    if (bookingData.requestedDrivers) {
         const drivers = bookingData.requestedDrivers;
-        Object.keys(drivers).map((uid)=>{
-            onValue(singleUserRef(uid),  snapshot => {
+        Object.keys(drivers).map((uid) => {
+            onValue(singleUserRef(uid), snapshot => {
                 if (snapshot.val()) {
                     const pushToken = snapshot.val().pushToken;
-                    const ios = snapshot.val().userPlatform == "IOS"? true: false
-                    if(pushToken){
+                    const ios = snapshot.val().userPlatform == "IOS" ? true : false
+                    if (pushToken) {
                         RequestPushMsg(
                             pushToken,
                             {
@@ -50,9 +50,9 @@ export const addBooking = (bookingData) => async (dispatch) => {
                                 msg: store.getState().languagedata.defaultLanguage.new_booking_notification,
                                 screen: 'DriverTrips'
                             });
-                     }
-                 }
-            }, {onlyOnce: true});
+                    }
+                }
+            }, { onlyOnce: true });
             return drivers[uid];
         })
     }
@@ -62,12 +62,12 @@ export const addBooking = (bookingData) => async (dispatch) => {
         dispatch({
             type: CONFIRM_BOOKING_SUCCESS,
             payload: {
-                booking_id:bookingKey,
-                mainData:{
+                booking_id: bookingKey,
+                mainData: {
                     ...data,
-                    id:bookingKey
+                    id: bookingKey
                 }
-            }    
+            }
         });
     }).catch(error => {
         dispatch({

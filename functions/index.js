@@ -894,7 +894,8 @@ exports.user_signup = onRequest(async (request, response) => {
     const userDetails = request.body.regData;
     const db = getDatabase();
     const auth = getAuth();
-
+    console.log('userdetails' + JSON.stringify(userDetails));
+    console.log('config' + JSON.stringify(config));
     let settingData = await db.ref('settings').once("value");
     let settings = settingData.val();
 
@@ -911,7 +912,12 @@ exports.user_signup = onRequest(async (request, response) => {
                 emailVerified: true
             });
 
+            if (userDetails.vehicleType) {
+                regData.vehicleType = userDetails.vehicleType;
+            }
+            console.log('regData' + JSON.stringify(regData));
             if (userRecord && userRecord.uid) {
+                console.log('regDatanew' + JSON.stringify(regData));
                 await db.ref('users/' + userRecord.uid).set(regData);
                 if (userDetails.signupViaReferral && settings.bonus > 0) {
                     await addToWallet(userDetails.signupViaReferral, settings.bonus, "Admin Credit", null);
@@ -919,11 +925,11 @@ exports.user_signup = onRequest(async (request, response) => {
                 }
                 response.send({ uid: userRecord.uid });
             } else {
-                response.send({ error: "User Not Created" });
+                response.send({ error: "User Not Created 2" });
             }
         }
     } catch (error) {
-        response.send({ error: "User Not Created" });
+        response.send({ error: "User Not Created 1" });
     }
 });
 
