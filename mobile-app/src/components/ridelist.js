@@ -335,11 +335,12 @@ export default function RideList(props) {
                     tabStyle={{
                         borderWidth: 0,
                         backgroundColor: 'transparent',
-                        borderColor: colors.WHITE
+                        borderColor: colors.BLACK,
+                        fontFamily: fonts.Bold
                     }}
-                    activeTabStyle={{ borderBottomColor: colors.WHITE, backgroundColor: 'transparent', borderBottomWidth: 1.5 }}
-                    tabTextStyle={{ color: appConsts.canCall ? colors.BORDER_TEXT : colors.PROFILE_PLACEHOLDER_CONTENT, fontFamily: fonts.Bold }}
-                    activeTabTextStyle={{ color: colors.WHITE }}
+                    activeTabStyle={{ borderBottomColor: colors.BLACK, backgroundColor: 'transparent', borderBottomWidth: 1.5 }}
+                    tabTextStyle={{ color: appConsts.canCall ? colors.BLACK : colors.PROFILE_PLACEHOLDER_CONTENT, fontFamily: fonts.Bold }}
+                    activeTabTextStyle={{ color: colors.BLACK }}
                 />
                 <View style={{ height: '100%' }}>
                     <View style={{ height: 5 }} />
@@ -499,7 +500,7 @@ const styles = StyleSheet.create({
     },
     emptyText: {
         fontFamily: fonts.Bold,
-        color: colors.WHITE,
+        color: colors.BLACK,
         padding: 15,
         fontSize: 18
     },

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, } from "react";
 import { Grid, Card, Avatar, } from "@mui/material";
-import { useNavigate,useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import CircularLoading from "../components/CircularLoading";
 import { useTranslation } from "react-i18next";
@@ -11,7 +11,7 @@ import { colors } from "components/Theme/WebTheme";
 import GoBackButton from "components/GoBackButton";
 
 function UserInfoDetails(props) {
-    const {data} = props;
+    const { data } = props;
     const { t, i18n } = useTranslation();
     const isRTL = i18n.dir();
     const navigate = useNavigate();
@@ -23,42 +23,42 @@ function UserInfoDetails(props) {
     const [fleetAdminsObj, setFleetAdminsObj] = useState();
     const [role, setRole] = useState(null);
     const auth = useSelector(state => state.auth);
-    const {state} = useLocation()
+    const { state } = useLocation()
 
     const isEqual = (obj1, obj2) => JSON.stringify(obj1) === JSON.stringify(obj2);
 
     useEffect(() => {
         if (auth.profile && auth.profile.usertype) {
-          setRole(auth.profile.usertype);
+            setRole(auth.profile.usertype);
         }
-      }, [auth.profile]);
+    }, [auth.profile]);
 
     useEffect(() => {
         if (staticusers) {
-          if (role === 'admin' || role === 'fleetadmin') {
-            let arr = staticusers.filter(user => user.usertype === 'fleetadmin');
-            let obj = {};
-    
-            for (let i = 0; i < arr.length; i++) {
-              let user = arr[i];
-    
-              obj[user.id] = user.firstName + ' ' + user.lastName;
-            }
-    
-    
-            if (!isEqual(obj, fleetAdminsObj)) {
-              setFleetAdminsObj(obj);
-            }
-          }
-        }
-      }, [staticusers, role, fleetAdminsObj]);
+            if (role === 'admin' || role === 'fleetadmin') {
+                let arr = staticusers.filter(user => user.usertype === 'fleetadmin');
+                let obj = {};
 
-    useEffect(()=>{
-        if(data){
+                for (let i = 0; i < arr.length; i++) {
+                    let user = arr[i];
+
+                    obj[user.id] = user.firstName + ' ' + user.lastName;
+                }
+
+
+                if (!isEqual(obj, fleetAdminsObj)) {
+                    setFleetAdminsObj(obj);
+                }
+            }
+        }
+    }, [staticusers, role, fleetAdminsObj]);
+
+    useEffect(() => {
+        if (data) {
             setLoading(false)
         }
-    },[data])
-   
+    }, [data])
+
 
     useEffect(() => {
         dispatch(fetchUsersOnce());
@@ -78,12 +78,12 @@ function UserInfoDetails(props) {
                 boxShadow: `0px 2px 5px ${SECONDORY_COLOR}`,
             }}
         >
-            <GoBackButton 
-                isRTL={isRTL} 
+            <GoBackButton
+                isRTL={isRTL}
                 onClick={() => {
-                    data?.usertype ==="customer" ? 
-                    navigate("/users/0",{state:{pageNo:state?.pageNo}})
-                    :navigate("/users/1",{state:{pageNo:state?.pageNo}})
+                    data?.usertype === "customer" ?
+                        navigate("/users/0", { state: { pageNo: state?.pageNo } })
+                        : navigate("/users/1", { state: { pageNo: state?.pageNo } })
                 }}
             />
             <Grid container spacing={1} sx={{ direction: isRTL === "rtl" ? "rtl" : "ltr", }}>
@@ -115,7 +115,7 @@ function UserInfoDetails(props) {
                             />
                         </div>
                     ) : (
-                        <Avatar sx={{ width: 200, height: 300, fontFamily:FONT_FAMILY }} variant="square">
+                        <Avatar sx={{ width: 200, height: 300, fontFamily: FONT_FAMILY }} variant="square">
                             {data?.firstName?.slice(0, 1) + " " + data?.lastName?.slice(0, 1)}
                         </Avatar>
                     )}
@@ -148,13 +148,13 @@ function UserInfoDetails(props) {
                         </Grid>
                     </Grid>
                     {
-                        (data?.usertype === "driver" || data?.usertype === "customer") && data?.fleetadmin ?  <Userinfo title={"fleetadmins"} value={(fleetAdminsObj && fleetAdminsObj[data?.fleetadmin] ? fleetAdminsObj[data?.fleetadmin] : "" )+ (data?.fleetadmin
-                                ? settings.AllowCriticalEditsAdmin
-                                  ? " ( " + data.fleetadmin + " ) "
-                                  : " ( " + t("hidden_demo") + " ) "
-                                : t('no_data_available'))
-                            } />
-                        :null
+                        (data?.usertype === "driver" || data?.usertype === "customer") && data?.fleetadmin ? <Userinfo title={"fleetadmins"} value={(fleetAdminsObj && fleetAdminsObj[data?.fleetadmin] ? fleetAdminsObj[data?.fleetadmin] : "") + (data?.fleetadmin
+                            ? settings.AllowCriticalEditsAdmin
+                                ? " ( " + data.fleetadmin + " ) "
+                                : " ( " + t("hidden_demo") + " ) "
+                            : t('no_data_available'))
+                        } />
+                            : null
                     }
                 </Grid>
             </Grid>

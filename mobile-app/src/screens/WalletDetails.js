@@ -68,9 +68,9 @@ export default function WalletDetails(props) {
 
         <View style={[styles.View6, { backgroundColor: MAIN_COLOR }]}>
           {settings.swipe_symbol === false ?
-            <Text style={{ textAlign: 'center', fontSize: 30, fontFamily: fonts.Medium, color: colors.WHITE }}>{settings.symbol}{profile && profile.hasOwnProperty('walletBalance') ? parseFloat(profile.walletBalance).toFixed(settings.decimal) : ''}</Text>
+            <Text style={{ textAlign: 'center', fontSize: 30, fontFamily: fonts.Medium, color: colors.BLACK }}>{settings.symbol}{profile && profile.hasOwnProperty('walletBalance') ? parseFloat(profile.walletBalance).toFixed(settings.decimal) : ''}</Text>
             :
-            <Text style={{ textAlign: 'center', fontSize: 30, fontFamily: fonts.Medium, color: colors.WHITE }}>{profile && profile.hasOwnProperty('walletBalance') ? parseFloat(profile.walletBalance).toFixed(settings.decimal) : ''}{settings.symbol}</Text>
+            <Text style={{ textAlign: 'center', fontSize: 30, fontFamily: fonts.Medium, color: colors.BLACK }}>{profile && profile.hasOwnProperty('walletBalance') ? parseFloat(profile.walletBalance).toFixed(settings.decimal) : ''}{settings.symbol}</Text>
           }
           {profile && (profile.usertype == 'driver' || (profile.usertype == 'customer' && settings && settings.RiderWithDraw)) ?
             <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', justifyContent: 'space-around', marginVertical: 15, width: '100%', height: 50 }}>

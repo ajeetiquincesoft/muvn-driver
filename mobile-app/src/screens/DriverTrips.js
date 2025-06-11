@@ -298,7 +298,7 @@ export default function DriverTrips(props) {
     const rCom = () => {
         return (
             <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', alignItems: 'center' }}>
-                <Text style={{ color: colors.WHITE, fontFamily: fonts.Bold, marginRight: Platform.OS == 'ios' ? 10 : 0, transform: [{ scaleX: isRTL ? -1 : 1 }] }}>{t('on_duty')}</Text>
+                <Text style={{ color: colors.BLACK, fontFamily: fonts.Bold, marginRight: Platform.OS == 'ios' ? 10 : 0, transform: [{ scaleX: isRTL ? -1 : 1 }] }}>{t('on_duty')}</Text>
                 <Switch
                     value={auth?.profile?.driverActiveStatus}
                     onValueChange={onChangeFunction}
@@ -684,11 +684,11 @@ export default function DriverTrips(props) {
                 </View>
                 <View style={styles.report}>
                     <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', justifyContent: 'space-between', width: '80%', alignSelf: 'center', marginVertical: 10 }}>
-                        <Text style={{ color: MAIN_COLOR, fontSize: windoHight > 1000 ? 30 : 20, fontWeight: 'bold' }}>{t('today_text')}</Text>
+                        <Text style={{ color: colors.BLACK, fontSize: windoHight > 1000 ? 30 : 20, fontWeight: 'bold' }}>{t('today_text')}</Text>
                         <MaterialIcons
                             name="keyboard-arrow-right"
                             size={windoHight > 1000 ? 45 : 28}
-                            color={MAIN_COLOR}
+                            color={colors.BLACK}
                             onPress={() => {
                                 props.navigation.navigate("MyEarning");
                             }}
@@ -696,15 +696,15 @@ export default function DriverTrips(props) {
                     </View>
                     <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', justifyContent: 'space-between', width: '80%', alignSelf: 'center', marginTop: 5 }}>
                         <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', alignItems: 'center' }}>
-                            <Text style={{ color: MAIN_COLOR, fontSize: windoHight > 1000 ? 30 : 20, fontWeight: 'bold' }}>{bookingCount}</Text>
-                            <Text style={{ color: MAIN_COLOR, fontSize: windoHight > 1000 ? 26 : 18, marginHorizontal: 3 }}>{t('rides')}</Text>
+                            <Text style={{ color: colors.BLACK, fontSize: windoHight > 1000 ? 30 : 20, fontWeight: 'bold' }}>{bookingCount}</Text>
+                            <Text style={{ color: colors.BLACK, fontSize: windoHight > 1000 ? 26 : 18, marginHorizontal: 3 }}>{t('rides')}</Text>
                         </View>
                         {settings.swipe_symbol === false ?
-                            <Text style={{ color: MAIN_COLOR, fontSize: windoHight > 1000 ? 30 : 20, fontWeight: 'bold' }}>
+                            <Text style={{ color: colors.BLACK, fontSize: windoHight > 1000 ? 30 : 20, fontWeight: 'bold' }}>
                                 {settings.symbol}{today ? parseFloat(today).toFixed(settings.decimal) : '0'}
                             </Text>
                             :
-                            <Text style={{ color: MAIN_COLOR, fontSize: windoHight > 1000 ? 30 : 20, fontWeight: 'bold' }}>
+                            <Text style={{ color: colors.BLACK, fontSize: windoHight > 1000 ? 30 : 20, fontWeight: 'bold' }}>
                                 {today ? parseFloat(today).toFixed(settings.decimal) : '0'}{settings.symbol}
                             </Text>
                         }

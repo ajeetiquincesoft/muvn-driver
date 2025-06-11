@@ -42,13 +42,13 @@ export default function DriverEarningRidelist(props) {
 
     const renderData = ({ item, index }) => {
         return (
-            <View activeOpacity={0.8} style={[styles.BookingContainer,styles.elevation]} >
-                <View style={[styles.box,{  padding: 5 },]}>
-                    <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', flex: 1, margin: 10, justifyContent:'space-between'}}>
-                        <View style={{justifyContent: 'center'}}>
+            <View activeOpacity={0.8} style={[styles.BookingContainer, styles.elevation]} >
+                <View style={[styles.box, { padding: 5 },]}>
+                    <View style={{ flexDirection: isRTL ? 'row-reverse' : 'row', flex: 1, margin: 10, justifyContent: 'space-between' }}>
+                        <View style={{ justifyContent: 'center' }}>
                             <Text style={styles.textStyleBold}>{item.endTime ? moment(item.endTime).format('lll') : ''}</Text>
                         </View>
-                        <View style={{justifyContent: 'center'}}>
+                        <View style={{ justifyContent: 'center' }}>
                             {item.payment_mode == 'cash' ?
                                 <MaterialCommunityIcons name="cash" size={28} color={colors.BLACK} />
                                 : item.payment_mode == 'card' ?
@@ -57,11 +57,11 @@ export default function DriverEarningRidelist(props) {
                                     <AntDesign name="wallet" size={24} color="black" />
                             }
                         </View>
-                        <View style={{ justifyContent: 'center'}}>
+                        <View style={{ justifyContent: 'center' }}>
                             {settings.swipe_symbol === false ?
-                                <Text style={styles.textStyleBold}>{settings.symbol}{item.driver_share?parseFloat(item.driver_share).toFixed(settings.decimal):'0'}</Text>
-                            :
-                                <Text style={styles.textStyleBold}>{item.driver_share?parseFloat(item.driver_share).toFixed(settings.decimal):'0'}{settings.symbol}</Text>
+                                <Text style={styles.textStyleBold}>{settings.symbol}{item.driver_share ? parseFloat(item.driver_share).toFixed(settings.decimal) : '0'}</Text>
+                                :
+                                <Text style={styles.textStyleBold}>{item.driver_share ? parseFloat(item.driver_share).toFixed(settings.decimal) : '0'}{settings.symbol}</Text>
                             }
                         </View>
                     </View>
@@ -117,14 +117,14 @@ export default function DriverEarningRidelist(props) {
                 tabStyle={{
                     borderWidth: 0,
                     backgroundColor: 'transparent',
-                    borderColor:MAIN_COLOR
+                    borderColor: MAIN_COLOR
                 }}
                 activeTabStyle={{ borderBottomColor: colors.RED, backgroundColor: 'transparent', borderBottomWidth: 1.5 }}
-                tabTextStyle={{ color: colors.FOOTERTOP, fontFamily:fonts.Bold }}
+                tabTextStyle={{ color: colors.FOOTERTOP, fontFamily: fonts.Bold }}
                 activeTabTextStyle={{ color: colors.BLACK }}
             />
 
-            <View style={{flex: 1}}>
+            <View style={{ flex: 1 }}>
                 <FlatList
                     showsVerticalScrollIndicator={false}
                     scrollEnabled={true}
@@ -132,9 +132,9 @@ export default function DriverEarningRidelist(props) {
                     data={tabIndex === 0 ? props.data.filter(item => ((new Date(item.endTime).getDate() == new Date().getDate()) && (item.status === 'PAID' || item.status === 'COMPLETE'))) : (tabIndex === 1 ? props.data.filter(item => ((new Date(item.endTime).getMonth() == new Date().getMonth()) && (item.status === 'PAID' || item.status === 'COMPLETE'))) : props.data.filter(item => ((new Date(item.endTime).getFullYear() == new Date().getFullYear()) && (item.status === 'PAID' || item.status === 'COMPLETE'))))}
                     renderItem={renderData}
                     ListEmptyComponent={
-                        <View style={{marginTop: height/3.5, justifyContent:'center', alignItems:'center' }}>
-                            <View style={{height: 50, minWidth: 150, borderRadius: 10, backgroundColor: MAIN_COLOR, justifyContent:'center', alignItems:'center' }}>
-                                <Text style={[styles.textStyleBold,{color: colors.WHITE}]}>{t('no_data_available')}</Text>
+                        <View style={{ marginTop: height / 3.5, justifyContent: 'center', alignItems: 'center' }}>
+                            <View style={{ height: 50, minWidth: 150, borderRadius: 10, backgroundColor: MAIN_COLOR, justifyContent: 'center', alignItems: 'center' }}>
+                                <Text style={[styles.textStyleBold, { color: colors.BLACK }]}>{t('no_data_available')}</Text>
                             </View>
                         </View>
                     }
@@ -149,22 +149,22 @@ const styles = StyleSheet.create({
     // textStyle: {
     //     fontSize: 18,
     // },
-    BookingContainer:{
-    margin:10,
-    borderRadius:10,
-    
-    shadowColor: "black",
-    shadowOffset: {
-        width: 0,
-        height: 2,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 1,
+    BookingContainer: {
+        margin: 10,
+        borderRadius: 10,
+
+        shadowColor: "black",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 1,
     },
     box: {
         backgroundColor: colors.WHITE,
         borderRadius: 10,
-        
+
         // shadowOffset: {
         //     width: 0,
         //     height: 0,
@@ -173,11 +173,11 @@ const styles = StyleSheet.create({
         //   shadowRadius: 0.5,
         //   shadowColor: 'white',
     },
-    elevation:{
-        elevation:5
+    elevation: {
+        elevation: 5
 
     },
-    
+
     vew: {
         shadowColor: colors.BLACK,
         shadowOffset: {
@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
     segmentcontrol: {
         color: colors.WHITE,
         fontSize: 18,
-        fontFamily:fonts.Regular,
+        fontFamily: fonts.Regular,
         marginTop: 0,
         alignSelf: "center",
         height: 50
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
         marginVertical: 6,
         marginHorizontal: 5
     },
-    
+
     fare: {
         width: (width - 35) / 4,
         backgroundColor: colors.WHITE,
@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingVertical: 5
     },
-    shadow:{
+    shadow: {
         shadowColor: colors.BLACK,
         shadowOffset: {
             width: 0,
