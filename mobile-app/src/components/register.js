@@ -141,7 +141,7 @@ export default function Registration(props) {
                     if (mobileWithoutCountry && mobileWithoutCountry.length > 6) {
                         const userData = { ...state };
                         if (userData.usertype == 'customer') delete userData.carType;
-                        console.log("dddd" + JSON.stringify(userData));
+                        // console.log("dddd" + JSON.stringify(userData));
                         onPressRegister(userData);
 
 

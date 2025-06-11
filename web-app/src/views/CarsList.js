@@ -14,9 +14,9 @@ import Tooltip from "@mui/material/Tooltip";
 import { colors } from "../components/Theme/WebTheme";
 import moment from "moment/min/moment-with-locales";
 import Switch from "@mui/material/Switch";
-import { useNavigate,useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import EditIcon from '@mui/icons-material/Edit';
-import {FONT_FAMILY, SECONDORY_COLOR } from "../common/sharedFunctions";
+import { FONT_FAMILY, SECONDORY_COLOR } from "../common/sharedFunctions";
 import { ThemeProvider } from '@mui/material/styles';
 import theme from "styles/tableStyle";
 import BlankTable from '../components/Table/BlankTable';
@@ -53,7 +53,7 @@ export default function CarsList() {
   const settings = useSelector((state) => state.settingsdata.settings);
   const userdata = useSelector((state) => state.usersdata);
   const auth = useSelector((state) => state.auth);
-  const { updateUserCar, editCar} = api;
+  const { updateUserCar, editCar } = api;
   const [driversObj, setDriversObj] = useState();
   const [data, setData] = useState([]);
   const carlistdata = useSelector((state) => state.carlistdata);
@@ -62,14 +62,14 @@ export default function CarsList() {
   const rootRef = useRef(null);
   const classes = useStyles();
   const [role, setRole] = useState(null);
-  const {state} = useLocation()
-  const [currentPage,setCurrentPage] = useState(null)
+  const { state } = useLocation()
+  const [currentPage, setCurrentPage] = useState(null)
 
-  useEffect(()=>{
+  useEffect(() => {
     setCurrentPage(state?.pageNo)
-  },[state])
-  
-  const HandalePageChange = (page)=>{
+  }, [state])
+
+  const HandalePageChange = (page) => {
     setCurrentPage(page)
   }
 
@@ -83,12 +83,11 @@ export default function CarsList() {
             user.fleetadmin === auth.profile.uid) ||
             role === "admin")
       );
-      let obj = {}; 
+      let obj = {};
       for (let i = 0; i < arr.length; i++) {
         let user = arr[i];
-        obj[user.id] = `${user.firstName} ${user.lastName} (${
-          settings.AllowCriticalEditsAdmin ? user.mobile : t("hidden_demo")
-        }) ${settings.AllowCriticalEditsAdmin ? user.email : t("hidden_demo")}`;
+        obj[user.id] = `${user.firstName} ${user.lastName} (${settings.AllowCriticalEditsAdmin ? user.mobile : t("hidden_demo")
+          }) ${settings.AllowCriticalEditsAdmin ? user.email : t("hidden_demo")}`;
       }
       setDriversObj(obj);
     }
@@ -107,13 +106,13 @@ export default function CarsList() {
   }, [auth.profile]);
 
   useEffect(() => {
-    if (carlistdata?.cars && driversObj) { 
-   
+    if (carlistdata?.cars && driversObj) {
+
       const updatedData = carlistdata.cars.map((car) => ({
         ...car,
-        driverName: driversObj[car?.driver] || " ",  
+        driverName: driversObj[car?.driver] || " ",
       }));
-  
+
       setData(updatedData);
     } else {
       setData([]);
@@ -139,25 +138,25 @@ export default function CarsList() {
 
   const handleSetProfileModal = (e) => {
     e.preventDefault();
-    if(settings.AllowCriticalEditsAdmin){
-    if (selectedImage) {
-      setLoading(true);
-      let finalData = userData;
-      finalData.car_image = selectedImage;
-      dispatch(editCar(finalData, "UpdateImage"));
-      setProfileModal(false);
-      setTimeout(() => {
-        setSelectedImage(null);
-        setLoading(false);
-      }, 10000);
+    if (settings.AllowCriticalEditsAdmin) {
+      if (selectedImage) {
+        setLoading(true);
+        let finalData = userData;
+        finalData.car_image = selectedImage;
+        dispatch(editCar(finalData, "UpdateImage"));
+        setProfileModal(false);
+        setTimeout(() => {
+          setSelectedImage(null);
+          setLoading(false);
+        }, 10000);
+      } else {
+        setCommonAlert({ open: true, msg: t("choose_image_first") });
+      }
+
     } else {
-      setCommonAlert({ open: true, msg: t("choose_image_first") });
+      setCommonAlert({ open: true, msg: t('demo_mode') })
     }
-    
-  }else{
-    setCommonAlert({ open: true, msg: t('demo_mode')})
   }
-}
 
   const onClick = (rowData) => {
     setImageData(rowData.car_image);
@@ -176,14 +175,15 @@ export default function CarsList() {
     },
     {
       title: t("driver"),
-      field: "driverName",  
+      field: "driverName",
       editable: role === "driver" ? "never" : "always",
       render: (rowData) => rowData.driverName || null,
-      
+
       exportTransformer: (rowData) => rowData.driverName,
       hidden: role === "driver",
     },
-    { title: t("car_type"), field: "carType",
+    {
+      title: t("car_type"), field: "carType",
       render: (rowData) =>
         rowData.createdAt ? t(getLangKey(rowData.carType)) : null,
     },
@@ -210,12 +210,12 @@ export default function CarsList() {
     {
       title: t("active_status"),
       field: "active",
-      editable:  "never" ,
+      editable: "never",
       type: "boolean",
       initialEditValue: true,
       render: (rowData) => (
         <Switch
-        disabled
+          disabled
           checked={rowData.active}
           onChange={() => handelActiveStatus(rowData)}
         />
@@ -257,92 +257,95 @@ export default function CarsList() {
     <CircularLoading />
   ) : (
     <div ref={rootRef}>
-    <ThemeProvider theme={theme}>
-      { data?.length >0 ? 
-      <MaterialTable
-        title={t("cars_title")}
-        columns={columns}
-        onChangePage={(page)=>HandalePageChange(page)}
-        style={{
-          direction: isRTL === "rtl" ? "rtl" : "ltr",
-          borderRadius: "8px",
-          boxShadow: `0px 2px 5px ${SECONDORY_COLOR}`,
-          padding: "20px",
-        }}
-        data={data}
-        onRowClick={(evt, selectedRow) =>
-          setSelectedRow(selectedRow.tableData.id)
-        }
-        options={{
-          initialPage:state?.pageNo,
-          exportButton: true,
-          rowStyle: (rowData) => ({
-            backgroundColor:
-              selectedRow === rowData.tableData.id ? colors.ROW_SELECTED :colors.WHITE
-          }),
-          ...TableStyle()
-        }}
-        localization={localization(t)}
-        editable={{ 
-          onRowDelete: (oldData) =>
-            settings.AllowCriticalEditsAdmin
-              ? new Promise((resolve, reject) => {
-                  setTimeout(() => {
-                    if (oldData.active) {
-                      reject();
-                      alert(t("active_car_delete"));
-                    } else {
+      <ThemeProvider theme={theme}>
+        {data?.length > 0 ?
+          <MaterialTable
+            title={t("cars_title")}
+            columns={columns}
+            onChangePage={(page) => HandalePageChange(page)}
+            style={{
+              direction: isRTL === "rtl" ? "rtl" : "ltr",
+              borderRadius: "8px",
+              boxShadow: `0px 2px 5px ${SECONDORY_COLOR}`,
+              padding: "20px",
+            }}
+            data={data}
+            onRowClick={(evt, selectedRow) =>
+              setSelectedRow(selectedRow.tableData.id)
+            }
+            options={{
+              initialPage: state?.pageNo,
+              exportButton: true,
+              rowStyle: (rowData) => ({
+                backgroundColor:
+                  selectedRow === rowData.tableData.id ? colors.ROW_SELECTED : colors.WHITE
+              }),
+              ...TableStyle()
+            }}
+            localization={localization(t)}
+            editable={{
+              onRowDelete: (oldData) =>
+                settings.AllowCriticalEditsAdmin
+                  ? new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                      // if (oldData.active) {
+                      //   reject();
+                      //   alert(t("active_car_delete"));
+                      // } else {
+                      //   resolve();
+                      //   dispatch(editCar(oldData, "Delete"));
+                      // }
+
                       resolve();
                       dispatch(editCar(oldData, "Delete"));
-                    }
-                  }, 600);
-                })
-              : new Promise((resolve) => {
-                  setTimeout(() => {
-                    resolve();
-                    alert(t("demo_mode"));
-                  }, 600);
-                }),
-        }}
-        actions={[    
+                    }, 600);
+                  })
+                  : new Promise((resolve) => {
+                    setTimeout(() => {
+                      resolve();
+                      alert(t("demo_mode"));
+                    }, 600);
+                  }),
+            }}
+            actions={[
               {
-          icon: 'add',
-          tooltip: t("add_car"),
-          isFreeAction: true,
-          onClick: (event) => navigate(`/cars/editcar`,{state:{pageNo:currentPage}})
-        },
-        (rowData) => ({
-          tooltip: t("edit"),
-            icon: () => (
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  flexWrap: "wrap",
-                  marginRight:0
-                }}
-              >
-                <EditIcon />  
-              </div>
-            ),
-            onClick: (event, rowData) =>{
-              navigate(`/cars/editcar/${rowData.id}`,{state:{pageNo:currentPage}})
-            }
-          }),
-        
-        ]}
-      />
-      : <BlankTable title={t('cars_title')} 
-      actions={[    
-        {
-        icon: 'add',
-        tooltip: t("add_car"),
-        isFreeAction: true,
-            onClick: (event) => navigate(`/cars/editcar`)
-      },
-      ]}
-      columns={columns}  data={[]} localization={localization(t)} options={TableStyle()}/>}
-    </ThemeProvider> 
+                icon: 'add',
+                tooltip: t("add_car"),
+                isFreeAction: true,
+                onClick: (event) => navigate(`/cars/editcar`, { state: { pageNo: currentPage } })
+              },
+              (rowData) => ({
+                tooltip: t("edit"),
+                icon: () => (
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      flexWrap: "wrap",
+                      marginRight: 0
+                    }}
+                  >
+                    <EditIcon />
+                  </div>
+                ),
+                onClick: (event, rowData) => {
+                  navigate(`/cars/editcar/${rowData.id}`, { state: { pageNo: currentPage } })
+                }
+              }),
+
+            ]}
+          />
+          : <BlankTable title={t('cars_title')}
+            actions={[
+              {
+                icon: 'add',
+                tooltip: t("add_car"),
+                isFreeAction: true,
+                onClick: (event) => navigate(`/cars/editcar`)
+              },
+            ]}
+            columns={columns} data={[]} localization={localization(t)} options={TableStyle()} />}
+      </ThemeProvider>
       <Modal
         disablePortal
         disableEnforceFocus
@@ -360,7 +363,7 @@ export default function CarsList() {
         >
           <Grid item xs={12} sm={12} md={12} lg={12}>
             <Typography component="h1" variant="h6" style={{ fontFamily: FONT_FAMILY }} >
-            {t("upload_car_image")}
+              {t("upload_car_image")}
               <input
                 type="file"
                 style={{ marginLeft: 10, fontFamily: FONT_FAMILY }}
@@ -437,7 +440,7 @@ export default function CarsList() {
                 <Button
                   onClick={handleProfileModal}
                   variant="contained"
-                  style={{ backgroundColor:colors.RED, fontFamily: FONT_FAMILY  }}
+                  style={{ backgroundColor: colors.RED, fontFamily: FONT_FAMILY }}
                 >
                   {t("cancel")}
                 </Button>
@@ -445,7 +448,7 @@ export default function CarsList() {
                   onClick={handleSetProfileModal}
                   variant="contained"
                   color="secondaryButton"
-                  style={{ marginLeft: 10 , backgroundColor:colors.GREEN, fontFamily: FONT_FAMILY  }}
+                  style={{ marginLeft: 10, backgroundColor: colors.GREEN, fontFamily: FONT_FAMILY }}
                 >
                   {t("save")}
                 </Button>

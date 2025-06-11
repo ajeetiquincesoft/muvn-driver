@@ -85,29 +85,49 @@ export default function CarsScreen(props) {
 
 
     const deleteCar = async (item) => {
-        if (!item.active) {
-            Alert.alert(
-                t('alert'),
-                t('delete_your_car'),
-                [
-                    {
-                        text: t('cancel'),
-                        onPress: () => { },
-                        style: 'cancel',
 
-                    },
-                    {
-                        text: t('yes'), onPress: () => {
-                            dispatch(editCar(item, "Delete"));
+        Alert.alert(
+            t('alert'),
+            t('delete_your_car'),
+            [
+                {
+                    text: t('cancel'),
+                    onPress: () => { },
+                    style: 'cancel',
 
-                        }
-                    },
-                ],
-                { cancelable: true }
-            );
-        } else {
-            Alert.alert(t('alert'), t('active_car_delete'))
-        }
+                },
+                {
+                    text: t('yes'), onPress: () => {
+                        dispatch(editCar(item, "Delete"));
+
+                    }
+                },
+            ],
+            { cancelable: true }
+        );
+        // if (!item.active) {
+        //     Alert.alert(
+        //         t('alert'),
+        //         t('delete_your_car'),
+        //         [
+        //             {
+        //                 text: t('cancel'),
+        //                 onPress: () => { },
+        //                 style: 'cancel',
+
+        //             },
+        //             {
+        //                 text: t('yes'), onPress: () => {
+        //                     dispatch(editCar(item, "Delete"));
+
+        //                 }
+        //             },
+        //         ],
+        //         { cancelable: true }
+        //     );
+        // } else {
+        //     Alert.alert(t('alert'), t('active_car_delete'))
+        // }
     }
 
     return (

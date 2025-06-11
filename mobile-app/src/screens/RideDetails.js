@@ -389,7 +389,7 @@ export default function RideDetails(props) {
                         </View>
                         : null}
 
-                    {console.log("cccc" + JSON.stringify(paramData.courierNote))}
+
 
                     {paramData && paramData.carType ?
                         <View style={{ flexDirection: 'column', marginBottom: 10, marginTop: 10 }}>

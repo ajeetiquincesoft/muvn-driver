@@ -517,7 +517,7 @@ export default function MapScreen(props) {
 
     const selectCarType = (value, key) => {
 
-        console.log(value);
+        // console.log(value);
         let carTypes = allCarTypes;
         for (let i = 0; i < carTypes.length; i++) {
             carTypes[i].active = false;
