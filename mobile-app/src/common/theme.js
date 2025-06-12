@@ -39,7 +39,7 @@ export const colors = {
   BOX_BG: '#ffe446',
   BUTTON_LOADING: "blue",
   INDICATOR_BLUE: "#007aff",
-  START_TRIP: "#018E16",
+  START_TRIP: "#000",
   RE_GREEN: "#7ED957",
   new: "#eeeeee",
   new1: "#c6e2f6",

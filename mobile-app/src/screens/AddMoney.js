@@ -20,7 +20,7 @@ import { fonts } from '../common/font';
 export default function AddMoneyScreen(props) {
 
   const settings = useSelector(state => state.settingsdata.settings);
-  const { userdata, providers , tipamount } = props.route.params;
+  const { userdata, providers, tipamount } = props.route.params;
 
   const [state, setState] = useState({
     userdata: userdata,
@@ -33,33 +33,33 @@ export default function AddMoneyScreen(props) {
   const defaultAmount = ['5', '10', '20', '50', '100'];
 
   useEffect(() => {
-      let arr = [];
-      if( settings && settings.walletMoneyField && settings.walletMoneyField != ""){
-        const moneyField = settings.walletMoneyField.split(",");
-        for (let i = 0; i < moneyField.length; i++) {
-          arr.push({ amount: moneyField[i], selected: false });
-        }
-        
+    let arr = [];
+    if (settings && settings.walletMoneyField && settings.walletMoneyField != "") {
+      const moneyField = settings.walletMoneyField.split(",");
+      for (let i = 0; i < moneyField.length; i++) {
+        arr.push({ amount: moneyField[i], selected: false });
       }
-      else{
-        for (let i = 0; i < defaultAmount.length; i++) {
-          arr.push({ amount: defaultAmount[i], selected: false });
-        } 
-      }
-      if(tipamount && tipamount>0){
-        setState({...state, amount: tipamount.toString(), qickMoney: arr, payAuto: true});
-      } else {
-        setState({...state, amount: arr[0].amount, qickMoney: arr});
-      }
-  }, [settings, tipamount, setTimeout, payNow ]);
 
-  useEffect(()=>{
-    if(state.payAuto){
-      setState({...state, payAuto: false});
+    }
+    else {
+      for (let i = 0; i < defaultAmount.length; i++) {
+        arr.push({ amount: defaultAmount[i], selected: false });
+      }
+    }
+    if (tipamount && tipamount > 0) {
+      setState({ ...state, amount: tipamount.toString(), qickMoney: arr, payAuto: true });
+    } else {
+      setState({ ...state, amount: arr[0].amount, qickMoney: arr });
+    }
+  }, [settings, tipamount, setTimeout, payNow]);
+
+  useEffect(() => {
+    if (state.payAuto) {
+      setState({ ...state, payAuto: false });
       payNow()
     }
 
-  },[state.payAuto]);
+  }, [state.payAuto]);
 
   const quckAdd = (index) => {
     let quickM = state.qickMoney;
@@ -77,10 +77,10 @@ export default function AddMoneyScreen(props) {
   }
 
   const c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-  const reference = [...Array(4)].map(_ => c[~~(Math.random()*c.length)]).join('');
+  const reference = [...Array(4)].map(_ => c[~~(Math.random() * c.length)]).join('');
 
   const payNow = () => {
-    if(parseFloat(state.amount)>= 1){
+    if (parseFloat(state.amount) >= 1) {
       var d = new Date();
       var time = d.getTime();
       let payData = {
@@ -101,15 +101,15 @@ export default function AddMoneyScreen(props) {
           providers: state.providers
         });
       }
-    }else{
-      Alert.alert(t('alert'),t('valid_amount'));
+    } else {
+      Alert.alert(t('alert'), t('valid_amount'));
     }
   }
 
   const newData = ({ item, index }) => {
     return (
-      <TouchableOpacity style={[styles.boxView, { borderColor: item.selected ? MAIN_COLOR : SECONDORY_COLOR, borderWidth: 1}]} onPress={() => { quckAdd(index); }}>
-        {settings.swipe_symbol===false?
+      <TouchableOpacity style={[styles.boxView, { borderColor: item.selected ? MAIN_COLOR : SECONDORY_COLOR, borderWidth: 1 }]} onPress={() => { quckAdd(index); }}>
+        {settings.swipe_symbol === false ?
           <Text style={[styles.quckMoneyText, { color: colors.BLACK }]} >{settings.symbol}{item.amount}</Text>
           :
           <Text style={[styles.quckMoneyText, { color: colors.BLACK }]} >{item.amount}{settings.symbol}</Text>
@@ -125,32 +125,32 @@ export default function AddMoneyScreen(props) {
     <View style={styles.mainView}>
 
       <View style={styles.bodyContainer}>
-        <View style={[isRTL?{flexDirection:'row-reverse',alignItems: 'center'}:{flexDirection:'row',alignItems: 'center'}]}>
-        <Text style={styles.walletbalText }>{t('Balance')} </Text>
-        <Text>- </Text>
-        {settings.swipe_symbol===false?
-          <Text style={styles.ballance}>{settings.symbol}{state.userdata ? parseFloat(state.userdata.walletBalance).toFixed(settings.decimal) : ''}</Text>
-          :
-          <Text style={styles.ballance}>{state.userdata ? parseFloat(state.userdata.walletBalance).toFixed(settings.decimal) : ''}{settings.symbol}</Text>
-        }
-      </View>
-      <View style={styles.inputTextStyle}>
-        <TextInput
-          style={[isRTL?{textAlign:'right',fontSize:30}:{textAlign:'left',fontSize:30},{fontFamily:fonts.Regular}]}
-          placeholder={t('addMoneyTextInputPlaceholder') + " (" + settings.symbol + ")"}
-          keyboardType={'number-pad'}
-          onChangeText={(text) => setState({ ...state,amount: text })}
-          value={state.amount}
-        />
+        <View style={[isRTL ? { flexDirection: 'row-reverse', alignItems: 'center' } : { flexDirection: 'row', alignItems: 'center' }]}>
+          <Text style={styles.walletbalText}>{t('Balance')} </Text>
+          <Text>- </Text>
+          {settings.swipe_symbol === false ?
+            <Text style={styles.ballance}>{settings.symbol}{state.userdata ? parseFloat(state.userdata.walletBalance).toFixed(settings.decimal) : ''}</Text>
+            :
+            <Text style={styles.ballance}>{state.userdata ? parseFloat(state.userdata.walletBalance).toFixed(settings.decimal) : ''}{settings.symbol}</Text>
+          }
+        </View>
+        <View style={styles.inputTextStyle}>
+          <TextInput
+            style={[isRTL ? { textAlign: 'right', fontSize: 30 } : { textAlign: 'left', fontSize: 30 }, { fontFamily: fonts.Regular }]}
+            placeholder={t('addMoneyTextInputPlaceholder') + " (" + settings.symbol + ")"}
+            keyboardType={'number-pad'}
+            onChangeText={(text) => setState({ ...state, amount: text })}
+            value={state.amount}
+          />
         </View>
         <View style={styles.quickMoneyContainer}>
-            <FlatList
-              keyExtractor={(item, index) => index.toString()}
-              data={state.qickMoney}
-              renderItem={newData}
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}
-            />
+          <FlatList
+            keyExtractor={(item, index) => index.toString()}
+            data={state.qickMoney}
+            renderItem={newData}
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+          />
         </View>
         <TouchableOpacity
           style={styles.buttonWrapper2}
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
   },
   headerTitleStyle: {
     color: colors.WHITE,
-    fontFamily:fonts.Bold,
+    fontFamily: fonts.Bold,
     fontSize: 20
   },
 
@@ -186,10 +186,10 @@ const styles = StyleSheet.create({
   },
   walletbalText: {
     fontSize: 17,
-    fontFamily:fonts.Regular
+    fontFamily: fonts.Regular
   },
   ballance: {
-    fontFamily:fonts.Bold
+    fontFamily: fonts.Bold
   },
   inputTextStyle: {
     marginTop: 10,
@@ -208,9 +208,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   buttonTitle: {
-    color: colors.WHITE,
+    color: colors.BLACK,
     fontSize: 18,
-    fontFamily:fonts.Bold
+    fontFamily: fonts.Bold
   },
   quickMoneyContainer: {
     marginTop: 18,
@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
   },
   quckMoneyText: {
     fontSize: 16,
-    fontFamily:fonts.Regular
+    fontFamily: fonts.Regular
   }
 
 });

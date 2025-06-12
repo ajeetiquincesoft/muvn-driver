@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   buttonTitle: {
-    color: colors.WHITE,
+    color: colors.BLACK,
     fontSize: 18,
     fontFamily: fonts.Bold
   },

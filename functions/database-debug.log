@@ -31,3 +31,4 @@ the firebase.json emulators config.
 15:19:37.151 [NamespaceSystem-blocking-namespace-operation-dispatcher-40] INFO com.firebase.core.namespace.StateManager - Namespace muvnghanaproject-default-rtdb status Active to Active
 15:19:37.518 [NamespaceSystem-blocking-namespace-operation-dispatcher-40] INFO com.firebase.core.namespace.StateManager - Namespace muvnghanaproject-default-rtdb status Active to Active
 15:19:37.621 [NamespaceSystem-blocking-namespace-operation-dispatcher-40] INFO com.firebase.core.namespace.StateManager - Namespace muvnghanaproject-default-rtdb status Active to Active
+14:57:15.798 [Thread-0] INFO com.firebase.server.forge.App$ - Attempting graceful shutdown.
