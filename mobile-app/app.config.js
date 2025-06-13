@@ -22,8 +22,8 @@ export default {
     icon: "./assets/images/logo1024x1024.png",
     splash: {
         "image": "./assets/images/splash.png",
-        "resizeMode":'cover',
-        "backgroundColor": "#ffffff"
+        "resizeMode": 'cover',
+        "backgroundColor": "#F5DC46"
     },
     updates: {
         "fallbackToCacheTimeout": 0,
@@ -31,7 +31,7 @@ export default {
     },
     extra: {
         eas: {
-          projectId: AppConfig.expo_project_id
+            projectId: AppConfig.expo_project_id
         }
     },
     assetBundlePatterns: [
@@ -45,11 +45,11 @@ export default {
             image: "./assets/images/splash_ios.png",
             resizeMode: "cover",
             backgroundColor: "#ffffff",
-          },
+        },
         supportsTablet: true,
         usesAppleSignIn: true,
         bundleIdentifier: AppConfig.app_identifier,
-        entitlements:{
+        entitlements: {
             "com.apple.developer.devicecheck.appattest-environment": "production"
         },
         infoPlist: {
@@ -58,7 +58,7 @@ export default {
             "NSLocationWhenInUseUsageDescription": "For a reliable ride, App collects location data from the time you open the app until a trip ends. This improves pickups, support, and more.",
             "NSCameraUsageDescription": "This app uses the camera to take your profile picture.",
             "NSPhotoLibraryUsageDescription": "This app uses Photo Library for uploading your profile picture.",
-            "ITSAppUsesNonExemptEncryption":false,
+            "ITSAppUsesNonExemptEncryption": false,
             "UIBackgroundModes": [
                 "location",
                 "fetch",
@@ -68,22 +68,22 @@ export default {
         },
         privacyManifests: {
             "NSPrivacyAccessedAPITypes": [
-              {
-                "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryUserDefaults",
-                "NSPrivacyAccessedAPITypeReasons": ["CA92.1"]
-              },
-              {
-                "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryFileTimestamp",
-                "NSPrivacyAccessedAPITypeReasons": ["3B52.1"]
-              },
-              {
-                "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryDiskSpace",
-                "NSPrivacyAccessedAPITypeReasons": ["E174.1"]
-              },
-              {
-                "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategorySystemBootTime",
-                "NSPrivacyAccessedAPITypeReasons": ["35F9.1"]
-              }
+                {
+                    "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryUserDefaults",
+                    "NSPrivacyAccessedAPITypeReasons": ["CA92.1"]
+                },
+                {
+                    "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryFileTimestamp",
+                    "NSPrivacyAccessedAPITypeReasons": ["3B52.1"]
+                },
+                {
+                    "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryDiskSpace",
+                    "NSPrivacyAccessedAPITypeReasons": ["E174.1"]
+                },
+                {
+                    "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategorySystemBootTime",
+                    "NSPrivacyAccessedAPITypeReasons": ["35F9.1"]
+                }
             ]
         },
         config: {
@@ -107,7 +107,7 @@ export default {
             "ACCESS_BACKGROUND_LOCATION",
             "SCHEDULE_EXACT_ALARM"
         ],
-        blockedPermissions:["com.google.android.gms.permission.AD_ID"],
+        blockedPermissions: ["com.google.android.gms.permission.AD_ID"],
         googleServicesFile: "./google-services.json",
         config: {
             googleMaps: {
@@ -120,7 +120,7 @@ export default {
         "expo-font",
         "expo-apple-authentication",
         "expo-localization",
-        "@react-native-firebase/app", 
+        "@react-native-firebase/app",
         "@react-native-firebase/auth",
         [
             "expo-notifications",
@@ -134,16 +134,16 @@ export default {
         [
             "expo-build-properties",
             {
-              "ios": {
-                "useFrameworks": "static"
-              },
+                "ios": {
+                    "useFrameworks": "static"
+                },
             }
         ],
         [
             "expo-image-picker",
             {
-              "photosPermission": "This app uses Photo Library for uploading your profile picture.",
-              "cameraPermission": "This app uses the camera to take your profile picture."
+                "photosPermission": "This app uses Photo Library for uploading your profile picture.",
+                "cameraPermission": "This app uses the camera to take your profile picture."
             }
         ],
         [

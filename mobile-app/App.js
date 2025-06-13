@@ -45,9 +45,9 @@ export default function App() {
 
     const ReactNative = require('react-native');
     try {
-        ReactNative.I18nManager.allowRTL(false);
+      ReactNative.I18nManager.allowRTL(false);
     } catch (e) {
-        console.log(e);
+      console.log(e);
     }
 
     onLoad();
@@ -72,9 +72,9 @@ export default function App() {
         'Ubuntu-Medium': require('./assets/fonts/Ubuntu-Medium.ttf'),
         'Ubuntu-Light': require('./assets/fonts/Ubuntu-Light.ttf'),
         'Ubuntu-Bold': require('./assets/fonts/Ubuntu-Bold.ttf'),
-        "DancingScript-Bold":require('./assets/fonts/DancingScript-Bold.ttf'),
-        "DancingScript-Medium":require('./assets/fonts/DancingScript-Medium.ttf'),
-        "DancingScript-SemiBold":require('./assets/fonts/DancingScript-SemiBold.ttf')
+        "DancingScript-Bold": require('./assets/fonts/DancingScript-Bold.ttf'),
+        "DancingScript-Medium": require('./assets/fonts/DancingScript-Medium.ttf'),
+        "DancingScript-SemiBold": require('./assets/fonts/DancingScript-SemiBold.ttf')
       }),
     ]);
   };
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   imagebg: {
-    flex:1,
+    flex: 1,
     justifyContent: "flex-end",
     alignItems: 'center'
   }

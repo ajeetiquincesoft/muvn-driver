@@ -70,7 +70,7 @@ export default function Registration(props) {
     ];
 
     const vehicleTypeOptions = [
-        { label: 'A Rider', value: 'Driver' },
+        { label: 'Driver', value: 'Driver' },
         { label: 'Okada', value: 'Okada' },
         { label: 'Courier', value: 'Courier' },
     ];
