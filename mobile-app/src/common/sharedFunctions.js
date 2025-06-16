@@ -380,14 +380,25 @@ export const ExtraInfo = (props) => {
     const { t } = i18n;
     const isRTL = i18n.locale.indexOf('he') === 0 || i18n.locale.indexOf('ar') === 0;
     const { item, uid, amount, setAmount, styles } = props;
+
+    console.log(item);
     return (
         <>
+            {item.courierNote?.trim() ? (
+                <View style={[styles.textContainerStyle, { flexDirection: isRTL ? 'row-reverse' : 'row', flexWrap: 'wrap', flex: 1 }]}>
+                    <Text style={[styles.textHeading, { marginRight: 5 }]}>COURIER DETAIL -</Text>
+                    <Text style={[styles.textContent, { flex: 1, flexWrap: 'wrap' }]}>
+                        {item.courierNote}</Text>
+                </View>
+            ) : null}
             <View style={[styles.textContainerStyle, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
-                <Text style={styles.textHeading}>{t('payment_mode')} - </Text>
+                <Text style={styles.textHeading}>{t('payment_mode')} -</Text>
                 <Text style={styles.textContent}>
                     {t(item.payment_mode)}
                 </Text>
             </View>
+
+
         </>
     )
 }

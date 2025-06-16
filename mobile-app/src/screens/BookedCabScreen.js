@@ -1215,6 +1215,7 @@ export default function BookedCabScreen(props) {
                         </View>
                     </ScrollView>
                 </View>
+
                 {(curBooking && curBooking.status == 'ARRIVED' || curBooking && curBooking.status == 'ACCEPTED' || curBooking && curBooking.status == 'REACHED' || curBooking && curBooking.status == 'PAID' || curBooking && curBooking.status == 'STARTED') ?
                     <View style={{ justifyContent: 'space-around', alignItems: 'center', flexDirection: isRTL ? 'row-reverse' : 'row', height: 55 }}>
                         <View style={{ alignItems: 'center' }}>
@@ -1236,6 +1237,26 @@ export default function BookedCabScreen(props) {
                         </View>
                     </View>
                     : null}
+
+                {curBooking &&
+                    (
+                        ['ARRIVED', 'ACCEPTED', 'REACHED', 'PAID', 'STARTED'].includes(curBooking.status) &&
+                        curBooking.courierNote?.trim()
+                    ) ? (
+                    <View style={{ justifyContent: 'space-around', alignItems: 'flex-start', flexDirection: isRTL ? 'row-reverse' : 'row', padding: 10 }}>
+                        <View style={{ flex: 1 }}>
+                            <Text style={{ fontFamily: fonts.Bold, marginBottom: 5 }}>
+                                COURIER DETAIL
+                            </Text>
+                            <Text
+                                style={{ fontFamily: fonts.Regular, flexWrap: 'wrap', flexShrink: 1 }}
+                            >
+                                {curBooking.courierNote}
+                            </Text>
+                        </View>
+                    </View>
+                ) : null}
+
                 {curBooking && curBooking.status == "NEW" && (curBooking.bookLater == false || (curBooking.bookLater && (((new Date(curBooking.tripdate)) - (new Date())) / (1000 * 60)) <= 15)) ?
                     <View style={{ width: width, height: 'auto', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                         <Image style={{ width: 40, height: 40 }} source={require('../../assets/images/loader.gif')} />
