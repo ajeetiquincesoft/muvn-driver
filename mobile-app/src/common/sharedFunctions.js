@@ -37,7 +37,7 @@ export const FormIcon = (props) => {
     </View>
 }
 
-export const CarHorizontal = (props) => {
+export const CarHorizontalold = (props) => {
     const { t } = i18n;
     const isRTL = i18n.locale.indexOf('he') === 0 || i18n.locale.indexOf('ar') === 0;
     const { onPress, carData, settings, styles } = props;
@@ -120,6 +120,185 @@ export const CarHorizontal = (props) => {
         </TouchableOpacity>
     )
 }
+
+export const CarHorizontal = (props) => {
+    const { t } = i18n;
+    const isRTL = i18n.locale.indexOf('he') === 0 || i18n.locale.indexOf('ar') === 0;
+    const { onPress, carData, settings, styles } = props;
+
+    const [open, setOpen] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [inputText, setInputText] = useState('');
+    const [inputError, setInputError] = useState(false);
+
+    const handlePress = () => {
+        if (carData.name.toLowerCase() === 'courier') {
+            setModalVisible(true);
+        } else {
+            onPress && onPress();
+        }
+    };
+
+    const handleModalClose = () => {
+        if (!inputText.trim()) {
+            carData.active = false;
+        }
+        setModalVisible(false);
+        setInputError(false);
+    };
+
+    const handleSubmit = () => {
+        if (!inputText.trim()) {
+            setInputError(true);
+            return;
+        }
+        carData.courierNote = inputText.trim();
+        setModalVisible(false);
+        setInputError(false);
+        onPress && onPress();
+    };
+
+    const truncateText = (text, maxLength) => {
+        if (text.length > maxLength) {
+            return text.substring(0, maxLength) + '...';
+        }
+        return text;
+    };
+
+    return (
+        <>
+            <TouchableOpacity onPress={handlePress} style={{ height: '100%' }}>
+                <View style={styles.imageStyle}>
+                    <Image
+                        resizeMode="contain"
+                        source={carData.image ? { uri: carData.image } : require('../../assets/images/microBlackCar.png')}
+                        style={styles.imageStyle1}
+                    />
+                </View>
+
+                <View style={styles.textViewStyle}>
+                    <Text style={styles.text1}>{t(getLangKey(carData.name.toUpperCase()))}</Text>
+                    {carData.extra_info ? (
+                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                            <View style={{ flexDirection: 'column', alignItems: 'center', marginTop: 5 }}>
+                                {carData.extra_info.split(',').map((ln) => (
+                                    <Text style={styles.text2} key={ln}>
+                                        {truncateText(ln, 12)}
+                                    </Text>
+                                ))}
+                            </View>
+
+                            <Tooltip
+                                style={{ marginLeft: 3, marginRight: 3 }}
+                                backgroundColor="#ffff"
+                                visible={open}
+                                overlayColor="rgba(50, 50, 50, 0.70)"
+                                height={100 + 30 * carData.extra_info.split(',').length}
+                                width={100 + 30 * carData.extra_info.split(',').length}
+                                skipAndroidStatusBar={true}
+                                containerStyle={{ height: 'auto', maxWidth: Dimensions.get('window').width - 20 }}
+                                onOpen={() => setOpen(true)}
+                                onClose={() => setOpen(false)}
+                                popover={
+                                    <View style={{ flexDirection: 'column', gap: 20 }}>
+                                        {carData.extra_info.split(',').map((ln) => (
+                                            <Text key={ln} style={{ fontFamily: fonts.Regular }}>
+                                                {ln}
+                                            </Text>
+                                        ))}
+                                    </View>
+                                }
+                            >
+                                <Icon name="information-circle-outline" type="ionicon" color="#517fa4" size={20} />
+                            </Tooltip>
+                        </View>
+                    ) : null}
+
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 10, marginTop: 5 }}>
+                        {settings.swipe_symbol === false ? (
+                            <Text style={[styles.text2, { fontFamily: fonts.Bold, color: colors.MAP_TEXT }]}>
+                                {settings.symbol}
+                                {carData.rate_per_unit_distance} / {settings.convert_to_mile ? t('mile') : t('km')}
+                            </Text>
+                        ) : (
+                            <Text style={[styles.text2, { fontFamily: fonts.Bold, color: colors.MAP_TEXT }]}>
+                                {carData.rate_per_unit_distance}
+                                {settings.symbol} / {settings.convert_to_mile ? t('mile') : t('km')}
+                            </Text>
+                        )}
+                    </View>
+
+                    <Text style={styles.text2}>
+                        ({carData.minTime !== '' ? carData.minTime : t('not_available')})
+                    </Text>
+                </View>
+            </TouchableOpacity>
+
+            {/* Courier Modal */}
+            <Modal
+                visible={modalVisible}
+                transparent={true}
+                animationType="slide"
+                onRequestClose={() => { }}
+            >
+                <View style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: 'rgba(0,0,0,0.5)'
+                }}>
+                    <View style={{
+                        width: '85%',
+                        backgroundColor: 'white',
+                        borderRadius: 10,
+                        padding: 20
+                    }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <Text style={{ fontSize: 16, marginBottom: 10 }}>Enter courier details</Text>
+                            <TouchableOpacity onPress={handleModalClose}>
+                                <Icon name="close" size={24} />
+                            </TouchableOpacity>
+                        </View>
+
+                        <TextInput
+                            value={inputText}
+                            onChangeText={(val) => {
+                                setInputText(val);
+                                if (val.trim()) setInputError(false);
+                            }}
+                            placeholder='Type something...'
+                            multiline={true}
+                            numberOfLines={4}
+                            style={{
+                                borderWidth: 1,
+                                borderColor: inputError ? 'red' : '#ccc',
+                                padding: 10,
+                                borderRadius: 5,
+                                marginBottom: 10,
+                                textAlignVertical: 'top'
+                            }}
+                        />
+                        {inputError && <Text style={{ color: 'red', marginBottom: 10 }}>Input is required</Text>}
+
+                        <TouchableOpacity
+                            onPress={handleSubmit}
+                            style={{
+                                backgroundColor: colors.YELLOW,
+                                borderRadius: 10,
+                                height: 50,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                marginTop: 5
+                            }}
+                        >
+                            <Text style={{ color: 'black', fontSize: 16, fontWeight: 'bold' }}>Submit</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
+        </>
+    );
+};
 
 export const CarVertical = (props) => {
     const { t } = i18n;

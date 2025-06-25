@@ -7,14 +7,13 @@ import {
     Text,
     Platform,
     Alert,
-    ScrollView,
     StatusBar,
     Animated,
     ImageBackground,
     Linking,
     ActivityIndicator
 } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements';
 import { colors } from '../common/theme';
 import * as Location from 'expo-location';
@@ -128,6 +127,36 @@ export default function MapScreen(props) {
     const [otherPerson, setOtherPerson] = useState(false)
     const [offerFare, setOfferFare] = useState(0);
     const [minimumPrice, setMinimumPrice] = useState(0);
+    const cardData = [
+        {
+            image: require('../../assets/images/courier1.png'),
+            text: 'Send Courier',
+            style: { backgroundColor: '#fff' } // yellow
+        },
+        {
+            image: require('../../assets/images/courier2.png'),
+            text: 'Receive Courier',
+            style: { backgroundColor: '#fff' } // pink
+        },
+        {
+            image: require('../../assets/images/courier3.png'),
+            text: 'Courier From Store',
+            style: { backgroundColor: '#fff' } // green
+        }
+    ];
+
+    const cardCommingData = [
+        {
+            image: require('../../assets/images/food.png'),
+            text: 'Food Delivery',
+            style: { backgroundColor: '#fff' } // yellow
+        },
+        {
+            image: require('../../assets/images/gas.png'),
+            text: 'Gas Delivery',
+            style: { backgroundColor: '#fff' } // pink
+        }
+    ];
 
     useEffect(() => {
         if (settings && settings.bookingFlow) {
@@ -1123,58 +1152,109 @@ export default function MapScreen(props) {
     }
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 160 }} showsVerticalScrollIndicator={false}>
+
             <StatusBar hidden={true} />
+
             <View style={styles.mapcontainer}>
-                {region && region.latitude && pageActive.current ?
+                {region && region.latitude && pageActive.current ? (
                     <MapView
                         ref={mapRef}
                         provider={PROVIDER_GOOGLE}
-                        showsUserLocation={true}
+                        showsUserLocation={false}
                         loadingEnabled
                         showsMyLocationButton={false}
-                        style={styles.mapViewStyle}
+                        style={[
+                            styles.mapViewStyle,
+                            {
+                                opacity:
+                                    tripdata.pickup?.source === 'mapSelect' || tripdata.drop?.source === 'mapSelect'
+                                        ? 1
+                                        : 0,
+                            },
+                        ]}
                         initialRegion={region}
                         onRegionChangeComplete={onRegionChangeComplete}
                         onPanDrag={() => setDragging(30)}
                         minZoomLevel={11}
                     >
-                        {freeCars ? freeCars.map((item, index) => {
-                            return (
+                        {freeCars
+                            ? freeCars.map((item, index) => (
                                 <Marker.Animated
-                                    coordinate={{ latitude: item.location ? item.location.lat : 0.00, longitude: item.location ? item.location.lng : 0.00 }}
+                                    coordinate={{
+                                        latitude: item.location ? item.location.lat : 0.0,
+                                        longitude: item.location ? item.location.lng : 0.0,
+                                    }}
                                     key={index}
                                 >
                                     <Image
                                         key={index}
-                                        source={settings && settings.carType_required && item.carImage ? { uri: item.carImage } : require('../../assets/images/microBlackCar.png')}
+                                        source={
+                                            settings && settings.carType_required && item.carImage
+                                                ? { uri: item.carImage }
+                                                : require('../../assets/images/microBlackCar.png')
+                                        }
                                         style={{ height: 48, width: 48, resizeMode: 'contain' }}
                                     />
                                 </Marker.Animated>
-
-                            )
-                        })
+                            ))
                             : null}
                     </MapView>
-                    : null}
-                {region ?
-                    tripdata.selected == 'pickup' ?
-                        <View pointerEvents="none" style={styles.mapFloatingPinView}>
-                            <Image pointerEvents="none" style={[styles.mapFloatingPin, { marginBottom: Platform.OS == 'ios' ? (hasNotch ? (-10 + dragging) : 33) : 40 }]} resizeMode="contain" source={require('../../assets/images/green_pin.png')} />
-                        </View>
-                        :
-                        <View pointerEvents="none" style={styles.mapFloatingPinView}>
-                            <Image pointerEvents="none" style={[styles.mapFloatingPin, { marginBottom: Platform.OS == 'ios' ? (hasNotch ? (-10 + dragging) : 33) : 40 }]} resizeMode="contain" source={require('../../assets/images/rsz_2red_pin.png')} />
-                        </View>
-                    : null}
-                {(!(tripdata.pickup && tripdata.pickup.source == 'mapSelect')) ? tripdata.selected == 'pickup' ?
+                ) : null}
+
+
+                {region && (
+                    (tripdata.pickup?.source === 'mapSelect' || tripdata.drop?.source === 'mapSelect') ? (
+                        tripdata.selected === 'pickup' ? (
+                            <View pointerEvents="none" style={styles.mapFloatingPinView}>
+                                <Image
+                                    pointerEvents="none"
+                                    style={[
+                                        styles.mapFloatingPin,
+                                        {
+                                            marginBottom:
+                                                Platform.OS === 'ios'
+                                                    ? hasNotch
+                                                        ? -10 + dragging
+                                                        : 33
+                                                    : 40,
+                                        },
+                                    ]}
+                                    resizeMode="contain"
+                                    source={require('../../assets/images/green_pin.png')}
+                                />
+                            </View>
+                        ) : (
+                            <View pointerEvents="none" style={styles.mapFloatingPinView}>
+                                <Image
+                                    pointerEvents="none"
+                                    style={[
+                                        styles.mapFloatingPin,
+                                        {
+                                            marginBottom:
+                                                Platform.OS === 'ios'
+                                                    ? hasNotch
+                                                        ? -10 + dragging
+                                                        : 33
+                                                    : 40,
+                                        },
+                                    ]}
+                                    resizeMode="contain"
+                                    source={require('../../assets/images/rsz_2red_pin.png')}
+                                />
+                            </View>
+                        )
+                    ) : null
+                )}
+
+                {(tripdata.pickup?.source === 'mapSelect' || tripdata.drop?.source === 'mapSelect') && (
                     <View style={[styles.locationButtonView, {
                         bottom: settings && settings.horizontal_view ? 180 : isEditing ?
                             allCarTypes && allCarTypes.length > 0 ?
-                                allCarTypes.length == 1 ?
+                                allCarTypes.length === 1 ?
                                     110
                                     :
-                                    allCarTypes.length == 2 ?
+                                    allCarTypes.length === 2 ?
                                         185
                                         :
                                         260
@@ -1190,50 +1270,25 @@ export default function MapScreen(props) {
                             />
                         </TouchableOpacity>
                     </View>
-                    : null : null}
+                )}
                 {locationRejected ?
                     <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center' }}>
                         <Text style={{ fontFamily: fonts.Regular }} >{t('location_permission_error')}</Text>
                     </View>
                     : null}
             </View>
-            <View style={[styles.buttonBar, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
-                {bookLoading || bookLaterLoading ?
-                    <View style={{ flex: 1, borderRadius: 10, height: 55, margin: 3, justifyContent: 'center', borderWidth: 1, borderColor: MAIN_COLOR }}>
-                        <ActivityIndicator color={MAIN_COLOR} size='large' />
-                    </View>
-                    :
-                    <View style={[styles.buttonBar, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
-                        <View style={{ flex: 1, margin: 2, borderRadius: 10, height: 55 }}>
-                            <Button
-                                title={((tripdata.pickup && tripdata.pickup.source == 'mapSelect') || (tripdata.drop && tripdata.drop.source == 'mapSelect')) ? t('cancel') : t('book_later_button')}
-                                loading={bookLaterLoading}
-                                loadingColor={{ color: colors.BLACK }}
-                                buttonStyle={[styles.buttonTitleStyle, { color: colors.WHITE, }]}
-                                btnClick={((tripdata.pickup && tripdata.pickup.source == 'mapSelect') || (tripdata.drop && tripdata.drop.source == 'mapSelect')) ? onMapSelectComplete : onPressBookLater}
-                                style={{ backgroundColor: SECONDORY_COLOR, height: '100%', padding: 2 }}
-                            />
-                        </View>
 
-                        <View style={{ flex: 1, margin: 3, borderRadius: 10, height: 55, }}>
-                            <Button
-                                title={((tripdata.pickup && tripdata.pickup.source == 'mapSelect') || (tripdata.drop && tripdata.drop.source == 'mapSelect')) ? t('ok') : t('book_now_button')}
-                                loading={bookLoading}
-                                loadingColor={{ color: colors.WHITE }}
-                                buttonStyle={[styles.buttonTitleStyle, { color: colors.BLACK, }]}
-                                btnClick={((tripdata.pickup && tripdata.pickup.source == 'mapSelect') || (tripdata.drop && tripdata.drop.source == 'mapSelect')) ? onMapSelectComplete : onPressBook}
-                                style={{ backgroundColor: MAIN_COLOR, height: '100%', padding: 2 }}
-                            />
-                        </View>
-                    </View>
-                }
-            </View>
-            <View style={styles.menuIcon}>
+
+
+            {/* header text */}
+            {/* <View style={styles.menuIcon}>
                 <ImageBackground source={require('../../assets/images/white-grad6.png')} style={{ height: '100%', width: '100%' }}>
                     <Text style={{ color: colors.BLACK, fontFamily: fonts.Bold, fontSize: 20, alignSelf: 'center', marginTop: Platform.OS == 'android' ? (__DEV__ ? 20 : 40) : (hasNotch ? 48 : 20) }}>{((tripdata.pickup && tripdata.pickup.source == 'mapSelect') || (tripdata.drop && tripdata.drop.source == 'mapSelect')) ? t("drag_map") : t("book_ride")}</Text>
                 </ImageBackground>
-            </View>
+            </View> */}
 
+
+            {/* Address Bar  */}
             {gps.error || (!checkTerm && settings.term_required) || (!auth.profile.approved) ?
                 <View style={{
                     position: 'absolute', width: width - 20, margin: 10, borderRadius: 8, flexDirection: 'column', alignItems: 'center', backgroundColor: colors.new,
@@ -1280,36 +1335,213 @@ export default function MapScreen(props) {
                         : null}
                 </View>
                 :
-                <View style={[styles.addressBar, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
-                    <View style={styles.ballandsquare}>
-                        {((tripdata.pickup && tripdata.pickup.source == 'mapSelect') || (tripdata.drop && tripdata.drop.source == 'mapSelect')) ?
-                            (tripdata.pickup && tripdata.pickup.source == 'mapSelect') ? <View style={styles.hbox1} /> : <View style={styles.hbox3} /> :
-                            <><View style={styles.hbox1} /><View style={styles.hbox2} /><View style={styles.hbox3} /></>
-                        }
+                <View style={{ position: 'absolute' }}>
+
+                    <View style={styles.menuIcon}>
+                        <ImageBackground source={require('../../assets/images/white-grad6.png')} style={{ height: '100%', width: '100%' }}>
+                            <Text style={{ color: colors.BLACK, fontFamily: fonts.Bold, fontSize: 20, alignSelf: 'center', marginTop: Platform.OS == 'android' ? (__DEV__ ? 20 : 40) : (hasNotch ? 48 : 20) }}>{((tripdata.pickup && tripdata.pickup.source == 'mapSelect') || (tripdata.drop && tripdata.drop.source == 'mapSelect')) ? t("drag_map") : t("book_ride")}</Text>
+                        </ImageBackground>
                     </View>
 
-                    {((tripdata.pickup && tripdata.pickup.source == 'mapSelect') || (tripdata.drop && tripdata.drop.source == 'mapSelect')) ?
-                        <View style={[styles.addressStyle1, isRTL ? { paddingRight: 10 } : { paddingLeft: 10 }, { borderBottomWidth: 0 }]}>
-                            {(tripdata.pickup && tripdata.pickup.source == 'mapSelect') ?
-                                <Text numberOfLines={1} style={[styles.textStyle, tripdata.selected == 'pickup' ? { fontSize: 18 } : { fontSize: 14 }, { textAlign: isRTL ? "right" : "left" }]}>{tripdata.pickup && tripdata.pickup.add ? tripdata.pickup.add : t('map_screen_where_input_text')}</Text>
+                    <View style={{ width: width - 20, marginHorizontal: 10, borderWidth: 1, borderRadius: 20, borderColor: '#0000003D', padding: 10, justifyContent: 'center', alignItems: 'center', }}>
+
+                        <View style={styles.addressBar}>
+
+                            <View style={styles.ballandsquare}>
+                                {((tripdata.pickup && tripdata.pickup.source == 'mapSelect') || (tripdata.drop && tripdata.drop.source == 'mapSelect')) ?
+                                    (tripdata.pickup && tripdata.pickup.source == 'mapSelect') ? <View style={styles.hbox1} /> : <View style={styles.hbox3} /> :
+                                    <><View style={styles.hbox1} /><View style={styles.hbox2} /><View style={styles.hbox3} /></>
+                                }
+                            </View>
+
+                            {((tripdata.pickup && tripdata.pickup.source == 'mapSelect') || (tripdata.drop && tripdata.drop.source == 'mapSelect')) ?
+                                <View style={[styles.addressStyle1, isRTL ? { paddingRight: 10 } : { paddingLeft: 10 }, { borderBottomWidth: 0 }]}>
+                                    {(tripdata.pickup && tripdata.pickup.source == 'mapSelect') ?
+                                        <Text numberOfLines={1} style={[styles.textStyle, tripdata.selected == 'pickup' ? { fontSize: 18 } : { fontSize: 14 }, { textAlign: isRTL ? "right" : "left" }]}>{tripdata.pickup && tripdata.pickup.add ? tripdata.pickup.add : t('map_screen_where_input_text')}</Text>
+                                        :
+                                        <Text numberOfLines={1} style={[styles.textStyle, tripdata.selected == 'drop' ? { fontSize: 18 } : { fontSize: 14 }, { textAlign: isRTL ? "right" : "left" }]}>{tripdata.drop && tripdata.drop.add ? tripdata.drop.add : t('map_screen_drop_input_text')}</Text>
+                                    }
+                                </View>
                                 :
-                                <Text numberOfLines={1} style={[styles.textStyle, tripdata.selected == 'drop' ? { fontSize: 18 } : { fontSize: 14 }, { textAlign: isRTL ? "right" : "left" }]}>{tripdata.drop && tripdata.drop.add ? tripdata.drop.add : t('map_screen_drop_input_text')}</Text>
+                                <View style={[styles.contentStyle, isRTL ? { paddingRight: 10 } : { paddingLeft: 10 }, { height: 100 }]}>
+                                    <TouchableOpacity onPress={() => tapAddress('pickup')} style={styles.addressStyle1}>
+                                        <Text numberOfLines={1} style={[styles.textStyle, tripdata.selected == 'pickup' ? { fontSize: 18 } : { fontSize: 14 }, { textAlign: isRTL ? "right" : "left" }]}>{tripdata.pickup && tripdata.pickup.add ? tripdata.pickup.add : t('map_screen_where_input_text')}</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={() => tapAddress('drop')} style={styles.addressStyle2}>
+                                        <Text numberOfLines={1} style={[styles.textStyle, tripdata.selected == 'drop' ? { fontSize: 18 } : { fontSize: 14 }, { textAlign: isRTL ? "right" : "left" }]}>{tripdata.drop && tripdata.drop.add ? tripdata.drop.add : t('map_screen_drop_input_text')}</Text>
+                                    </TouchableOpacity>
+                                </View>
                             }
                         </View>
-                        :
-                        <View style={[styles.contentStyle, isRTL ? { paddingRight: 10 } : { paddingLeft: 10 }, { height: 100 }]}>
-                            <TouchableOpacity onPress={() => tapAddress('pickup')} style={styles.addressStyle1}>
-                                <Text numberOfLines={1} style={[styles.textStyle, tripdata.selected == 'pickup' ? { fontSize: 18 } : { fontSize: 14 }, { textAlign: isRTL ? "right" : "left" }]}>{tripdata.pickup && tripdata.pickup.add ? tripdata.pickup.add : t('map_screen_where_input_text')}</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => tapAddress('drop')} style={styles.addressStyle2}>
-                                <Text numberOfLines={1} style={[styles.textStyle, tripdata.selected == 'drop' ? { fontSize: 18 } : { fontSize: 14 }, { textAlign: isRTL ? "right" : "left" }]}>{tripdata.drop && tripdata.drop.add ? tripdata.drop.add : t('map_screen_drop_input_text')}</Text>
-                            </TouchableOpacity>
+
+                        {(tripdata.pickup && tripdata.pickup.source == 'mapSelect') || (tripdata.drop && tripdata.drop.source == 'mapSelect') ? null :
+                            <>
+                                {settings && settings.horizontal_view ?
+
+                                    <View style={styles.fullCarView}>
+                                        <ScrollView horizontal={true} style={styles.fullCarScroller} showsHorizontalScrollIndicator={false}>
+                                            {allCarTypes.map((prop, key) => {
+                                                return (
+                                                    <View key={key} style={[styles.cabDivStyle, { borderWidth: 2, borderColor: prop.active == true ? '#000' : colors.WHITE }]}>
+                                                        <CarHorizontal
+                                                            onPress={() => { selectCarType(prop, key) }}
+                                                            carData={prop}
+                                                            settings={settings}
+                                                            styles={styles}
+                                                        />
+                                                    </View>
+                                                );
+                                            })}
+                                        </ScrollView>
+                                    </View>
+                                    :
+                                    ''
+                                }
+
+                                {isEditing == true && settings && !settings.horizontal_view ?
+                                    <View style={[styles.carShow, { paddingTop: 10, height: allCarTypes.length === 1 ? 110 : allCarTypes.length === 2 ? 182 : 250, minHeight: 80, alignItems: 'center', flexDirection: 'column', backgroundColor: isEditing == true ? colors.BACKGROUND_PRIMARY : colors.WHITE }]}
+                                        onTouchStart={e => setTouchY(e.nativeEvent.pageY)}
+                                        onTouchEnd={e => {
+                                            if ((touchY - e.nativeEvent.pageY > 10) && !isEditing)
+                                                setIsEditing(!isEditing);
+                                            if ((e.nativeEvent.pageY - touchY > 10) && isEditing)
+                                                setIsEditing(!isEditing);
+                                        }}
+                                    >
+                                        <View style={[styles.bar, { backgroundColor: MAIN_COLOR }]} ></View>
+
+                                        <Animated.View style={{ alignItems: 'center', backgroundColor: colors.BACKGROUND_PRIMARY, flex: animation, paddingTop: 6 }}>
+                                            {allCarTypes && allCarTypes.length > 0 ?
+                                                <ScrollView vertical={true} showsVerticalScrollIndicator={false}>
+                                                    {allCarTypes.map((prop, index) => {
+                                                        return (
+                                                            <CarVertical
+                                                                onPress={() => { selectCarType(prop, index) }}
+                                                                carData={prop}
+                                                                settings={settings}
+                                                                styles={styles}
+                                                                key={index}
+                                                            />
+                                                        );
+                                                    })}
+                                                </ScrollView>
+                                                :
+                                                <Text style={{ color: colors.HEADER, fontFamily: fonts.Bold, fontSize: 20, justifyContent: 'center' }}>{t("service_start_soon")}</Text>
+                                            }
+                                        </Animated.View>
+                                    </View>
+                                    : null}
+                            </>
+                        }
+                        {/* bottom button */}
+                        <View style={[styles.buttonBar, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                            {bookLoading || bookLaterLoading ?
+                                <View style={{ flex: 1, borderRadius: 10, height: 55, margin: 3, justifyContent: 'center', borderWidth: 1, borderColor: MAIN_COLOR }}>
+                                    <ActivityIndicator color={MAIN_COLOR} size='large' />
+                                </View>
+                                :
+                                <View style={[styles.buttonBar, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                                    <View style={{ flex: 1, margin: 2, borderRadius: 10, height: 55 }}>
+                                        <Button
+                                            title={((tripdata.pickup && tripdata.pickup.source == 'mapSelect') || (tripdata.drop && tripdata.drop.source == 'mapSelect')) ? t('cancel') : t('book_later_button')}
+                                            loading={bookLaterLoading}
+                                            loadingColor={{ color: colors.BLACK }}
+                                            buttonStyle={[styles.buttonTitleStyle, { color: colors.WHITE, }]}
+                                            btnClick={((tripdata.pickup && tripdata.pickup.source == 'mapSelect') || (tripdata.drop && tripdata.drop.source == 'mapSelect')) ? onMapSelectComplete : onPressBookLater}
+                                            style={{ backgroundColor: SECONDORY_COLOR, height: '100%', padding: 2 }}
+                                        />
+                                    </View>
+
+                                    <View style={{ flex: 1, margin: 3, borderRadius: 10, height: 55, }}>
+                                        <Button
+                                            title={((tripdata.pickup && tripdata.pickup.source == 'mapSelect') || (tripdata.drop && tripdata.drop.source == 'mapSelect')) ? t('ok') : t('book_now_button')}
+                                            loading={bookLoading}
+                                            loadingColor={{ color: colors.WHITE }}
+                                            buttonStyle={[styles.buttonTitleStyle, { color: colors.BLACK, }]}
+                                            btnClick={((tripdata.pickup && tripdata.pickup.source == 'mapSelect') || (tripdata.drop && tripdata.drop.source == 'mapSelect')) ? onMapSelectComplete : onPressBook}
+                                            style={{ backgroundColor: MAIN_COLOR, height: '100%', padding: 2 }}
+                                        />
+                                    </View>
+                                </View>
+                            }
                         </View>
-                    }
+                    </View>
+                    {!(tripdata.pickup?.source === 'mapSelect' || tripdata.drop?.source === 'mapSelect') && (
+                        <>
+                            <ImageBackground
+                                source={require('../../assets/images/taxi2.png')} // your image path
+                                style={styles.bannerCard}
+                                imageStyle={{ borderRadius: 12 }} // optional rounded corners
+                            >
+                                <View style={styles.textContainer}>
+                                    <Text style={styles.title}>Unlock your discount</Text>
+                                    <Text style={styles.title}>by applying the promo code</Text>
+                                    <Text style={styles.title}>during payment.</Text>
+
+                                    <TouchableOpacity style={styles.button}>
+                                        <Text style={styles.buttonText}>Book Now</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </ImageBackground>
+                            <View style={styles.section}>
+                                <Text style={styles.heading}>MUVN Courier Services</Text>
+
+                                <ScrollView
+                                    horizontal
+                                    showsHorizontalScrollIndicator={false}
+                                    contentContainerStyle={styles.scrollContainer}
+                                >
+                                    {cardData.map((item, index) => (
+                                        <TouchableOpacity key={index} style={[styles.card, item.style]}>
+                                            <Image source={item.image} style={styles.cardImage} />
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={styles.cardText}>{item.text}</Text>
+                                                <Icon
+                                                    name="arrow-right"
+                                                    type="feather"
+                                                    color="#000"
+                                                    size={17}
+                                                    containerStyle={styles.arrow}
+                                                />
+                                            </View>
+
+                                        </TouchableOpacity>
+                                    ))}
+                                </ScrollView>
+                            </View>
+                            <View style={styles.section}>
+                                <Text style={styles.heading}>MUVN Upcoming Services</Text>
+
+                                <ScrollView
+                                    horizontal
+                                    showsHorizontalScrollIndicator={false}
+                                    contentContainerStyle={styles.scrollContainer}
+                                >
+                                    {cardCommingData.map((item, index) => (
+                                        <TouchableOpacity key={index} style={[styles.card, item.style]}>
+                                            <Image source={item.image} style={styles.cardImage} />
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={styles.cardText}>{item.text}</Text>
+                                                <Icon
+                                                    name="arrow-right"
+                                                    type="feather"
+                                                    color="#000"
+                                                    size={17}
+                                                    containerStyle={styles.arrow}
+                                                />
+                                            </View>
+                                        </TouchableOpacity>
+                                    ))}
+                                </ScrollView>
+                            </View>
+
+                        </>
+                    )}
                 </View>
             }
 
-            {(tripdata.pickup && tripdata.pickup.source == 'mapSelect') || (tripdata.drop && tripdata.drop.source == 'mapSelect') ? null :
+
+            {/* {(tripdata.pickup && tripdata.pickup.source == 'mapSelect') || (tripdata.drop && tripdata.drop.source == 'mapSelect') ? null :
                 <>
                     {settings && settings.horizontal_view ?
 
@@ -1377,7 +1609,7 @@ export default function MapScreen(props) {
                         </View>
                         : null}
                 </>
-            }
+            } */}
 
             <OptionModal
                 settings={settings}
@@ -1430,22 +1662,113 @@ export default function MapScreen(props) {
                 minimumDate={new Date()}
                 theme='light'
             />
-        </View>
+        </ScrollView>
     );
 
 }
 
 const styles = StyleSheet.create({
+    section: {
+        marginVertical: 16,
+    },
+    heading: {
+        fontSize: 20,
+        fontWeight: '700',
+        color: '#000',
+        marginLeft: 16,
+        marginBottom: 10,
+    },
+    scrollContainer: {
+        paddingHorizontal: 12,
+    },
+    card: {
+        width: 196,
+        height: 162,
+        // borderRadius: 12,
+        marginRight: 16,
+        // padding: 20,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        // shadowColor: '#000',
+        // shadowOffset: { width: 0, height: 3 },
+        // shadowOpacity: 0.1,
+        // shadowRadius: 4,
+        // elevation: 3,
+    },
+    cardImage: {
+        width: 196,
+        height: 120,
+        resizeMode: 'cover',
+        borderRadius: 20
+    },
+    cardText: {
+        fontSize: 17,
+        color: '#000',
+        fontWeight: '600',
+        // textAlign: 'center',
+    },
+    arrow: {
+        marginLeft: 5,
+        marginTop: 2,
+    },
+    bannerCard: {
+        // width: width - 20,
+        height: 150,
+        backgroundColor: '#FFF2DC',
+        borderRadius: 20,
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 16,
+        justifyContent: 'space-between',
+        elevation: 3,
+        margin: 10
+    },
+    textContainer: {
+        flex: 1,
+    },
+    title: {
+        fontSize: 18,
+        fontWeight: '600',
+        color: '#000',
+    },
+    subtitle: {
+        fontSize: 16,
+        color: '#000',
+        marginTop: 4,
+        marginBottom: 10,
+    },
+    button: {
+        backgroundColor: '#fff',
+        paddingHorizontal: 16,
+        paddingVertical: 6,
+        borderRadius: 20,
+        marginTop: 10,
+        alignSelf: 'flex-start',
+    },
+    buttonText: {
+        color: '#000',
+        fontSize: 14,
+        fontWeight: '500',
+    },
+    taxiImage: {
+        width: 80,
+        height: 80,
+        resizeMode: 'contain',
+        // marginLeft: 10,
+    },
     container: {
         flex: 1,
         backgroundColor: colors.WHITE,
+        paddingBottom: 250,
+        // marginBottom: -10
+
     },
     menuIcon: {
-        height: 100,
+        height: 60,
         width: '100%',
         alignItems: 'center',
         justifyContent: 'center',
-        position: 'absolute',
+        // position: 'absolute',
         top: 0,
     },
     menuIconButton: {
@@ -1495,7 +1818,9 @@ const styles = StyleSheet.create({
     },
     mapViewStyle: {
         flex: 1,
-        ...StyleSheet.absoluteFillObject,
+        // ...StyleSheet.absoluteFillObject,
+        height: height,
+        width: width
     },
     mapFloatingPinView: {
         position: 'absolute',
@@ -1512,7 +1837,7 @@ const styles = StyleSheet.create({
     },
     buttonBar: {
         height: 70,
-        width: width,
+        width: width - 40,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center'
@@ -1553,9 +1878,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     addressBar: {
-        position: 'absolute',
-        marginHorizontal: 20,
-        top: Platform.OS == 'android' ? (__DEV__ ? 65 : 70) : (hasNotch ? 85 : 80),
+        // position: 'absolute',
+        marginBottom: 20,
+        // top: Platform.OS == 'android' ? (__DEV__ ? 65 : 70) : (hasNotch ? 85 : 80),
         width: width - 40,
         flexDirection: 'row',
         backgroundColor: colors.WHITE,
@@ -1566,7 +1891,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.5,
         shadowRadius: 5,
         borderRadius: 8,
-        elevation: 3
+        elevation: 3,
     },
     ballandsquare: {
         width: 12,
@@ -1612,17 +1937,15 @@ const styles = StyleSheet.create({
         color: '#000'
     },
     fullCarView: {
-        position: 'absolute',
-        bottom: 60,
-        width: width - 10,
         height: 170,
+        width: width,
         marginLeft: 5,
         marginRight: 5,
         alignItems: 'center',
         marginBottom: 10
     },
     fullCarScroller: {
-        width: width - 10,
+        width: width - 40,
         height: 160,
         flexDirection: 'row'
     },
