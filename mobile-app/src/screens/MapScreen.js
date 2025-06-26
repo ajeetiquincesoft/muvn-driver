@@ -1386,6 +1386,17 @@ export default function MapScreen(props) {
                                         {settings && settings.horizontal_view ?
 
                                             <View style={styles.fullCarView}>
+                                                <Text style={{
+                                                    fontSize: 17,
+                                                    fontWeight: '400',
+                                                    color: '#000',
+                                                    marginLeft: 25,
+                                                    marginBottom: 10,
+                                                    textAlign: 'left',
+                                                    alignSelf: 'flex-start'   // This overrides parent's alignItems
+                                                }}>
+                                                    Select Your Service
+                                                </Text>
                                                 <ScrollView horizontal={true} style={styles.fullCarScroller} showsHorizontalScrollIndicator={false}>
                                                     {allCarTypes.map((prop, key) => {
                                                         return (
@@ -1773,12 +1784,12 @@ const styles = StyleSheet.create({
 
     },
     menuIcon: {
-        height: 80,
+        height: 70,
         width: '100%',
         alignItems: 'center',
         justifyContent: 'center',
         // position: 'absolute',
-        marginBottom: 10,
+        // marginBottom: 10,
         top: 0,
     },
     menuIconButton: {
@@ -1947,7 +1958,7 @@ const styles = StyleSheet.create({
         color: '#000'
     },
     fullCarView: {
-        height: 170,
+        height: 190,
         width: width,
         marginLeft: 5,
         marginRight: 5,
