@@ -157,7 +157,13 @@ export default function MapScreen(props) {
             style: { backgroundColor: '#fff' } // pink
         }
     ];
-
+    const scrollRef = useRef(null);
+    const scrollToTopAndFocusDrop = () => {
+        scrollRef.current?.scrollTo({ y: 0, animated: true });
+        // setTimeout(() => {
+        //     tapAddress('drop'); // this should open or focus the drop address input
+        // }, 300); // small delay to allow scroll animation to finish
+    };
     useEffect(() => {
         if (settings && settings.bookingFlow) {
             setDeliveryWithBid(settings.bookingFlow == "2" ? true : false)
@@ -1286,6 +1292,7 @@ export default function MapScreen(props) {
 
 
                 <ScrollView
+                    ref={scrollRef}
                     contentContainerStyle={{ paddingBottom: 120 }}
                     showsVerticalScrollIndicator={false}
                 >
@@ -1510,7 +1517,10 @@ export default function MapScreen(props) {
                                             contentContainerStyle={styles.scrollContainer}
                                         >
                                             {cardData.map((item, index) => (
-                                                <TouchableOpacity key={index} style={[styles.card]}>
+                                                <TouchableOpacity
+                                                    onPress={scrollToTopAndFocusDrop}
+                                                    style={styles.card}
+                                                >
                                                     <Image source={item.image} style={styles.cardImage} />
                                                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                         <Text style={styles.cardText}>{item.text}</Text>
@@ -1522,7 +1532,6 @@ export default function MapScreen(props) {
                                                             containerStyle={styles.arrow}
                                                         />
                                                     </View>
-
                                                 </TouchableOpacity>
                                             ))}
                                         </ScrollView>
@@ -1741,6 +1750,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         justifyContent: 'space-between',
         elevation: 3,
+        marginTop: 30,
         margin: 10
     },
     textContainer: {
