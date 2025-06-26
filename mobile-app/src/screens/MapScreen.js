@@ -1286,7 +1286,7 @@ export default function MapScreen(props) {
 
 
                 <ScrollView
-                    contentContainerStyle={{ paddingBottom: 100 }}
+                    contentContainerStyle={{ paddingBottom: 120 }}
                     showsVerticalScrollIndicator={false}
                 >
 
@@ -1773,7 +1773,7 @@ const styles = StyleSheet.create({
 
     },
     menuIcon: {
-        height: 50,
+        height: 80,
         width: '100%',
         alignItems: 'center',
         justifyContent: 'center',
