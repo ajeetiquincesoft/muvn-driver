@@ -1070,7 +1070,7 @@ export default function BookedCabScreen(props) {
                 </View>
 
                 {(curBooking && curBooking.status && auth.profile && auth.profile.uid && ((['ACCEPTED', 'ARRIVED', 'STARTED', 'REACHED'].indexOf(curBooking.status) != -1))) && (settings && settings.panic && settings.panic.length > 0) && (role === 'driver' || appConsts.canCall) ?
-                    <TouchableOpacity style={[styles.floatButton, isRTL ? { right: 10, bottom: (role == 'customer' && ((curBooking && curBooking.status == 'ARRIVED') || curBooking.status == 'REACHED' || curBooking.status == 'PAID' || (curBooking && curBooking.status == 'STARTED'))) ? 285 : 360 } : { left: 10, bottom: (role == 'customer' && ((curBooking && curBooking.status == 'ARRIVED') || curBooking.status == 'REACHED' || curBooking.status == 'PAID' || (curBooking && curBooking.status == 'STARTED'))) ? 300 : (role == 'customer' && (curBooking && curBooking.status == 'ACCEPTED')) ? 350 : 330 }]}
+                    <TouchableOpacity style={[styles.floatButton, isRTL ? { right: 10, bottom: (role == 'customer' && ((curBooking && curBooking.status == 'ARRIVED') || curBooking.status == 'REACHED' || curBooking.status == 'PAID' || (curBooking && curBooking.status == 'STARTED'))) ? 345 : 420 } : { left: 10, bottom: (role == 'customer' && ((curBooking && curBooking.status == 'ARRIVED') || curBooking.status == 'REACHED' || curBooking.status == 'PAID' || (curBooking && curBooking.status == 'STARTED'))) ? 360 : (role == 'customer' && (curBooking && curBooking.status == 'ACCEPTED')) ? 410 : 390 }]}
                         onPress={() => submitComplain(curBooking)} >
                         <Text style={[styles.driverNameText, { color: colors.WHITE }]}>{t('sos').toUpperCase()}</Text>
                     </TouchableOpacity>
@@ -1078,7 +1078,7 @@ export default function BookedCabScreen(props) {
 
                 {curBooking && !(curBooking.status == 'NEW') ?
                     <TouchableOpacity
-                        style={[styles.floatButton, isRTL ? { left: 10, bottom: (role == 'customer' && ((curBooking && curBooking.status == 'ARRIVED') || curBooking.status == 'REACHED' || curBooking.status == 'PAID' || (curBooking && curBooking.status == 'STARTED'))) ? 345 : 410 } : { right: 10, bottom: (role == 'customer' && ((curBooking && curBooking.status == 'ARRIVED') || curBooking.status == 'REACHED' || curBooking.status == 'PAID' || (curBooking && curBooking.status == 'STARTED'))) ? 360 : (role == 'customer' && (curBooking && curBooking.status == 'ACCEPTED')) ? 408 : 388 }]}
+                        style={[styles.floatButton, isRTL ? { left: 10, bottom: (role == 'customer' && ((curBooking && curBooking.status == 'ARRIVED') || curBooking.status == 'REACHED' || curBooking.status == 'PAID' || (curBooking && curBooking.status == 'STARTED'))) ? 405 : 470 } : { right: 10, bottom: (role == 'customer' && ((curBooking && curBooking.status == 'ARRIVED') || curBooking.status == 'REACHED' || curBooking.status == 'PAID' || (curBooking && curBooking.status == 'STARTED'))) ? 420 : (role == 'customer' && (curBooking && curBooking.status == 'ACCEPTED')) ? 468 : 448 }]}
                         // onPress={() => openWhatsApp()}
                         onPress={settings && settings.chatViaWhatsApp === true ? () => openWhatsApp() : () => chat()}
                     >
@@ -1092,7 +1092,7 @@ export default function BookedCabScreen(props) {
                     : null}
                 {curBooking && !(curBooking.status == 'NEW') ?
                     <TouchableOpacity
-                        style={[styles.floatButton, isRTL ? { left: 10, bottom: (role == 'customer' && ((curBooking && curBooking.status == 'ARRIVED') || curBooking.status == 'REACHED' || curBooking.status == 'PAID' || (curBooking && curBooking.status == 'STARTED'))) ? 285 : 350 } : { right: 10, bottom: (role == 'customer' && ((curBooking && curBooking.status == 'ARRIVED') || curBooking.status == 'REACHED' || curBooking.status == 'PAID' || (curBooking && curBooking.status == 'STARTED'))) ? 300 : (role == 'customer' && (curBooking && curBooking.status == 'ACCEPTED')) ? 350 : 330 }]}
+                        style={[styles.floatButton, isRTL ? { left: 10, bottom: (role == 'customer' && ((curBooking && curBooking.status == 'ARRIVED') || curBooking.status == 'REACHED' || curBooking.status == 'PAID' || (curBooking && curBooking.status == 'STARTED'))) ? 345 : 410 } : { right: 10, bottom: (role == 'customer' && ((curBooking && curBooking.status == 'ARRIVED') || curBooking.status == 'REACHED' || curBooking.status == 'PAID' || (curBooking && curBooking.status == 'STARTED'))) ? 360 : (role == 'customer' && (curBooking && curBooking.status == 'ACCEPTED')) ? 410 : 390 }]}
                         onPress={() => role == 'customer' ? onPressCall(curBooking.driver_contact) : (curBooking.otherPersonPhone && curBooking.otherPersonPhone.length > 0 ? onPressCall(curBooking.otherPersonPhone) : onPressCall(curBooking.customer_contact))}
                     >
                         <Icon
@@ -1227,7 +1227,7 @@ export default function BookedCabScreen(props) {
                             <Text style={{ fontFamily: fonts.Bold }}>{curBooking.estimateTime ? parseFloat(curBooking.estimateTime / 60).toFixed(0) : 0} {t('mins')}</Text>
                         </View>
                         <View style={{ alignItems: 'center' }}>
-                            <Text style={{ fontFamily: fonts.Regular }}>{t('cost')}</Text>
+                            <Text style={{ fontFamily: fonts.Regular }}>{t('cost')} fffff</Text>
                             {/* <Text style={{fontWeight:'bold'}}>{curBooking? curBooking.distance:null}</Text> */}
                             {settings && settings.swipe_symbol === false ?
                                 <Text style={{ fontFamily: fonts.Bold }}>{settings.symbol} {curBooking && curBooking.trip_cost > 0 ? parseFloat(curBooking.trip_cost).toFixed(settings.decimal) : curBooking && curBooking.estimate ? parseFloat(curBooking.estimate).toFixed(settings.decimal) : 0}</Text>

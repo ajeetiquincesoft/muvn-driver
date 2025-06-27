@@ -1794,12 +1794,12 @@ const styles = StyleSheet.create({
 
     },
     menuIcon: {
-        height: 70,
+        height: 80,
         width: '100%',
         alignItems: 'center',
         justifyContent: 'center',
         // position: 'absolute',
-        // marginBottom: 10,
+        marginBottom: 10,
         top: 0,
     },
     menuIconButton: {
@@ -2004,8 +2004,8 @@ const styles = StyleSheet.create({
         paddingBottom: 5
     },
     imageStyle1: {
-        height: 40,
-        width: 50 * 1.8
+        height: 50,
+        width: 60 * 1.8
     },
     textViewStyle: {
         height: 50,
