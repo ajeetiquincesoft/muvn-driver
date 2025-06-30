@@ -2,7 +2,7 @@ module.exports.AppConfig = {
     app_name: 'muvn',
     app_description: 'Taxi riding App',
     app_identifier: 'com.muvnghana.app',
-    ios_app_version: '1.0.3',
+    ios_app_version: '1.0.4',
     android_app_version: 100,
     expo_owner: 'muvnghana',
     expo_slug: 'muvn',
