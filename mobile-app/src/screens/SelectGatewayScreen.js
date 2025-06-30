@@ -15,8 +15,10 @@ export default function SelectGatewayPage(props) {
     RequestPushMsg
   } = api;
   const dispatch = useDispatch();
-  const url = FirebaseConfig.databaseURL.split('.').length===4?FirebaseConfig.databaseURL.split('.')[1]:'us-central1';
+  const url = FirebaseConfig.databaseURL.split('.').length === 4 ? FirebaseConfig.databaseURL.split('.')[1] : 'us-central1';
   const serverUrl = `https://${url}-${FirebaseConfig.projectId}.cloudfunctions.net`;
+
+  console.log(serverUrl);
 
   const { t } = i18n;
   const isRTL = i18n.locale.indexOf('he') === 0 || i18n.locale.indexOf('ar') === 0;
@@ -114,9 +116,9 @@ export default function SelectGatewayPage(props) {
 
 
   const selectProvider = (provider) => {
-    if((provider && provider.name == 'slickpay') && (state.payData && state.payData.amount <=100)){
+    if ((provider && provider.name == 'slickpay') && (state.payData && state.payData.amount <= 100)) {
       Alert.alert(t('alert'), t('amount_must_be_gereater_than_100'));
-    }else{
+    } else {
       setState({ ...state, selectedProvider: provider });
     }
   };

@@ -1227,7 +1227,7 @@ export default function BookedCabScreen(props) {
                             <Text style={{ fontFamily: fonts.Bold }}>{curBooking.estimateTime ? parseFloat(curBooking.estimateTime / 60).toFixed(0) : 0} {t('mins')}</Text>
                         </View>
                         <View style={{ alignItems: 'center' }}>
-                            <Text style={{ fontFamily: fonts.Regular }}>{t('cost')} fffff</Text>
+                            <Text style={{ fontFamily: fonts.Regular }}>{t('cost')}</Text>
                             {/* <Text style={{fontWeight:'bold'}}>{curBooking? curBooking.distance:null}</Text> */}
                             {settings && settings.swipe_symbol === false ?
                                 <Text style={{ fontFamily: fonts.Bold }}>{settings.symbol} {curBooking && curBooking.trip_cost > 0 ? parseFloat(curBooking.trip_cost).toFixed(settings.decimal) : curBooking && curBooking.estimate ? parseFloat(curBooking.estimate).toFixed(settings.decimal) : 0}</Text>

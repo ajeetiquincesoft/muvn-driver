@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
@@ -16,7 +16,7 @@ import { colors } from '../common/theme';
 var { width, height } = Dimensions.get('window');
 import { PromoComp } from "../components";
 import i18n from 'i18n-js';
-import { useSelector,useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { api } from 'common';
 import { MAIN_COLOR, appConsts } from '../common/sharedFunctions';
 import { CommonActions } from '@react-navigation/native';
@@ -41,24 +41,24 @@ export default function PaymentDetails(props) {
   const { t } = i18n;
   const isRTL = i18n.locale.indexOf('he') === 0 || i18n.locale.indexOf('ar') === 0;
 
-  const [profile,setProfile] = useState();
-  const [isLoading,setIsLoading] = useState();
+  const [profile, setProfile] = useState();
+  const [isLoading, setIsLoading] = useState();
 
   useEffect(() => {
     if (auth.profile && auth.profile.uid) {
-        setProfile(auth.profile);
+      setProfile(auth.profile);
     } else {
-        setProfile(null);
+      setProfile(null);
     }
   }, [auth.profile]);
 
   const [payDetails, setPayDetails] = useState({
     amount: booking.trip_cost,
-    discount: booking.discount? booking.discount:0,
-    usedWalletMoney: booking.payment_mode === 'wallet'? booking.trip_cost:0,
-    promo_applied: booking.promo_applied?booking.promo_applied:false,
-    promo_details: booking.promo_details?booking.promo_details:null,
-    payableAmount: booking.payableAmount?booking.payableAmount:booking.trip_cost
+    discount: booking.discount ? booking.discount : 0,
+    usedWalletMoney: booking.payment_mode === 'wallet' ? booking.trip_cost : 0,
+    promo_applied: booking.promo_applied ? booking.promo_applied : false,
+    promo_details: booking.promo_details ? booking.promo_details : null,
+    payableAmount: booking.payableAmount ? booking.payableAmount : booking.trip_cost
   });
 
   const promoModal = () => {
@@ -126,43 +126,43 @@ export default function PaymentDetails(props) {
 
   const doPayment = (payment_mode) => {
 
-    if (payment_mode == 'cash'){
+    if (payment_mode == 'cash') {
       let curBooking = { ...booking };
-      if(booking.status == "PAYMENT_PENDING"){
+      if (booking.status == "PAYMENT_PENDING") {
         curBooking.status = 'NEW';
 
-      } else if(booking.status == "REACHED"){
-        if(booking.prepaid || curBooking.booking_from_web || curBooking.payment_mode == "cash"){
+      } else if (booking.status == "REACHED") {
+        if (booking.prepaid || curBooking.booking_from_web || curBooking.payment_mode == "cash") {
           curBooking.status = 'PAID';
-        } else{
+        } else {
           curBooking.status = 'PENDING';
         }
-      } else if(booking.status == "PENDING"){
+      } else if (booking.status == "PENDING") {
         curBooking.status = 'PAID';
-      }else if(booking.status == "NEW"){
+      } else if (booking.status == "NEW") {
         curBooking.status = 'ACCEPTED';
       }
       curBooking.payment_mode = payment_mode;
-      curBooking.customer_paid = curBooking.status == 'NEW'? 0:((parseFloat(payDetails.amount) - parseFloat(payDetails.discount)).toFixed(settings.decimal));
+      curBooking.customer_paid = curBooking.status == 'NEW' ? 0 : ((parseFloat(payDetails.amount) - parseFloat(payDetails.discount)).toFixed(settings.decimal));
       curBooking.discount = parseFloat(payDetails.discount).toFixed(settings.decimal);
       curBooking.usedWalletMoney = 0;
       curBooking.cardPaymentAmount = 0;
-      curBooking.cashPaymentAmount = curBooking.status == 'NEW'? 0 :parseFloat(payDetails.amount- parseFloat(payDetails.discount)).toFixed(settings.decimal);
+      curBooking.cashPaymentAmount = curBooking.status == 'NEW' ? 0 : parseFloat(payDetails.amount - parseFloat(payDetails.discount)).toFixed(settings.decimal);
       curBooking.payableAmount = parseFloat(payDetails.payableAmount).toFixed(settings.decimal);
       curBooking.promo_applied = payDetails.promo_applied;
       curBooking.promo_details = payDetails.promo_details;
 
-      if(curBooking.status === 'ACCEPTED'){
+      if (curBooking.status === 'ACCEPTED') {
         curBooking.driver = curBooking.selectedBid.driver;
-        curBooking.driver_image =  curBooking.selectedBid.driver_image; 
+        curBooking.driver_image = curBooking.selectedBid.driver_image;
         curBooking.driver_name = curBooking.selectedBid.driver_name;
         curBooking.driver_contact = curBooking.selectedBid.driver_contact;
         curBooking.driver_token = curBooking.selectedBid.driver_token;
         curBooking.vehicle_number = curBooking.selectedBid.vehicle_number;
         curBooking.driverRating = curBooking.selectedBid.driverRating;
-        curBooking.trip_cost =  curBooking.selectedBid.trip_cost;
-        curBooking.convenience_fees =  curBooking.selectedBid.convenience_fees;
-        curBooking.driver_share =  curBooking.selectedBid.driver_share;
+        curBooking.trip_cost = curBooking.selectedBid.trip_cost;
+        curBooking.convenience_fees = curBooking.selectedBid.convenience_fees;
+        curBooking.driver_share = curBooking.selectedBid.driver_share;
         curBooking.driverOffers = {};
         curBooking.requestedDrivers = {};
         curBooking.driverEstimates = {};
@@ -170,34 +170,34 @@ export default function PaymentDetails(props) {
       }
       setIsLoading(true);
       dispatch(updateBooking(curBooking));
-      setTimeout(()=>{
-        if(profile.usertype == 'customer') {
-          if(curBooking.status == 'NEW' || curBooking.status == 'ACCEPTED'){
-            props.navigation.navigate('BookedCab',{bookingId:booking.id});
-          }else{
-            props.navigation.navigate('DriverRating',{bookingId:booking});
+      setTimeout(() => {
+        if (profile.usertype == 'customer') {
+          if (curBooking.status == 'NEW' || curBooking.status == 'ACCEPTED') {
+            props.navigation.navigate('BookedCab', { bookingId: booking.id });
+          } else {
+            props.navigation.navigate('DriverRating', { bookingId: booking });
           }
-        }else{
-          props.navigation.dispatch(CommonActions.reset({index: 0,routes: [{ name: 'TabRoot'}]}));
+        } else {
+          props.navigation.dispatch(CommonActions.reset({ index: 0, routes: [{ name: 'TabRoot' }] }));
         }
         setIsLoading(false);
       }, 2000);
 
 
-    } else if(payment_mode == 'wallet') {
+    } else if (payment_mode == 'wallet') {
       let curBooking = { ...booking };
-      if(booking.status == "PAYMENT_PENDING"){
+      if (booking.status == "PAYMENT_PENDING") {
         curBooking.prepaid = true;
         curBooking.status = 'NEW';
-      } else if(booking.status == "REACHED"){
-        if(booking.prepaid || curBooking.booking_from_web ){
+      } else if (booking.status == "REACHED") {
+        if (booking.prepaid || curBooking.booking_from_web) {
           curBooking.status = 'PAID';
-        } else{
+        } else {
           curBooking.status = 'PENDING';
         }
-      } else if(booking.status == "PENDING"){
+      } else if (booking.status == "PENDING") {
         curBooking.status = 'PAID';
-      }else if(booking.status == "NEW"){
+      } else if (booking.status == "NEW") {
         curBooking.prepaid = true;
         curBooking.status = 'ACCEPTED';
       }
@@ -211,17 +211,17 @@ export default function PaymentDetails(props) {
       curBooking.promo_applied = payDetails.promo_applied;
       curBooking.promo_details = payDetails.promo_details;
 
-      if(curBooking.status === 'ACCEPTED'){
+      if (curBooking.status === 'ACCEPTED') {
         curBooking.driver = curBooking.selectedBid.driver;
-        curBooking.driver_image =  curBooking.selectedBid.driver_image; 
+        curBooking.driver_image = curBooking.selectedBid.driver_image;
         curBooking.driver_name = curBooking.selectedBid.driver_name;
         curBooking.driver_contact = curBooking.selectedBid.driver_contact;
         curBooking.driver_token = curBooking.selectedBid.driver_token;
         curBooking.vehicle_number = curBooking.selectedBid.vehicle_number;
         curBooking.driverRating = curBooking.selectedBid.driverRating;
-        curBooking.trip_cost =  curBooking.selectedBid.trip_cost;
-        curBooking.convenience_fees =  curBooking.selectedBid.convenience_fees;
-        curBooking.driver_share =  curBooking.selectedBid.driver_share;
+        curBooking.trip_cost = curBooking.selectedBid.trip_cost;
+        curBooking.convenience_fees = curBooking.selectedBid.convenience_fees;
+        curBooking.driver_share = curBooking.selectedBid.driver_share;
         curBooking.driverOffers = {};
         curBooking.requestedDrivers = {};
         curBooking.driverEstimates = {};
@@ -229,22 +229,22 @@ export default function PaymentDetails(props) {
       }
       setIsLoading(true);
       dispatch(updateBooking(curBooking));
-      setTimeout(()=>{
-        if(profile.usertype == 'customer') {
-          if(curBooking.status == 'NEW' || curBooking.status == 'ACCEPTED'){
-            props.navigation.navigate('BookedCab',{bookingId:booking.id});
-          }else{
-            props.navigation.navigate('DriverRating',{bookingId:booking});
+      setTimeout(() => {
+        if (profile.usertype == 'customer') {
+          if (curBooking.status == 'NEW' || curBooking.status == 'ACCEPTED') {
+            props.navigation.navigate('BookedCab', { bookingId: booking.id });
+          } else {
+            props.navigation.navigate('DriverRating', { bookingId: booking });
           }
-        }else{
-          props.navigation.dispatch(CommonActions.reset({index: 0,routes: [{ name: 'TabRoot'}]}));
+        } else {
+          props.navigation.dispatch(CommonActions.reset({ index: 0, routes: [{ name: 'TabRoot' }] }));
         }
         setIsLoading(false);
       }, 2000);
-    }else{
+    } else {
       let curBooking = { ...booking };
-      if(profile.usertype == 'customer') {
-  
+      if (profile.usertype == 'customer') {
+
         let payData = {
           first_name: profile.firstName,
           last_name: profile.lastName,
@@ -258,7 +258,7 @@ export default function PaymentDetails(props) {
           quantity: 1
         }
 
-        const paymentPacket = { 
+        const paymentPacket = {
           payment_mode: payment_mode,
           customer_paid: (parseFloat(payDetails.amount) - parseFloat(payDetails.discount)).toFixed(settings.decimal),
           discount: parseFloat(payDetails.discount).toFixed(settings.decimal),
@@ -267,13 +267,13 @@ export default function PaymentDetails(props) {
           cashPaymentAmount: 0,
           payableAmount: parseFloat(payDetails.payableAmount).toFixed(settings.decimal),
           promo_applied: payDetails.promo_applied,
-          promo_details: payDetails.promo_details 
+          promo_details: payDetails.promo_details
         };
         curBooking.paymentPacket = paymentPacket;
-        
+
         setIsLoading(true);
         dispatch(updateBooking(curBooking));
-        setTimeout(()=>{
+        setTimeout(() => {
           props.navigation.navigate("paymentMethod", {
             payData: payData,
             profile: profile,
@@ -282,34 +282,34 @@ export default function PaymentDetails(props) {
             booking: curBooking
           });
           setIsLoading(false);
-        },3000);
-      }else{
-       if(booking.status == "REACHED"){
-          if((booking.prepaid || curBooking.booking_from_web) && settings.prepaid ){
+        }, 3000);
+      } else {
+        if (booking.status == "REACHED") {
+          if ((booking.prepaid || curBooking.booking_from_web) && settings.prepaid) {
             curBooking.status = 'PAID';
-          } else{
+          } else {
             curBooking.status = 'PENDING';
           }
           dispatch(updateBooking(curBooking));
-        } 
-        props.navigation.dispatch(CommonActions.reset({index: 0,routes: [{ name: 'TabRoot'}]}));
+        }
+        props.navigation.dispatch(CommonActions.reset({ index: 0, routes: [{ name: 'TabRoot' }] }));
       }
-    
+
     }
   }
 
   const selectCoupon = (item, index) => {
     var toDay = new Date().getTime();
     var expDate = item.promo_validity
-    item.usersUsed = item.usersUsed? item.usersUsed :{};
+    item.usersUsed = item.usersUsed ? item.usersUsed : {};
     if (payDetails.amount < item.min_order) {
-      Alert.alert(t('alert'),t('promo_eligiblity'))
+      Alert.alert(t('alert'), t('promo_eligiblity'))
     } else if (item.user_avail && item.user_avail >= item.promo_usage_limit) {
-      Alert.alert(t('alert'),t('promo_exp_limit'))
+      Alert.alert(t('alert'), t('promo_exp_limit'))
     } else if (item.usersUsed[auth.profile.uid]) {
-      Alert.alert(t('alert'),t('promo_used'))
+      Alert.alert(t('alert'), t('promo_used'))
     } else if (toDay > expDate) {
-      Alert.alert(t('alert'),t('promo_exp'))
+      Alert.alert(t('alert'), t('promo_exp'))
     } else {
       let discounttype = item.promo_discount_type.toUpperCase();
       if (discounttype == 'PERCENTAGE') {
@@ -319,8 +319,8 @@ export default function PaymentDetails(props) {
           let data = { ...payDetails };
           data.discount = discount
           data.promo_applied = true
-          item.user_avail = item.user_avail? parseInt(item.user_avail) + 1 : 1;
-          item.usersUsed[auth.profile.uid]=true;
+          item.user_avail = item.user_avail ? parseInt(item.user_avail) + 1 : 1;
+          item.usersUsed[auth.profile.uid] = true;
           dispatch(editPromo(item));
           data.promo_details = item
           data.payableAmount = parseFloat(data.payableAmount - discount).toFixed(settings.decimal);
@@ -330,11 +330,11 @@ export default function PaymentDetails(props) {
           let data = { ...payDetails };
           data.discount = discount
           data.promo_applied = true
-          item.user_avail = item.user_avail? parseInt(item.user_avail) + 1 : 1;
-          item.usersUsed[auth.profile.uid]=true;
+          item.user_avail = item.user_avail ? parseInt(item.user_avail) + 1 : 1;
+          item.usersUsed[auth.profile.uid] = true;
           dispatch(editPromo(item));
           data.promo_details = item,
-          data.payableAmount = parseFloat(data.payableAmount - discount).toFixed(settings.decimal);
+            data.payableAmount = parseFloat(data.payableAmount - discount).toFixed(settings.decimal);
           setPayDetails(data);
           setPromodalVisible(false);
         }
@@ -343,11 +343,11 @@ export default function PaymentDetails(props) {
         let data = { ...payDetails };
         data.discount = discount
         data.promo_applied = true
-        item.user_avail = item.user_avail? parseInt(item.user_avail) + 1 : 1;
-        item.usersUsed[auth.profile.uid]=true;
+        item.user_avail = item.user_avail ? parseInt(item.user_avail) + 1 : 1;
+        item.usersUsed[auth.profile.uid] = true;
         dispatch(editPromo(item));
         data.promo_details = item,
-        data.payableAmount = parseFloat(data.payableAmount - discount).toFixed(settings.decimal);
+          data.payableAmount = parseFloat(data.payableAmount - discount).toFixed(settings.decimal);
         setPayDetails(data);
         setPromodalVisible(false);
       }
@@ -360,21 +360,22 @@ export default function PaymentDetails(props) {
       t('alert'),
       t('cancel_confirm'),
       [
-          { text: t('cancel'), onPress: () => {}, style: 'cancel' },
-          { text: t('ok'), onPress: () => {
-              payDetails.promo_applied? removePromo(): null;
-              dispatch(
-                cancelBooking(
-                  { 
-                    booking: booking, 
-                    reason: t('cancelled_incomplete_booking'),
-                    cancelledBy: profile.usertype 
-                  }
-                )
-              );
-              props.navigation.navigate('TabRoot', { screen: 'Map' });
-            }
-          },
+        { text: t('cancel'), onPress: () => { }, style: 'cancel' },
+        {
+          text: t('ok'), onPress: () => {
+            payDetails.promo_applied ? removePromo() : null;
+            dispatch(
+              cancelBooking(
+                {
+                  booking: booking,
+                  reason: t('cancelled_incomplete_booking'),
+                  cancelledBy: profile.usertype
+                }
+              )
+            );
+            props.navigation.navigate('TabRoot', { screen: 'Map' });
+          }
+        },
       ]
     );
   };
@@ -402,16 +403,16 @@ export default function PaymentDetails(props) {
                 textAlign: isRTL ? "right" : "left",
                 lineHeight: 45,
                 fontSize: 22,
-                fontFamily:fonts.Medium,
+                fontFamily: fonts.Medium,
               }}
             >
               {t("bill_details")}
             </Text>
             {profile &&
-            profile.usertype == "customer" &&
-            (booking.status == "PAYMENT_PENDING" ||
-              booking.status == "PENDING" ||
-              booking.status == "NEW") ? (
+              profile.usertype == "customer" &&
+              (booking.status == "PAYMENT_PENDING" ||
+                booking.status == "PENDING" ||
+                booking.status == "NEW") ? (
               payDetails.promo_applied ? (
                 <TouchableOpacity
                   onPress={() => {
@@ -424,7 +425,7 @@ export default function PaymentDetails(props) {
                       textAlign: isRTL ? "right" : "left",
                       lineHeight: 45,
                       fontSize: 14,
-                      fontFamily:fonts.Medium,
+                      fontFamily: fonts.Medium,
                     }}
                   >
                     {t("remove_promo")}
@@ -442,7 +443,7 @@ export default function PaymentDetails(props) {
                       textAlign: isRTL ? "right" : "left",
                       lineHeight: 45,
                       fontSize: 14,
-                      fontFamily:fonts.Medium,
+                      fontFamily: fonts.Medium,
                     }}
                   >
                     {t("apply_promo")}
@@ -494,20 +495,20 @@ export default function PaymentDetails(props) {
                   </View>
                 ) : null}
               </View>
-              {booking && booking.waypoints && booking.waypoints.length > 0 ? 
+              {booking && booking.waypoints && booking.waypoints.length > 0 ?
                 booking.waypoints.map((point, index) => {
                   return (
-                    <View key={"key" + index} style={[styles.location, isRTL?{flexDirection:'row-reverse'}:{flexDirection:'row'}, {justifyContent: 'center', alignItems:'center'}]}>
-                        <View>
-                            <MaterialIcons name="multiple-stop" size={32} color={colors.SECONDARY}/> 
-                        </View>
-                        <View  style={[styles.address, isRTL?{flexDirection:'row-reverse', marginRight:65}:{flexDirection:'row', marginLeft:6}]}>
-                            <Text numberOfLines={2} style={[styles.adressStyle, isRTL?{marginRight:6, textAlign:'right'}:{marginLeft:6, textAlign:'left'}]}>{point.add}</Text>
-                        </View>
+                    <View key={"key" + index} style={[styles.location, isRTL ? { flexDirection: 'row-reverse' } : { flexDirection: 'row' }, { justifyContent: 'center', alignItems: 'center' }]}>
+                      <View>
+                        <MaterialIcons name="multiple-stop" size={32} color={colors.SECONDARY} />
+                      </View>
+                      <View style={[styles.address, isRTL ? { flexDirection: 'row-reverse', marginRight: 65 } : { flexDirection: 'row', marginLeft: 6 }]}>
+                        <Text numberOfLines={2} style={[styles.adressStyle, isRTL ? { marginRight: 6, textAlign: 'right' } : { marginLeft: 6, textAlign: 'left' }]}>{point.add}</Text>
+                      </View>
                     </View>
-                  ) 
+                  )
                 })
-              : null}
+                : null}
               <View
                 style={[
                   styles.location,
@@ -723,8 +724,8 @@ export default function PaymentDetails(props) {
                   {payDetails
                     ? payDetails.discount
                       ? parseFloat(payDetails.discount).toFixed(
-                          settings.decimal
-                        )
+                        settings.decimal
+                      )
                       : "0.00"
                     : "0.00"}{" "}
                   {isRTL ? "-" : null}
@@ -743,8 +744,8 @@ export default function PaymentDetails(props) {
                   {payDetails
                     ? payDetails.discount
                       ? parseFloat(payDetails.discount).toFixed(
-                          settings.decimal
-                        )
+                        settings.decimal
+                      )
                       : "0.00"
                     : "0.00"}{" "}
                   {settings.symbol} {isRTL ? "-" : null}
@@ -795,8 +796,8 @@ export default function PaymentDetails(props) {
                   {settings.symbol}{" "}
                   {payDetails.payableAmount
                     ? parseFloat(payDetails.payableAmount).toFixed(
-                        settings.decimal
-                      )
+                      settings.decimal
+                    )
                     : 0.0}
                 </Text>
               ) : (
@@ -811,8 +812,8 @@ export default function PaymentDetails(props) {
                 >
                   {payDetails.payableAmount
                     ? parseFloat(payDetails.payableAmount).toFixed(
-                        settings.decimal
-                      )
+                      settings.decimal
+                    )
                     : 0.0}{" "}
                   {settings.symbol}
                 </Text>
@@ -828,8 +829,8 @@ export default function PaymentDetails(props) {
           ]}
         >
           {profile &&
-          profile.usertype == "customer" &&
-          (booking.status == "PAYMENT_PENDING" || booking.status == "NEW") ? (
+            profile.usertype == "customer" &&
+            (booking.status == "PAYMENT_PENDING" || booking.status == "NEW") ? (
             <TouchableOpacity
               onPress={cancelCurBooking}
               style={styles.buttonWrapper2}
@@ -844,11 +845,11 @@ export default function PaymentDetails(props) {
                 doPayment("wallet");
               }}
             >
-               <View style={styles.cardPayBtnInnner}>
+              <View style={styles.cardPayBtnInnner}>
                 {isLoading ? <ActivityIndicator size="small" color="white" /> :
-                <Text style={[styles.buttonTitle,{fontSize:16}]}>
-                  {t("complete_payment")}
-                </Text>
+                  <Text style={[styles.buttonTitle, { fontSize: 16 }]}>
+                    {t("complete_payment")}
+                  </Text>
                 }
               </View>
             </TouchableOpacity>
@@ -862,19 +863,19 @@ export default function PaymentDetails(props) {
             >
               <View style={styles.cardPayBtnInnner}>
                 {isLoading ? <ActivityIndicator size="small" color="white" /> :
-                <Text style={styles.buttonTitle}>
-                  {booking.status == "PAYMENT_PENDING"
-                    ? t("cash_on_delivery")
-                    : booking.payment_mode == "cash"? t("pay_cash") : t("complete_payment")}
-                </Text>
+                  <Text style={styles.buttonTitle}>
+                    {booking.status == "PAYMENT_PENDING"
+                      ? t("cash_on_delivery")
+                      : booking.payment_mode == "cash" ? t("pay_cash") : t("complete_payment")}
+                  </Text>
                 }
               </View>
             </TouchableOpacity>
           ) : null}
 
           {providers &&
-          providers.length > 0 &&
-          booking.payment_mode == "card" ? (
+            providers.length > 0 &&
+            booking.payment_mode == "card" ? (
             <TouchableOpacity
               style={styles.buttonWrapper}
               onPress={() => {
@@ -883,11 +884,11 @@ export default function PaymentDetails(props) {
             >
               <View style={styles.cardPayBtnInnner}>
                 {isLoading ? <ActivityIndicator size="small" color="white" /> :
-                <Text style={styles.buttonTitle}>
-                  {profile && profile.usertype == "customer"
-                    ? t("payWithCard")
-                    : t("complete_payment")}
-                </Text>
+                  <Text style={styles.buttonTitle}>
+                    {profile && profile.usertype == "customer"
+                      ? t("payWithCard")
+                      : t("complete_payment")}
+                  </Text>
                 }
               </View>
             </TouchableOpacity>
@@ -910,7 +911,7 @@ const styles = StyleSheet.create({
   },
   headerTitleStyle: {
     color: colors.WHITE,
-    fontFamily:fonts.Bold,
+    fontFamily: fonts.Bold,
     fontSize: 20,
     marginTop: 15
   }, scrollStyle: {
@@ -928,7 +929,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop:20
+    marginTop: 20
   },
 
   buttonWrapper: {
@@ -941,7 +942,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: colors.BUTTON_BACKGROUND,
     borderRadius: 8,
-    flex:1,
+    flex: 1,
   },
   buttonWrapper2: {
     marginLeft: 8,
@@ -953,8 +954,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colors.LIGHT_RED,
     borderRadius: 8,
-    minWidth:"45%",
-    paddingHorizontal:3
+    minWidth: "45%",
+    paddingHorizontal: 3
   },
   cardPayBtn: {
     marginHorizontal: 6,
@@ -967,7 +968,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 8,
-    width:"100%",
+    width: "100%",
   },
   buttonTitle: {
     color: colors.WHITE,
@@ -1009,7 +1010,7 @@ const styles = StyleSheet.create({
   crossIconContainer: { flex: 1, left: '40%' },
   forgot: { flex: 1 },
   pinbuttonTitle: {
-    fontFamily:fonts.Bold,
+    fontFamily: fonts.Bold,
     fontSize: 18,
     width: '100%',
     textAlign: 'center'
@@ -1146,7 +1147,7 @@ const styles = StyleSheet.create({
   emailStyle: {
     fontSize: 17,
     color: colors.BLACK,
-    fontFamily:fonts.Bold,
+    fontFamily: fonts.Bold,
     textAlign: 'center'
   },
   vew3: {
@@ -1158,6 +1159,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     backgroundColor: colors.LIGHT_RED,
     borderRadius: 10,
-    marginVertical:15
+    marginVertical: 15
   },
 });

@@ -1,5 +1,5 @@
-import React, {useRef} from 'react';
-import { ActivityIndicator} from 'react-native';
+import React, { useRef } from 'react';
+import { ActivityIndicator } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 export default function PaymentWebView(props) {
@@ -21,22 +21,24 @@ export default function PaymentWebView(props) {
       if (obj['transaction_id'] == undefined) {
         obj['transaction_id'] = 'no transaction id'
       }
-      setTimeout(()=>{
-        if(webViewRef.current){
+      setTimeout(() => {
+        if (webViewRef.current) {
           webViewRef.current.stopLoading()
         }
         props.onSuccess(obj);
-      },3000);
+      }, 3000);
     }
     if (matchUrl[0] === props.serverUrl + '/cancel') {
-      setTimeout(()=>{
-        if(webViewRef.current){
+      setTimeout(() => {
+        if (webViewRef.current) {
           webViewRef.current.stopLoading()
         }
         props.onCancel();
-      },3000);
+      }, 3000);
     }
   };
+  const amount = Math.round(parseFloat(String(props.payData.amount).replace(/[,\s]/g, '')));
+
 
   return (
     <WebView
@@ -47,7 +49,7 @@ export default function PaymentWebView(props) {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         method: 'POST',
         body: 'order_id=' + props.payData.order_id
-          + '&amount=' + props.payData.amount
+          + '&amount=' + amount
           + '&currency=' + props.payData.currency
           + '&product_name=' + props.payData.product_name
           + '&quantity=' + props.payData.quantity
@@ -58,13 +60,15 @@ export default function PaymentWebView(props) {
           + '&last_name=' + props.payData.last_name
       }}
       startInLoadingState={true}
-      renderLoading={() => <ActivityIndicator style={{position: 'absolute',
-      left: 0,
-      right: 0,
-      top: 0,
-      bottom: 0,
-      alignItems: 'center',
-      justifyContent: 'center'}} color={'black'} size='large' />}
+      renderLoading={() => <ActivityIndicator style={{
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        alignItems: 'center',
+        justifyContent: 'center'
+      }} color={'black'} size='large' />}
       onLoadStart={onLoadStart}
     />
   );

@@ -31,7 +31,7 @@ module.exports.render_checkout = async function (request, response) {
     const data = {
         "amount": parseFloat(request.body.amount).toFixed(2) * 100,
         "email": request.body.email,
-        "currency": allowed.includes(request.body.currency) ? request.body.currency : 'NGN',
+        "currency": allowed.includes(request.body.currency) ? request.body.currency : 'GHS',
         "reference": order_id,
         "callback_url": server_url + "paystack-process"
     };
