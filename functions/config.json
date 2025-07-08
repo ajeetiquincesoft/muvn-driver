@@ -1,8 +1,8 @@
 {
-	"app_name": "muvn Driver",
-	"app_description": "Taxi driver App",
-	"app_identifier": "com.muvndriver.app",
-	"ios_app_version": "1.0.0",
+	"app_name": "muvn",
+	"app_description": "Taxi riding App",
+	"app_identifier": "com.muvnghana.app",
+	"ios_app_version": "1.0.4",
 	"android_app_version": "100",
 	"firebaseProjectId": "muvnghanaproject",
 	"googleApiKeys": {
