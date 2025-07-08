@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>16174425440-4ll2hujuu8m6p0nshg5je769tccp4a3j.apps.googleusercontent.com</string>
+	<string>16174425440-134qfuc7dd51ubn18q76uspqcgkcauub.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.16174425440-4ll2hujuu8m6p0nshg5je769tccp4a3j</string>
+	<string>com.googleusercontent.apps.16174425440-134qfuc7dd51ubn18q76uspqcgkcauub</string>
 	<key>ANDROID_CLIENT_ID</key>
 	<string>16174425440-kmr5s3j3abr8kcvebpb18k02vqp861sc.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.muvnghana.app</string>
+	<string>com.muvndriver.app</string>
 	<key>PROJECT_ID</key>
 	<string>muvnghanaproject</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,7 +31,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:16174425440:ios:d43833ddfa1a83996eea05</string>
+	<string>1:16174425440:ios:50a1c4b14461d0d26eea05</string>
 	<key>DATABASE_URL</key>
 	<string>https://muvnghanaproject-default-rtdb.firebaseio.com</string>
 </dict>
